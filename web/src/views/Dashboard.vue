@@ -2,14 +2,8 @@
   <v-container>
     <v-layout>
       <v-flex>
-        <div class="title">Home</div>
+        <div class="title">Dashboard</div>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
-
-<script>
-export default {
-  mounted() {}
-}
-</script>

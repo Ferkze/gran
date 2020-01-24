@@ -38,7 +38,7 @@
     </v-app-bar>
 
     <v-content>
-      <router-view></router-view>
+      <HelloWorld/>
     </v-content>
   </v-app>
 </template>

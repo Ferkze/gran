@@ -1,4 +1,4 @@
-# fkz-finance-servers
+# fkz-finance
 
 ## Project setup
 ```

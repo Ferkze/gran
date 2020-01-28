@@ -1,9 +1,9 @@
 <template>
     <v-container>
-        <v-row cols="1">
+        <v-row cols="2">
             <web-rail></web-rail>
         </v-row>
-        <v-row cols="11"></v-row>
+        <v-row cols="10"></v-row>
     </v-container>
 </template>
 

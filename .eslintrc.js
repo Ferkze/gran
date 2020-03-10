@@ -8,7 +8,8 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
     quotes: ["error", "single"],
-    semi: ["error", "never"]
+    semi: ["error", "never"],
+    indent: ['error', 2]
   },
   "parser": "vue-eslint-parser",
   parserOptions: {

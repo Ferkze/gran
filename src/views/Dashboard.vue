@@ -13,9 +13,9 @@ import Component from 'vue-class-component'
 import WebRail from '../components/WebRail.vue'
 
 @Component({
-    components: {
-        WebRail
-    }
+  components: {
+    WebRail
+  }
 })
 export default class Dashboard extends Vue {
     

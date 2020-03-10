@@ -13,14 +13,24 @@ const routes = [
     component: Home
   },
   {
-    path: '/login',
+    path: '/entrar',
     name: 'login',
     component: Login
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: Dashboard
+    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import(/* webpackChunkName: "admin" */ './views/admin/Admin.vue')
+  },
+  {
+    path: '/admin/usuarios',
+    name: 'admin-users',
+    component: () => import(/* webpackChunkName: "admin" */ './views/admin/Users.vue')
   },
 ]
 

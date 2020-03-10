@@ -18,7 +18,7 @@
           Welcome to Fkz Finance
         </h1>
         <p class="subheading font-weight-regular">
-          You can login by clicking here: <router-link to="/login">Login</router-link>
+          You can login by clicking here: <router-link to="/entrar">Login</router-link>
         </p>
       </v-flex>
 

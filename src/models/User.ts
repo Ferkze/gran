@@ -10,16 +10,21 @@ export interface IUser {
 }
 
 export class UserDTO implements IUser {
-    id?: number;
-    avatar: string = '';
-    email: string = '';
-    first_name: string = '';
-    last_name: string = '';
+    email ?: string = ''
+    firstName ?: string  = ''
+    lastName ?: string  = ''
+    accounts?: Account[] = []
+    createdAt?: string  = new Date().toISOString()
+    updatedAt?: string  = new Date().toISOString()
 }
 
 export class User extends UserDTO {
   constructor(dto: UserDTO) {
     super()
     Object.assign(this, dto)
+  }
+
+  get fullname(): string {
+    return `${this.firstName} ${this.lastName}`
   }
 }

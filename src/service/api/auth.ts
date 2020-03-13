@@ -1,5 +1,5 @@
-import { api } from './index'
-import { IUser, UserDTO } from '@/models/User'
+import client from './index'
+import { IUser, User } from '@/models/User'
 
 export interface LoginData {
     email: string
@@ -17,14 +17,16 @@ export interface RegisterData {
   updatedAt?: string
 }
 
-export const login = async (data: LoginData): Promise<UserDTO> => {
-  const path = '/auth/login'
-  const response = await api.post<UserDTO>(path, data)
-  return response.data
+const resource = '/auth'
+
+export const login = async (payload: LoginData): Promise<User> => {
+  const path = `${resource}/login`
+  const response = await client.post<IUser>(path, payload)
+  return new User(response.data)
 }
 
-export const register = async (data: RegisterData): Promise<IUser> => {
-  const path = '/auth/register'
-  const response = await api.post<IUser>(path, data)
-  return response.data
+export const register = async (payload: RegisterData): Promise<User> => {
+  const path = `${resource}/register`
+  const response = await client.post<IUser>(path, payload)
+  return new User(response.data)
 }

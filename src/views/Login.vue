@@ -29,16 +29,6 @@
                   </v-avatar>
                   <h2>Entrar</h2>
                 </v-col>
-                <v-col>
-                  <v-row>
-                    <p
-                      v-for="error in errors"
-                      :key="error.code"
-                    >
-                      {{ error.message }}
-                    </p>
-                  </v-row>
-                </v-col>
                 <v-col
                   class="pa-8"
                   cols="12"
@@ -48,6 +38,7 @@
                     label="Email"
                     outlined
                     rounded
+                    :error-messages="error ? error.message : ''"
                   />
                   <v-text-field
                     v-model="password"
@@ -95,6 +86,7 @@ export default class Login extends Vue {
 
   async submitLogin($event: Event) {
     this.loading = true
+    this.error = null
     try {
       const user = await login({
         email: this.email,
@@ -105,7 +97,6 @@ export default class Login extends Vue {
         this.$router.push('dashboard')
       }
     } catch (error) {
-      console.log(error.response.data)
       this.error = error.response.data
     } finally {
       this.loading = false

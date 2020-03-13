@@ -1,15 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-    <v-spacer></v-spacer>
-    <v-toolbar-items>
-      <v-btn text @click="$router.push('/entrar')">Entrar</v-btn>
-    </v-toolbar-items>
-    </v-app-bar>
+    <app-bar />
 
     <v-content>
       <v-slide-x-reverse-transition mode="out-in">
@@ -21,12 +12,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import AppBar from '@/components/AppBar.vue'
+import Component from 'vue-class-component'
 
-export default Vue.extend({
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
+@Component({
+  components: {
+    AppBar
+  },
+  name: 'App'
 })
+export default class App extends Vue {
+}
 </script>

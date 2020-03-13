@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { IUser } from '@/models/User'
+import { IUser, User } from '@/models/User'
 
 interface RequestInterface {
     page: number,
@@ -9,10 +9,16 @@ interface RequestInterface {
     data: IUser[]
 }
 
-export const api = Axios.create({ baseURL: 'http://localhost:9090' })
+const baseDomain = 'http://localhost:9090'
+const baseURL = `${baseDomain}/api`
 
-export const getAllUsers = async (): Promise<IUser[]> =>{
-  let path = '/users'
-  let response = await api.get<RequestInterface>(path)
-  return response.data.data
+const client = Axios.create({
+  baseURL
+})
+
+export default client
+
+export const getAllUsers = async (): Promise<User[]> =>{
+  let response = await client.get<RequestInterface>('/users')
+  return response.data.data.map(userDTO => new User(userDTO))
 }

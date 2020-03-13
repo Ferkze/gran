@@ -1,12 +1,12 @@
 import { api } from './index'
-import { IUser } from '@/models/User'
+import { IUser, UserDTO } from '@/models/User'
 
-interface LoginData {
+export interface LoginData {
     email: string
     password?: string
 }
 
-interface RegisterData {
+export interface RegisterData {
   username ?: string
   email ?: string
   password ?: string
@@ -17,9 +17,9 @@ interface RegisterData {
   updatedAt?: string
 }
 
-export const login = async (data: LoginData): Promise<IUser> => {
+export const login = async (data: LoginData): Promise<UserDTO> => {
   const path = '/auth/login'
-  const response = await api.post<IUser>(path, data)
+  const response = await api.post<UserDTO>(path, data)
   return response.data
 }
 

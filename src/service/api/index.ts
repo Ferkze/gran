@@ -9,7 +9,7 @@ interface RequestInterface {
     data: IUser[]
 }
 
-export const api = Axios.create({ baseURL: 'localhost:9090' })
+export const api = Axios.create({ baseURL: 'http://localhost:9090' })
 
 export const getAllUsers = async (): Promise<IUser[]> =>{
   let path = '/users'

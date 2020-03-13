@@ -1,22 +1,23 @@
-import { Module, VuexModule, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import { login } from '@/service/api/auth'
+import { User } from '@/models/User'
 
-export type User = {
-    email ?: string
-    firstName ?: string
-    lastName ?: string
-    accounts?: Account[]
-    fullName(): string
-  
-    createdAt?: string
-    updatedAt?: string
-}
-  
-@Module({ namespaced: true })
+@Module({ namespaced: true, name: 'auth' })
 export default class AuthModule extends VuexModule {
     user?: User
 
-    @Action({ commit: 'setUser' })
-    login(email: string, password: string) {
+    @Action({ commit: 'setUser', rawError: true })
+    async login(email: string, password: string) {
+      try {
+        const user = await login({ email, password })
+        return user
+      } catch (error) {
+        throw error
+      }
+    }
 
+    @Mutation
+    setUser(user: User) {
+      this.user = user
     }
 }

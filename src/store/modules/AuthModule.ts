@@ -1,5 +1,5 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { login } from '@/service/api/auth'
+import { login } from '@/service/auth.service'
 import { User } from '@/models/User'
 
 @Module({ namespaced: true, name: 'auth' })

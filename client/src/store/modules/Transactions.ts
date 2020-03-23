@@ -7,22 +7,17 @@ export type ITransaction = {
     date?: Date,
     account: Account,
     category: ICategory,
-    type: ITransactionType
+    type: TransactionType
   
     createdAt?: string,
     updatedAt?: string,
 }
 
-export type ITransactionType = {
-    amount?: number,
-    date?: Date,
-    account: Account,
-    category: ICategory,
-    type: ITransactionType
-  
-    createdAt?: string,
-    updatedAt?: string,
-}
+enum TransactionType {
+    'DEBIT',
+    'CREDIT',
+    'TRANSFERENCE',
+  }
 
 @Module({ name: 'Transactions', namespaced: true })
 export default class TransactionsModule extends VuexModule {

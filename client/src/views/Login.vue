@@ -73,7 +73,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 import AuthModule from '../store/modules/AuthModule'
 import { getModule } from 'vuex-module-decorators'
-import { login } from '@/service/api/auth'
+import { login } from '@/service/auth.service'
 
 @Component
 export default class Login extends Vue {

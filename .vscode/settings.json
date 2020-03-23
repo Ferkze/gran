@@ -8,8 +8,6 @@
     "vue"
   ],
   "editor.formatOnSave": true,
-  "vetur.validation.template": false,
-  "vetur.validation.script": false,
   "editor.tabSize": 4,
   "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }

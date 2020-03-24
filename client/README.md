@@ -1,29 +1,37 @@
-# fkz-finance
+# Plataforma de Gestão Financeira Colaborativa (Front-end)
+## Projeto de TCC
+### Integrantes
+- Fabio Gonçalves <ferkze>
+- Allan da Silva <allan-tech>
+- Erick Matsunaga <CarteiroDEV>
+- Matheus Shimanoe
 
-## Project setup
+## Design
+- Inspiração de design: https://material.io/design/material-studies/rally.html#typography
+
+## Como rodar esse negócio
+
+### Requisitos
+- Git +2.x
+- Node.js +8.x
+- NPM +5.x
+- Yarn +1.2
+  
+### Passo a passo de instalação
+1. Instalação de dependências
 ```
 yarn install
 ```
-
-### Compiles and hot-reloads for development
+2. Compila e roda a aplicação para desenvolvimento
 ```
 yarn run serve
 ```
-
-### Compiles and minifies for production
+3. Compila e minifica para produção
 ```
 yarn run build
 ```
 
-### Run your tests
-```
-yarn run test
-```
 
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
+## Extra
+### Para customizar a configuração
 See [Configuration Reference](https://cli.vuejs.org/config/).

@@ -40,7 +40,7 @@ class AuthController {
     return res.json(user)
   }
 
-  public async index(req: Request, res: Response): void {
+  public async index(req: Request, res: Response): Promise<void> {
     console.log(req, res)
     switch(req.params.provider) {
     case 'github':
@@ -77,6 +77,7 @@ class AuthController {
       this._logoutAuth(req, res)
       break
     }
+    return
   }
   private _githubAuth(req: Request, res: Response): void {
     console.log(req, res)
@@ -110,9 +111,15 @@ class AuthController {
     console.log(req, res)
     // ...
   }
-  private _loginAuth(req: Request, res: Response): void {
-    console.log(req, res)
-    // ...
+  private async _loginAuth(req: Request, res: Response): Promise<Response> {
+    const data = req.body as LoginData
+    const user = await User.findOne({ email: data.email })
+    if (!user) {
+      return res.status(403).json({
+        message: 'Email inválido'
+      })
+    }
+    return res.json(user)
   }
   private _registerAuth(req: Request, res: Response): void {
     console.log(req, res)

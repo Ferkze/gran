@@ -13,10 +13,10 @@ export type ITransaction = {
     updatedAt?: string,
 }
 
-enum TransactionType {
-    'DEBIT',
-    'CREDIT',
-    'TRANSFERENCE',
+export enum TransactionType {
+    DEBIT ='DEBIT',
+    CREDIT ='CREDIT',
+    TRANSFERENCE ='TRANSFERENCE',
   }
 
 @Module({ name: 'Transactions', namespaced: true })

@@ -1,31 +1,30 @@
 <template>
-    <v-container>
-        <v-row cols="2">
-            <web-rail></web-rail>
-        </v-row>
-        <v-row cols="10"></v-row>
-    </v-container>
+  <v-container>
+    <v-row class="cols">
+      <web-rail />
+    </v-row>
+    <v-row class="cols" />
+  </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import WebRail from '../components/WebRail.vue'
-import { getModule } from 'vuex-module-decorators'
-import AuthModule from '../store/modules/AuthModule'
+  import Vue from 'vue'
+  import Component from 'vue-class-component'
+  import WebRail from '../components/WebRail.vue'
+  import { getModule } from 'vuex-module-decorators'
+  import AuthModule from '../store/modules/AuthModule'
 
 @Component({
   components: {
-    WebRail
-  }
+    WebRail,
+  },
 })
-export default class Dashboard extends Vue {
+  export default class Dashboard extends Vue {
   authModule: AuthModule = getModule(AuthModule, this.$store)
 
-  mounted() {
+  mounted () {
     console.log(this.authModule.user)
   }
-}
-            
+  }
 
 </script>

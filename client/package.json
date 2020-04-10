@@ -1,5 +1,5 @@
 {
-  "name": "fkz-finance",
+  "name": "gran-finance-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -24,10 +24,12 @@
     "@vue/cli-service": "^4.1.0",
     "@vue/eslint-config-typescript": "^4.0.0",
     "eslint": "^5.16.0",
+    "eslint-config-vuetify": "^0.6.0",
     "eslint-plugin-vue": "^5.0.0",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
     "typescript": "~3.5.3",
+    "vue-cli-plugin-eslint-config-vuetify": "0.0.3",
     "vue-cli-plugin-vuetify": "^2.0.3",
     "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.3.0",

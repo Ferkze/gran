@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Fkz Finance"/>
+    <HelloWorld msg="Welcome to Gran Finance"/>
   </div>
 </template>
 

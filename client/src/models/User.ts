@@ -1,21 +1,21 @@
-import {Account} from './Account'
+import { Account } from './Account'
 
 export interface IUser {
-    email ?: string
-    firstName ?: string
-    lastName ?: string
-    accounts?: Account[]
-    createdAt?: string
-    updatedAt?: string
+  email?: string
+  firstName?: string
+  lastName?: string
+  accounts?: Account[]
+  createdAt?: string
+  updatedAt?: string
 }
 
 export class UserDTO implements IUser {
-    email ?: string = ''
-    firstName ?: string  = ''
-    lastName ?: string  = ''
-    accounts?: Account[] = []
-    createdAt?: string  = new Date().toISOString()
-    updatedAt?: string  = new Date().toISOString()
+  email?: string = ''
+  firstName?: string = ''
+  lastName?: string = ''
+  accounts?: Account[] = []
+  createdAt?: string = new Date().toISOString()
+  updatedAt?: string = new Date().toISOString()
 }
 
 export class User extends UserDTO {

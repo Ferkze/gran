@@ -1,6 +1,6 @@
 import client from './api/index'
 import { IUser, User } from '@/models/User'
-import { Token, saveToken, retrieveToken, deleteToken } from './token.service'
+import { Token, saveToken, retrieveToken, deleteToken } from './TokenService'
 
 export interface LoginData {
   email: string
@@ -8,11 +8,11 @@ export interface LoginData {
 }
 
 export interface RegisterData {
-  username ?: string
-  email ?: string
-  password ?: string
-  firstName ?: string
-  lastName ?: string
+  username?: string
+  email?: string
+  password?: string
+  firstName?: string
+  lastName?: string
   accounts?: Account[]
   createdAt?: string
   updatedAt?: string
@@ -39,7 +39,7 @@ export const register = async (payload: RegisterData): Promise<User> => {
   return new User(response.data)
 }
 
-const _lastUser = (email: string): (IUser | null) => {
+const _lastUser = (email: string): IUser | null => {
   const userToken = retrieveToken('user_token')
   if (!userToken) {
     return null

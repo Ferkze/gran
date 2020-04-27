@@ -4,20 +4,12 @@
       Transações
     </h1>
     <v-row>
-      <v-col
-        cols="12"
-        sm="8"
-      >
+      <v-col cols="12" sm="8">
         <v-card>
           <v-card-text>
             <v-list>
               <v-subheader>Maio, 2020</v-subheader>
-              <v-list-item
-                v-for="item in transactions"
-                :key="item.category"
-                dense
-                two-line
-              >
+              <v-list-item v-for="item in transactions" :key="item.category" dense two-line>
                 <v-list-item-avatar>
                   <v-icon class="green">
                     {{ item.accountIcon }}
@@ -63,10 +55,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col
-        cols="12"
-        sm="4"
-      >
+      <v-col cols="12" sm="4">
         <v-card>
           <v-card-title>
             Filtros
@@ -116,27 +105,44 @@
 </template>
 
 <script>
-  import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-  export default class Transactions extends Vue {
-    transactions = [
-      { amount: -327.92, category: 'Fatura do Cartão de Crédito', type: 'CRED', account: 'Nubank', accountIcon: 'mdi-bank', accountColor: 'purple' },
-      { amount: 327.92, category: 'Salário', type: 'DEB', account: 'Banco Inter', accountIcon: 'mdi-bank', accountColor: 'orange' },
-      { amount: 327.92, category: 'Freelance', type: 'DEB', account: 'Nubank', accountIcon: 'mdi-bank', accountColor: 'purple' },
-      {
- amount: 50.00,
-category: 'Transferência',
-type: 'TRANSF',
-accounts: {
+export default class Transactions extends Vue {
+  transactions = [
+    {
+      amount: -327.92,
+      category: 'Fatura do Cartão de Crédito',
+      type: 'CRED',
+      account: 'Nubank',
+      accountIcon: 'mdi-bank',
+      accountColor: 'purple'
+    },
+    {
+      amount: 327.92,
+      category: 'Salário',
+      type: 'DEB',
+      account: 'Banco Inter',
+      accountIcon: 'mdi-bank',
+      accountColor: 'orange'
+    },
+    {
+      amount: 327.92,
+      category: 'Freelance',
+      type: 'DEB',
+      account: 'Nubank',
+      accountIcon: 'mdi-bank',
+      accountColor: 'purple'
+    },
+    {
+      amount: 50.0,
+      category: 'Transferência',
+      type: 'TRANSF',
+      accounts: {
         from: { account: 'Banco Inter', accountIcon: 'mdi-bank', accountColor: 'orange' },
-        to: { account: 'Carteira', accountIcon: 'mdi-wallet', accountColor: 'green' },
-      },
-},
-    ]
-  }
+        to: { account: 'Carteira', accountIcon: 'mdi-wallet', accountColor: 'green' }
+      }
+    }
+  ]
+}
 </script>
-
-<style>
-
-</style>

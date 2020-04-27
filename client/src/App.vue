@@ -11,16 +11,15 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import AppBar from '@/components/AppBar.vue'
-  import Component from 'vue-class-component'
+import Vue from 'vue'
+import AppBar from '@/components/AppBar.vue'
+import Component from 'vue-class-component'
 
-  @Component({
-      components: {
-          AppBar,
-      },
-      name: 'App',
-  })
-  export default class App extends Vue {
-  }
+@Component({
+  components: {
+    AppBar
+  },
+  name: 'App'
+})
+export default class App extends Vue {}
 </script>

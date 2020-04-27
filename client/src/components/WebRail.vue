@@ -1,15 +1,9 @@
 <template>
   <v-navigation-drawer permanent>
     <v-list>
-      <v-list-item
-        v-for="item in items"
-        :key="item.name"
-      >
+      <v-list-item v-for="item in items" :key="item.name">
         <v-list-item-icon>
-          <v-icon
-            color=""
-            v-html="item.icon"
-          />
+          <v-icon color="" v-html="item.icon" />
         </v-list-item-icon>
         <v-list-item-content>
           {{ item.name }}
@@ -20,18 +14,17 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue'
-  import Component from 'vue-class-component'
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-  @Component
-  export default class WebRail extends Vue {
-    items = [
-      { name: 'Overview', route: '/dashboard/', icon: 'mdi-view-dashboard' },
-      { name: 'Accounts', route: '/dashboard/accounts', icon: 'mdi-currency-usd' },
-      { name: 'Bills', route: '/dashboard/bills', icon: 'mdi-currency-usd-off' },
-      { name: 'Budgets', route: '/dashboard/budgets', icon: 'mdi-poll' },
-      { name: 'Settings', route: '/dashboard/settings', icon: 'mdi-cog-box' },
-    ]
-  }
-
+@Component
+export default class WebRail extends Vue {
+  items = [
+    { name: 'Overview', route: '/dashboard/', icon: 'mdi-view-dashboard' },
+    { name: 'Accounts', route: '/dashboard/accounts', icon: 'mdi-currency-usd' },
+    { name: 'Bills', route: '/dashboard/bills', icon: 'mdi-currency-usd-off' },
+    { name: 'Budgets', route: '/dashboard/budgets', icon: 'mdi-poll' },
+    { name: 'Settings', route: '/dashboard/settings', icon: 'mdi-cog-box' }
+  ]
+}
 </script>

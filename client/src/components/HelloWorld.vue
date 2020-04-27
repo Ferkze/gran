@@ -1,84 +1,58 @@
 <template>
   <v-container>
-    <v-layout
-      text-center
-      wrap
-    >
-      <v-flex xs12>
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        ></v-img>
-      </v-flex>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img :src="require('../assets/logo.svg')" class="my-3" contain height="200" />
+      </v-col>
 
-      <v-flex mb-4>
+      <v-col class="mb-4">
         <h1 class="display-2 font-weight-bold mb-3">
           {{ msg }}
         </h1>
         <p class="subheading font-weight-regular">
-          You can login by clicking here: <router-link to="/entrar">Login</router-link>
+          You can login by clicking here:
+          <router-link to="/entrar">
+            Login
+          </router-link>
         </p>
-      </v-flex>
+      </v-col>
 
-      <v-flex
-        mb-5
-        xs12
-      >
-        <h2 class="headline font-weight-bold mb-3">What's next?</h2>
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          What's next?
+        </h2>
 
-        <v-layout justify-center>
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
+        <v-row justify="center">
+          <a v-for="(next, i) in whatsNext" :key="i" :href="next.href" class="subheading mx-3" target="_blank">
             {{ next.text }}
           </a>
-        </v-layout>
-      </v-flex>
+        </v-row>
+      </v-col>
 
-      <v-flex
-        xs12
-        mb-5
-      >
-        <h2 class="headline font-weight-bold mb-3">Important Links</h2>
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          Important Links
+        </h2>
 
-        <v-layout justify-center>
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
+        <v-row justify="center">
+          <a v-for="(link, i) in importantLinks" :key="i" :href="link.href" class="subheading mx-3" target="_blank">
             {{ link.text }}
           </a>
-        </v-layout>
-      </v-flex>
+        </v-row>
+      </v-col>
 
-      <v-flex
-        xs12
-        mb-5
-      >
-        <h2 class="headline font-weight-bold mb-3">Ecosystem</h2>
+      <v-col class="mb-5" cols="12">
+        <h2 class="headline font-weight-bold mb-3">
+          Ecosystem
+        </h2>
 
-        <v-layout justify-center>
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
+        <v-row justify="center">
+          <a v-for="(eco, i) in ecosystem" :key="i" :href="eco.href" class="subheading mx-3" target="_blank">
             {{ eco.text }}
           </a>
-        </v-layout>
-      </v-flex>
-    </v-layout>
+        </v-row>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -89,57 +63,59 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   name: 'HelloWorld'
 })
 export default class HelloWorld extends Vue {
-  @Prop(String) msg !: string
+  @Prop(String) msg!: string
 
   ecosystem = [
     {
       text: 'vuetify-loader',
-      href: 'https://github.com/vuetifyjs/vuetify-loader',
+      href: 'https://github.com/vuetifyjs/vuetify-loader'
     },
     {
       text: 'github',
-      href: 'https://github.com/vuetifyjs/vuetify',
+      href: 'https://github.com/vuetifyjs/vuetify'
     },
     {
       text: 'awesome-vuetify',
-      href: 'https://github.com/vuetifyjs/awesome-vuetify',
-    },
+      href: 'https://github.com/vuetifyjs/awesome-vuetify'
+    }
   ]
+
   importantLinks = [
     {
       text: 'Documentation',
-      href: 'https://vuetifyjs.com',
+      href: 'https://vuetifyjs.com'
     },
     {
       text: 'Chat',
-      href: 'https://community.vuetifyjs.com',
+      href: 'https://community.vuetifyjs.com'
     },
     {
       text: 'Made with Vuetify',
-      href: 'https://madewithvuejs.com/vuetify',
+      href: 'https://madewithvuejs.com/vuetify'
     },
     {
       text: 'Twitter',
-      href: 'https://twitter.com/vuetifyjs',
+      href: 'https://twitter.com/vuetifyjs'
     },
     {
       text: 'Articles',
-      href: 'https://medium.com/vuetify',
-    },
+      href: 'https://medium.com/vuetify'
+    }
   ]
+
   whatsNext = [
     {
       text: 'Explore components',
-      href: 'https://vuetifyjs.com/components/api-explorer',
+      href: 'https://vuetifyjs.com/components/api-explorer'
     },
     {
       text: 'Select a layout',
-      href: 'https://vuetifyjs.com/layout/pre-defined',
+      href: 'https://vuetifyjs.com/layout/pre-defined'
     },
     {
       text: 'Frequently Asked Questions',
-      href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-    },
+      href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions'
+    }
   ]
 }
 </script>

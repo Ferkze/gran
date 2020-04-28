@@ -20,7 +20,7 @@ interface RegisterData {
 class AuthController {
   public async login(req: Request, res: Response): Promise<Response> {
     const data = req.body as LoginData
-    const user = await User.findOne({ email: data.email})
+    const user = await User.findOne({ email: data.email })
     if (!user) {
       return res.status(403).json({
         message: 'Email inválido'

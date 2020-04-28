@@ -16,6 +16,13 @@
         </span>
       </v-btn>
     </v-toolbar-items>
+    <v-toolbar-items v-show="authMod.isAuthenticated">
+      <v-btn text @click="$router.push('/dashboard')">
+        <span class="subtitle-1 text-capitalize font-weight-light">
+          Dashboard
+        </span>
+      </v-btn>
+    </v-toolbar-items>
   </v-app-bar>
 </template>
 

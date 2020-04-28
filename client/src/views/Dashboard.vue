@@ -1,9 +1,13 @@
 <template>
-  <v-container>
-    <v-row class="cols">
-      <web-rail />
+  <v-container fluid>
+    <v-row no-gutters>
+      <v-col cols="3">
+        <web-rail />
+      </v-col>
+      <v-col cols="9">
+        <router-view />
+      </v-col>
     </v-row>
-    <v-row class="cols" />
   </v-container>
 </template>
 

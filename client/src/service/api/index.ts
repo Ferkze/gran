@@ -9,7 +9,7 @@ interface RequestInterface {
   data: IUser[]
 }
 
-const baseDomain = 'http://localhost:9090'
+const baseDomain = 'http://localhost:5000'
 const baseURL = `${baseDomain}/api`
 
 const client = Axios.create({

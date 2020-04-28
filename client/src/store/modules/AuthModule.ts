@@ -1,5 +1,5 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { login } from '@/service/AuthService'
+import { login, LoginData } from '@/service/AuthService'
 import { User } from '@/models/User'
 
 @Module({ namespaced: true, name: 'auth' })
@@ -13,14 +13,12 @@ export default class AuthModule extends VuexModule {
   }
 
   @Action({ commit: 'setUser', rawError: true })
-  async login(email: string, password: string) {
-    const user = await login({ email, password })
-    return user
+  async login(data: LoginData) {
+    return await login(data)
   }
 
   @Mutation
   setUser(user: User) {
-    console.log(user)
     this.user = user
   }
 }

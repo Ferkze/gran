@@ -69,22 +69,28 @@ export default class Login extends Vue {
   valid = true
   loading = false
 
-  async submitLogin($event: Event) {
+  async submitLogin() {
     this.loading = true
     this.error = null
     try {
-      const user = await login({
+      const user = await this.authMod.login({
         email: this.email,
         password: this.password
       })
       if (user != null) {
-        this.authMod.setUser(user)
         this.$router.push('dashboard')
       }
     } catch (error) {
-      this.error = error.response.data
+      const message = error.response ? error.response.data : 'Erro ao entrar'
+      this.error = message
     } finally {
       this.loading = false
+    }
+  }
+
+  mounted() {
+    if (this.authMod.isAuthenticated) {
+      this.$router.push('/dashboard')
     }
   }
 }

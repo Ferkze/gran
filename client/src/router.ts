@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { RouteConfig } from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
+const routes: RouteConfig[] = [
   {
     path: '/',
     name: 'Home',
@@ -18,8 +18,40 @@ const routes = [
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue')
+    name: 'DashboardRoot',
+    component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
+    children: [
+      {
+        name: 'Dashboard',
+        path: '/',
+        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Overview.vue')
+      },
+      {
+        name: 'Accounts Dashboard',
+        path: 'accounts',
+        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Accounts.vue')
+      },
+      {
+        name: 'Bills Dashboard',
+        path: 'bills',
+        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Bills.vue')
+      },
+      {
+        name: 'Budgets Dashboard',
+        path: 'budgets',
+        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Budgets.vue')
+      },
+      {
+        name: 'Investments Dashboard',
+        path: 'investments',
+        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Investments.vue')
+      },
+      {
+        name: 'Settings Dashboard',
+        path: 'settings',
+        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Settings.vue')
+      }
+    ]
   },
   {
     path: '/transacoes',

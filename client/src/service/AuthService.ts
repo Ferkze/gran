@@ -20,10 +20,21 @@ export interface RegisterData {
 
 const resource = '/auth'
 
+export const authenticate = (): User | null => {
+  let user = lastUser()
+  if (user == null) {
+    return null
+  }
+  return new User(user)
+}
 export const login = async (payload: LoginData): Promise<User> => {
-  let user = _lastUser(payload.email)
+  let user = lastUser()
   if (user !== null) {
-    return new User(user)
+    if (user.email !== payload.email) {
+      deleteToken('user_token')
+    } else {
+      return new User(user)
+    }
   }
   const path = `${resource}/login`
   const response = await client.post<IUser>(path, payload)
@@ -39,15 +50,10 @@ export const register = async (payload: RegisterData): Promise<User> => {
   return new User(response.data)
 }
 
-const _lastUser = (email: string): IUser | null => {
+const lastUser = (): IUser | null => {
   const userToken = retrieveToken('user_token')
   if (!userToken) {
     return null
   }
-  const user = JSON.parse(userToken) as IUser
-  if (user.email !== email) {
-    deleteToken('user_token')
-    return null
-  }
-  return user
+  return JSON.parse(userToken) as IUser
 }

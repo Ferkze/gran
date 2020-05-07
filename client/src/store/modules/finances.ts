@@ -14,7 +14,7 @@ class FinancesModule extends VuexModule {
   accounts: IAccount[] = []
 
   @Action({ commit: 'setAccounts', rawError: true })
-  async fetchAccounts() {
+  async fetchAccounts(): Promise<IAccount[] | null> {
     if (!auth.user || !auth.user._id) {
       return []
     }
@@ -22,10 +22,11 @@ class FinancesModule extends VuexModule {
   }
 
   @Action({ commit: 'addAccount', rawError: true })
-  async newAccount(account: Account) {
+  async newAccount(account: IAccount): Promise<IAccount | null> {
     if (!auth.user || !auth.user._id) {
-      return []
+      return null
     }
+    account.owner = auth.user._id
     return (await createAccount(auth.user._id, account)).data
   }
 
@@ -35,8 +36,8 @@ class FinancesModule extends VuexModule {
   }
 
   @Mutation
-  addAccount(accounts: IAccount[]) {
-    this.accounts = accounts
+  addAccount(account: IAccount) {
+    this.accounts.push(account)
   }
 }
 

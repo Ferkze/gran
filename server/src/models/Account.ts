@@ -16,6 +16,9 @@ export enum AccountSubtypes {
 export type Account = {
   _id: string
   name?: string
+  main?: boolean
+  institution?: string
+  unregisteredInstitution?: string
   type?: AccountTypes
   subtype?: AccountSubtypes
   startingBalance?: number

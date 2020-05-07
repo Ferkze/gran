@@ -13,11 +13,13 @@ export interface User {
 export interface IAccount {
   _id?: string
   name?: string
+  main?: boolean
+  institution?: string
+  unregisteredInstitution?: string
   type?: AccountTypes
   subtype?: AccountSubtypes
   startingBalance?: number
   owner?: string
-
   createdAt?: string
   updatedAt?: string
 }
@@ -38,4 +40,10 @@ export interface ITransaction {
 
   createdAt?: string
   updatedAt?: string
+}
+
+export interface AppStatus {
+  code?: string
+  message?: string
+  type?: string
 }

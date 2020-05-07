@@ -27,8 +27,8 @@ const routes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Overview.vue')
       },
       {
-        name: 'Accounts Dashboard',
-        path: 'accounts',
+        name: 'Contas – Visão Geral',
+        path: 'contas',
         component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Accounts.vue')
       },
       {
@@ -52,6 +52,16 @@ const routes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Investments.vue')
       }
     ]
+  },
+  {
+    path: '/contas',
+    name: 'Contas',
+    component: () => import(/* webpackChunkName: "accounts" */ './views/dashboard/Accounts.vue')
+  },
+  {
+    path: '/contas/criar',
+    name: 'Criar Conta',
+    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/CreateAccount.vue')
   },
   {
     path: '/transacoes',

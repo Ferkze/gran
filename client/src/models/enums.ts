@@ -11,6 +11,7 @@ export enum AccountTypes {
 
 export enum AccountSubtypes {
   CURRENCY = 'currency',
+  DIGITAL_CURRENCY = 'digital-currency',
   CURRENT = 'current-account',
   CREDIT_CARD = 'credit-card',
   BROKER = 'broker-account'

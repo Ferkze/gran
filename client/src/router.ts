@@ -61,7 +61,12 @@ const routes: RouteConfig[] = [
   {
     path: '/contas/criar',
     name: 'Criar Conta',
-    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/CreateAccount.vue')
+    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/CreateDebitAccount.vue')
+  },
+  {
+    path: '/contas/:accountId',
+    name: 'Criar Conta',
+    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/EditDebitAccount.vue')
   },
   {
     path: '/transacoes',

@@ -20,7 +20,7 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class WebRail extends Vue {
   items = [
     { name: 'Visão Geral', route: '/dashboard/', icon: 'mdi-view-dashboard' },
-    { name: 'Contas', route: '/dashboard/accounts', icon: 'mdi-currency-usd' },
+    { name: 'Contas', route: '/dashboard/contas', icon: 'mdi-currency-usd' },
     { name: 'Gastos', route: '/dashboard/bills', icon: 'mdi-currency-usd-off' },
     { name: 'Orçamentos', route: '/dashboard/budgets', icon: 'mdi-poll' },
     { name: 'Investimentos', route: '/dashboard/investments', icon: 'mdi-elevation-rise' },

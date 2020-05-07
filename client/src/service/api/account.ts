@@ -12,3 +12,7 @@ export const createAccount = (userId: string, account: IAccount) => {
 export const updateAccount = (userId: string, account: IAccount) => {
   return client.put(`/user/${userId}/account/${account._id}`, { account })
 }
+
+export const deleteAccount = (userId: string, accountId: string) => {
+  return client.delete(`/user/${userId}/account/${accountId}`)
+}

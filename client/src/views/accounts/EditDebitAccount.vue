@@ -84,7 +84,21 @@
         </section>
 
         <div class="mt-4">
-          <v-btn block color="primary" large>Criar conta</v-btn>
+          <v-btn block color="primary" :disabled="loadingEdition" :loading="loadingEdition" large @click="updateAccount"
+            >Atualizar conta</v-btn
+          >
+        </div>
+        <div class="mt-4">
+          <v-btn
+            block
+            color="error"
+            outlined
+            :disabled="loadingDeletion"
+            :loading="loadingDeletion"
+            large
+            @click="deleteAccount"
+            >Deletar conta</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -95,27 +109,19 @@
 import { Component, Vue } from 'vue-property-decorator'
 import auth from '@/store/modules/auth'
 import { User, IAccount } from '../../models'
-import { AccountSubtypes, AccountTypes } from '../../models/enums'
+import { AccountSubtypes } from '../../models/enums'
 import finances from '@/store/modules/finances'
 import status from '@/store/modules/status'
 
 @Component({
-  name: 'SettingsView'
+  name: 'EditDebitAccountView'
 })
-export default class Settings extends Vue {
-  account: IAccount = {
-    name: '',
-    main: false,
-    institution: '',
-    unregisteredInstitution: '',
-    type: AccountTypes.DEBIT,
-    subtype: AccountSubtypes.CURRENT,
-    startingBalance: 0.0,
-    owner: auth.user?._id
-  }
-  loading = false
+export default class EditDebitAccount extends Vue {
+  loadingEdition = false
+  loadingDeletion = false
   accountTypes = [
     { text: 'Carteira', value: AccountSubtypes.CURRENCY },
+    { text: 'Carteira Digital', value: AccountSubtypes.DIGITAL_CURRENCY },
     { text: 'Conta Corrente', value: AccountSubtypes.CURRENT },
     { text: 'Conta em Corretora', value: AccountSubtypes.BROKER }
   ]
@@ -144,6 +150,14 @@ export default class Settings extends Vue {
         { text: 'Bradesco Corretora', value: 'santander-corretora' },
         { text: 'Outro', value: 'other' }
       ]
+    else if (this.account.subtype == AccountSubtypes.DIGITAL_CURRENCY)
+      return [
+        { text: 'PicPay', value: 'picpay' },
+        { text: 'Meliuz', value: 'meliuz' },
+        { text: 'Ame Digital', value: 'ame' },
+        { text: 'Rappi Creditos', value: 'rappi' },
+        { text: 'Outro', value: 'other' }
+      ]
     else return []
   }
 
@@ -164,23 +178,62 @@ export default class Settings extends Vue {
     this.account.startingBalance = parseFloat(str.replace(',', '.'))
   }
 
-  createAccount() {
-    this.loading = true
+  get account(): IAccount {
+    const acc = finances.accounts.find(a => a._id == this.$route.params.accountId)
+    if (!acc) {
+      this.$router.go(-1)
+      return {}
+    }
+    return acc
+  }
+  set account(acc: IAccount) {
+    finances.replaceAccount(acc)
+  }
+
+  created() {
+    if (!this.$route.params.accountId) {
+      this.$router.go(-1)
+      return
+    }
+  }
+
+  async updateAccount() {
+    this.loadingEdition = true
     try {
-      finances.newAccount(this.account)
+      await finances.changeAccount(this.account)
       status.setStatus({
         type: 'success',
-        message: 'Conta criada com sucesso'
+        message: 'Conta atualizada com sucesso'
       })
-      this.$router.push('/dashboard/contas')
+      this.$router.push('/contas')
     } catch (error) {
       status.setStatus({
         type: 'error',
-        message: `Não foi possível cria a conta: ${error.toString()}`
+        message: `Não foi possível atualizar a conta: ${error.toString()}`
       })
       status.setError(error)
     } finally {
-      this.loading = true
+      this.loadingEdition = true
+    }
+  }
+
+  async deleteAccount() {
+    this.loadingDeletion = true
+    try {
+      await finances.deleteAccount(this.account)
+      status.setStatus({
+        type: 'success',
+        message: 'Conta deletada com sucesso'
+      })
+      this.$router.push('/contas')
+    } catch (error) {
+      status.setStatus({
+        type: 'error',
+        message: `Não foi possível deletar a conta: ${error.toString()}`
+      })
+      status.setError(error)
+    } finally {
+      this.loadingDeletion = true
     }
   }
 }

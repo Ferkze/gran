@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :color="!theme.isDark ? 'white' : undefined" app clipped-left clipped-right flat>
+  <v-app-bar :color="!theme.isDark ? 'white' : undefined" app clipped-left clipped-right elevation="2">
     <base-gran-logo />
     <v-spacer />
 
@@ -22,8 +22,10 @@
           Dashboard
         </span>
       </v-btn>
-      <v-btn icon color="primary" to="/configuracoes">
-        <v-icon>mdi-account</v-icon>
+      <v-btn icon class="mx-2" @click="$router.push('/configuracoes')">
+        <v-avatar color="primary" size="42">
+          <v-icon color="white">mdi-account</v-icon>
+        </v-avatar>
       </v-btn>
     </v-toolbar-items>
   </v-app-bar>

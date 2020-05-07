@@ -13,12 +13,9 @@ import status from '../store/modules/status'
 import { AppStatus } from '../models'
 
 @Component({
-  components: {
-    BaseGranLogo: () => import('../components/base/GranLogo.vue')
-  },
   inject: ['theme']
 })
-export default class AppBar extends Vue {
+export default class AppSnackbar extends Vue {
   show = false
 
   get status() {
@@ -28,8 +25,9 @@ export default class AppBar extends Vue {
     }
   }
 
-  @Watch('status')
+  @Watch('status', { deep: true, immediate: true })
   onStatusChanged(val?: AppStatus) {
+    console.log('val status', val)
     if (val?.message) {
       this.show = true
       return

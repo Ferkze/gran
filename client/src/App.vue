@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <app-bar />
+    <app-snackbar />
 
     <v-content>
       <v-slide-x-reverse-transition mode="out-in">
@@ -19,7 +20,8 @@ import auth from './store/modules/auth'
 
 @Component({
   components: {
-    AppBar
+    AppBar,
+    AppSnackbar: () => import('@/components/AppBar.vue')
   },
   name: 'App'
 })

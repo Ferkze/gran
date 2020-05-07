@@ -8,6 +8,7 @@ export enum AccountTypes {
 
 export enum AccountSubtypes {
   CURRENCY = 'currency',
+  DIGITAL_CURRENCY  = 'digital-currency',
   CURRENT = 'current-account',
   CREDIT_CARD = 'credit-card',
   BROKER = 'broker-account'
@@ -31,6 +32,17 @@ export type IAccount = Document & Account
 export const AccountSchema = new Schema({
   name: String,
   startingBalance: Number,
+  main: Boolean,
+  institution: String,
+  unregisteredInstitution: String,
+  type: {
+    type: String,
+    enum: [ AccountTypes.CREDIT, AccountTypes.DEBIT ]
+  },
+  subtype: {
+    type: String,
+    enum: [ AccountSubtypes.BROKER, AccountSubtypes.CURRENT, AccountSubtypes.CURRENCY, AccountSubtypes.CREDIT_CARD, AccountSubtypes.DIGITAL_CURRENCY ]
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',

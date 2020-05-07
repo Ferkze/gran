@@ -1,7 +1,7 @@
 import store from '..'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { login, LoginData } from '@/service/AuthService'
-import { User } from '@/models/user'
+import { User } from '@/models'
 
 @Module({
   store,

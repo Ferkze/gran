@@ -1,5 +1,5 @@
 import client from './api/index'
-import { User } from '@/models/user'
+import { User } from '@/models'
 import { Token, saveToken, retrieveToken, deleteToken } from './TokenService'
 
 export interface LoginData {

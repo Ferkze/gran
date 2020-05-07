@@ -1,9 +1,23 @@
 import { Document, Schema, model } from 'mongoose'
 import { IUser } from './User'
 
-export type Account =  {
+export enum AccountTypes {
+  DEBIT = 'debit',
+  CREDIT = 'credit'
+}
+
+export enum AccountSubtypes {
+  CURRENCY = 'currency',
+  CURRENT = 'current-account',
+  CREDIT_CARD = 'credit-card',
+  BROKER = 'broker-account'
+}
+
+export type Account = {
   _id: string
   name?: string
+  type?: AccountTypes
+  subtype?: AccountSubtypes
   startingBalance?: number
   owner?: IUser['_id']
   createdAt?: string

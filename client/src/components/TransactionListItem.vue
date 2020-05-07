@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { ITransaction, TransactionType } from '../store/modules/Transactions'
+import { ITransaction } from '../models'
+import { TransactionType } from '../models/enums'
 
 @Component
 export default class TransactionListItem extends Vue {
@@ -27,18 +28,18 @@ export default class TransactionListItem extends Vue {
 
   get typeColor(): string {
     switch (this.transaction.type) {
-    case TransactionType.DEBIT: {
-      return 'green'
-    }
-    case TransactionType.CREDIT: {
-      return 'red'
-    }
-    case TransactionType.TRANSFERENCE: {
-      return 'blue'
-    }
-    default: {
-      return 'grey'
-    }
+      case TransactionType.DEBIT: {
+        return 'green'
+      }
+      case TransactionType.CREDIT: {
+        return 'red'
+      }
+      case TransactionType.TRANSFERENCE: {
+        return 'blue'
+      }
+      default: {
+        return 'grey'
+      }
     }
   }
 }

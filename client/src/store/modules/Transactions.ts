@@ -1,5 +1,5 @@
 import { Module, VuexModule, getModule } from 'vuex-module-decorators'
-import { ITransaction } from '@/models/transactions'
+import { ITransaction } from '@/models'
 import store from '..'
 
 @Module({

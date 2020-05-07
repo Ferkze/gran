@@ -2,7 +2,7 @@ import store from '..'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { getAccounts, createAccount } from '../../service/api/account'
 import auth from './auth'
-import { IAccount } from '@/models/Account'
+import { IAccount } from '@/models'
 
 @Module({
   store,

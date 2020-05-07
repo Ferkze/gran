@@ -1,5 +1,5 @@
 import client from './api/index'
-import { IUser, User } from '@/models/User'
+import { User } from '@/models/user'
 import { Token, saveToken, retrieveToken, deleteToken } from './TokenService'
 
 export interface LoginData {
@@ -25,7 +25,7 @@ export const authenticate = (): User | null => {
   if (user == null) {
     return null
   }
-  return new User(user)
+  return user
 }
 export const login = async (payload: LoginData): Promise<User> => {
   let user = lastUser()
@@ -33,27 +33,27 @@ export const login = async (payload: LoginData): Promise<User> => {
     if (user.email !== payload.email) {
       deleteToken('user_token')
     } else {
-      return new User(user)
+      return user
     }
   }
   const path = `${resource}/login`
-  const response = await client.post<IUser>(path, payload)
+  const response = await client.post<User>(path, payload)
   user = response.data
   const userToken = JSON.stringify(user) as Token
   saveToken(userToken, 'user_token')
-  return new User(user)
+  return user
 }
 
 export const register = async (payload: RegisterData): Promise<User> => {
   const path = `${resource}/register`
-  const response = await client.post<IUser>(path, payload)
-  return new User(response.data)
+  const response = await client.post<User>(path, payload)
+  return response.data
 }
 
-const lastUser = (): IUser | null => {
+const lastUser = (): User | null => {
   const userToken = retrieveToken('user_token')
   if (!userToken) {
     return null
   }
-  return JSON.parse(userToken) as IUser
+  return JSON.parse(userToken) as User
 }

@@ -1,9 +1,15 @@
-import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import store from '..'
+import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { login, LoginData } from '@/service/AuthService'
-import { User } from '@/models/User'
+import { User } from '@/models/user'
 
-@Module({ namespaced: true, name: 'auth' })
-export default class AuthModule extends VuexModule {
+@Module({
+  store,
+  dynamic: true,
+  namespaced: true,
+  name: 'auth'
+})
+class AuthModule extends VuexModule {
   user: User | null = null
 
   get isAuthenticated(): boolean {
@@ -22,3 +28,5 @@ export default class AuthModule extends VuexModule {
     this.user = user
   }
 }
+
+export default getModule(AuthModule)

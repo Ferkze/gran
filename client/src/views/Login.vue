@@ -54,15 +54,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import AuthModule from '../store/modules/AuthModule'
-import { getModule } from 'vuex-module-decorators'
-import { login } from '../service/AuthService'
+import auth from '../store/modules/auth'
 
 @Component({
   inject: ['theme']
 })
 export default class Login extends Vue {
-  authMod: AuthModule = getModule(AuthModule, this.$store)
   email: string = ''
   password: string = ''
   error: Error | null = null
@@ -73,12 +70,12 @@ export default class Login extends Vue {
     this.loading = true
     this.error = null
     try {
-      const user = await this.authMod.login({
+      const user = await auth.login({
         email: this.email,
         password: this.password
       })
       if (user != null) {
-        this.$router.push('dashboard')
+        this.$router.push('/dashboard')
       }
     } catch (error) {
       const message = error.response ? error.response.data : 'Erro ao entrar'
@@ -89,7 +86,7 @@ export default class Login extends Vue {
   }
 
   mounted() {
-    if (this.authMod.isAuthenticated) {
+    if (auth.isAuthenticated) {
       this.$router.push('/dashboard')
     }
   }

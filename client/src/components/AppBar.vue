@@ -4,7 +4,7 @@
     <v-spacer />
 
     <v-spacer />
-    <v-toolbar-items v-show="!authMod.isAuthenticated">
+    <v-toolbar-items v-show="!isAuthenticated">
       <v-btn text @click="$router.push('/entrar')">
         <span class="subtitle-1 text-capitalize font-weight-light">
           Entrar
@@ -16,7 +16,7 @@
         </span>
       </v-btn>
     </v-toolbar-items>
-    <v-toolbar-items v-show="authMod.isAuthenticated">
+    <v-toolbar-items v-show="isAuthenticated">
       <v-btn text @click="$router.push('/dashboard')">
         <span class="subtitle-1 text-capitalize font-weight-light">
           Dashboard
@@ -28,17 +28,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getModule } from 'vuex-module-decorators'
-import AuthModule from '../store/modules/AuthModule'
-import BaseGranLogo from '../components/base/GranLogo.vue'
+import auth from '../store/modules/auth'
 
 @Component({
   components: {
-    BaseGranLogo
+    BaseGranLogo: () => import('../components/base/GranLogo.vue')
   },
   inject: ['theme']
 })
 export default class AppBar extends Vue {
-  authMod: AuthModule = getModule(AuthModule, this.$store)
+  get isAuthenticated() {
+    return auth.isAuthenticated
+  }
 }
 </script>

@@ -14,9 +14,8 @@
 import Vue from 'vue'
 import AppBar from '@/components/AppBar.vue'
 import Component from 'vue-class-component'
-import { getModule } from 'vuex-module-decorators'
 import { authenticate } from './service/AuthService'
-import AuthModule from './store/modules/AuthModule'
+import auth from './store/modules/auth'
 
 @Component({
   components: {
@@ -25,14 +24,12 @@ import AuthModule from './store/modules/AuthModule'
   name: 'App'
 })
 export default class App extends Vue {
-  authMod = getModule(AuthModule, this.$store)
-
   mounted() {
     const user = authenticate()
     if (!user) {
       return
     }
-    this.authMod.setUser(user)
+    auth.setUser(user)
   }
 }
 </script>

@@ -12,22 +12,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import WebRail from '../components/WebRail.vue'
-import { getModule } from 'vuex-module-decorators'
-import AuthModule from '../store/modules/AuthModule'
+import { Component, Vue } from 'vue-property-decorator'
+import auth from '../store/modules/auth'
 
 @Component({
   components: {
-    WebRail
+    WebRail: () => import('../components/WebRail.vue')
   }
 })
 export default class Dashboard extends Vue {
-  authModule: AuthModule = getModule(AuthModule, this.$store)
-
   mounted() {
-    console.log(this.authModule.user)
+    console.log('Dashboard: user', auth.user)
   }
 }
 </script>

@@ -1,6 +1,7 @@
-export type Account = {
+export interface IAccount {
+  _id?: string
   name?: string
-  startingValue?: number
+  startingBalance?: number
   owner?: string
 
   createdAt?: string

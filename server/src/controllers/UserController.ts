@@ -3,11 +3,11 @@ import User, { User as UserModel } from '../models/User'
 
 class UserController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const users = await User.find()
+    const users = await User.find(null, '-accounts')
     return res.json(users)
   }
   public async find(req: Request, res: Response): Promise<Response> {
-    const userDoc = await User.findById(req.params.id)
+    const userDoc = await User.findById(req.params.id, '-accounts')
     return res.json(userDoc)
   }
   public async store(req: Request, res: Response): Promise<Response> {

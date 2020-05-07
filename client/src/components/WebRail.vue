@@ -25,6 +25,7 @@ export default class WebRail extends Vue {
     { name: 'Bills', route: '/dashboard/bills', icon: 'mdi-currency-usd-off' },
     { name: 'Budgets', route: '/dashboard/budgets', icon: 'mdi-poll' },
     { name: 'Investments', route: '/dashboard/investments', icon: 'mdi-elevation-rise' },
+    { name: 'Transactions', route: '/dashboard/transactions', icon: 'mdi-cash-multiple' },
     { name: 'Settings', route: '/dashboard/settings', icon: 'mdi-cog-box' }
   ]
 }

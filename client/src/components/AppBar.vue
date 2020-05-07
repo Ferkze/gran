@@ -17,10 +17,13 @@
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items v-show="isAuthenticated">
-      <v-btn text @click="$router.push('/dashboard')">
+      <v-btn text to="/dashboard" active-class="primary--text">
         <span class="subtitle-1 text-capitalize font-weight-light">
           Dashboard
         </span>
+      </v-btn>
+      <v-btn icon color="primary" to="/configuracoes">
+        <v-icon>mdi-account</v-icon>
       </v-btn>
     </v-toolbar-items>
   </v-app-bar>

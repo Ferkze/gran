@@ -50,11 +50,6 @@ const routes: RouteConfig[] = [
         name: 'Investments Dashboard',
         path: 'investments',
         component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Investments.vue')
-      },
-      {
-        name: 'Settings Dashboard',
-        path: 'settings',
-        component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Settings.vue')
       }
     ]
   },
@@ -72,6 +67,11 @@ const routes: RouteConfig[] = [
     path: '/admin/usuarios',
     name: 'Admin-users',
     component: () => import(/* webpackChunkName: "admin" */ './views/admin/Users.vue')
+  },
+  {
+    name: 'Configurações',
+    path: '/configuracoes',
+    component: () => import(/* webpackChunkName: "profile" */ './views/profile/Settings.vue')
   }
 ]
 

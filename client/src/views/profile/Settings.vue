@@ -1,19 +1,29 @@
 <template>
   <v-container class="">
     <h1>{{ $route.name }}</h1>
-    <v-divider />
     <section>
-      <v-subheader>
-        Account
-      </v-subheader>
+      <h2 class="font-weight-light mt-3 mb-2">Preferências</h2>
       <v-card>
-        <v-row>
+        <v-row align="center">
           <v-col cols="3" class="text-center">
-            <v-avatar color="grey" height="72px" width="72px">
-              <span class="headline white--text font-weight-bold">{{ user.firstName[0] }}</span>
-            </v-avatar>
+            Tema
           </v-col>
           <v-col cols="9">
+            <v-switch label="Escuro" v-model="dark" />
+          </v-col>
+        </v-row>
+      </v-card>
+    </section>
+    <section>
+      <h2 class="font-weight-light mt-3 mb-2">Minha conta</h2>
+      <v-card>
+        <v-row align="center">
+          <v-col cols="3" class="text-center">
+            <v-avatar color="primary" height="72px" width="72px">
+              <span class="display-1 white--text font-weight-bold">{{ user.firstName[0] }}</span>
+            </v-avatar>
+          </v-col>
+          <v-col cols="9" class="mt-2">
             <p>{{ `${user.firstName} ${user.lastName}` }}</p>
             <p>{{ `${user.email}` }}</p>
             <p>{{ `Criado em ${user.createdAt}` }}</p>
@@ -31,7 +41,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import auth from '@/store/modules/auth'
-import { User } from '../../models/user'
+import { User } from '../../models'
 
 @Component({
   name: 'SettingsView'
@@ -39,6 +49,13 @@ import { User } from '../../models/user'
 export default class Settings extends Vue {
   get user(): User | null {
     return auth.user
+  }
+
+  get dark() {
+    return this.$vuetify.theme.dark
+  }
+  set dark(value) {
+    this.$vuetify.theme.dark = value
   }
 }
 </script>

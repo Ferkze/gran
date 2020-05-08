@@ -30,17 +30,31 @@ export type Account = {
 export type IAccount = Document & Account
 
 export const AccountSchema = new Schema({
-  name: String,
-  startingBalance: Number,
-  main: Boolean,
-  institution: String,
-  unregisteredInstitution: String,
+  name: {
+    type: Schema.Types.String,
+    required: true
+  },
+  startingBalance: {
+    type: Schema.Types.Number,
+    required: false,
+    default: 0
+  },
+  main: {
+    type: Schema.Types.Boolean,
+    default: false
+  },
+  institution: Schema.Types.String,
+  unregisteredInstitution: {
+    type: Schema.Types.String
+  },
   type: {
-    type: String,
+    type: Schema.Types.String,
+    default: AccountTypes.DEBIT,
     enum: [ AccountTypes.CREDIT, AccountTypes.DEBIT ]
   },
   subtype: {
-    type: String,
+    type: Schema.Types.String,
+    default: AccountSubtypes.CURRENCY,
     enum: [ AccountSubtypes.BROKER, AccountSubtypes.CURRENT, AccountSubtypes.CURRENCY, AccountSubtypes.CREDIT_CARD, AccountSubtypes.DIGITAL_CURRENCY ]
   },
   owner: {

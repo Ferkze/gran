@@ -1,7 +1,7 @@
 export enum TransactionType {
-  DEBIT = 'DEBIT',
-  CREDIT = 'CREDIT',
-  TRANSFERENCE = 'TRANSFERENCE'
+  DEBIT = 'debit',
+  CREDIT = 'credit',
+  TRANSFERENCE = 'transference'
 }
 
 export enum AccountTypes {

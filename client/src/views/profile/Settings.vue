@@ -24,6 +24,7 @@
             </v-avatar>
           </v-col>
           <v-col cols="9" class="mt-2">
+            <p>{{ `${user._id}` }}</p>
             <p>{{ `${username}` }}</p>
             <p>{{ `${user.email}` }}</p>
             <p>{{ `Criado em ${user.createdAt}` }}</p>

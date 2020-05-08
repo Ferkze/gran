@@ -34,12 +34,15 @@ export interface ICategory {
 }
 
 export interface ITransaction {
+  _id?: string
   amount?: number
   date?: Date
-  account: IAccount
+  description?: string
+  debitAccount?: IAccount
+  creditAccount?: IAccount
   category: ICategory
   type: TransactionType
-
+  creator: User['_id']
   createdAt?: string
   updatedAt?: string
 }

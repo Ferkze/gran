@@ -1,25 +1,19 @@
 import { Request, Response } from 'express'
 import User from '../models/User'
-
-interface LoginData {
-  email ?: string
-  password ?: string
-}
-
-interface RegisterData {
-  username ?: string
-  email ?: string
-  password ?: string
-  firstName ?: string
-  lastName ?: string
-  accounts?: Account[]
-  createdAt?: string
-  updatedAt?: string
-}
+import validateLoginInput from '../validator/login'
+import validateRegisterInput from '../validator/register'
+import { LoginData, RegisterData } from '../models/Auth'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { opts } from '../config/passport'
 
 class AuthController {
   public async login(req: Request, res: Response): Promise<Response> {
     const data = req.body as LoginData
+    const { isValid, errors } = validateLoginInput(data)
+    if (!isValid) {
+      return res.status(400).json(errors)
+    }
     const user = await User.findOne({ email: data.email })
     if (!user) {
       return res.status(403).json({
@@ -30,18 +24,36 @@ class AuthController {
   }
   public async register(req: Request, res: Response): Promise<Response> {
     const data = req.body as RegisterData
-    let user = await User.findOne({ email: data.email, username: data.username })
+    const { isValid, errors } = validateRegisterInput(data)
+    if (!isValid) {
+      return res.status(400).json(errors)
+    }
+    let user = await User.findOne({ email: data.email, username: data.name })
     if (user) {
       return res.status(403).json({
         message: 'O email já está sendo utilizado'
       })
     }
-    user = await User.create(data)
-    return res.json(user)
+    user = await User.create({
+      username: data.name,
+      email: data.email,
+      password: data.password
+    })
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(user.password, salt, async (err, hash) => {
+        if (err) res.status(500).json({err})
+        try {
+          user.password = hash
+          user = await user.save()
+          res.json(user)
+        } catch (error) {
+          res.status(500).json({err})
+        }
+      })
+    })
   }
 
   public async index(req: Request, res: Response): Promise<void> {
-    console.log(req, res)
     switch(req.params.provider) {
     case 'github':
       this._githubAuth(req, res)
@@ -68,7 +80,7 @@ class AuthController {
       this._liveAuth(req, res)
       break
     case 'login':
-      this._loginAuth(req, res)
+      this.loginAuth(req, res)
       break
     case 'register':
       this._registerAuth(req, res)
@@ -111,15 +123,32 @@ class AuthController {
     console.log(req, res)
     // ...
   }
-  private async _loginAuth(req: Request, res: Response): Promise<Response> {
-    const data = req.body as LoginData
-    const user = await User.findOne({ email: data.email })
+  async loginAuth(req: Request, res: Response): Promise<Response> {
+    const { email, password } = req.body as LoginData
+    const user = await User.findOne({ email })
     if (!user) {
-      return res.status(403).json({
-        message: 'Email inválido'
+      return res.status(404).json({
+        message: 'Email não encontrado'
       })
     }
-    return res.json(user)
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (!isMatch) {
+        return res.status(403).json({ message: 'Senha incorreta' })
+      }
+      const payload = {
+        id: user.id,
+        name: user.username
+      }
+      jwt.sign(payload, opts.secretOrKey, { expiresIn: 31556926 /*1year*/ },
+        (err, token) => {
+          if (err) return res.status(500).json({err})
+          return res.json({
+            success: true,
+            token: 'Bearer ' + token
+          })
+        }
+      )
+    })
   }
   private _registerAuth(req: Request, res: Response): void {
     console.log(req, res)

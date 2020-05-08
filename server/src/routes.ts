@@ -10,8 +10,9 @@ const router = Router()
 
 router.get('/', IndexController.index)
 
-router.post('/auth/:provider', AuthController.login)
 router.post('/auth/register', AuthController.register)
+router.post('/auth/login', AuthController.loginAuth)
+router.post('/auth/login-user', AuthController.login)
 
 router.get('/users', UserController.index)
 router.get('/user/:id', UserController.find)

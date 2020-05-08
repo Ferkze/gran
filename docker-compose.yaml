@@ -5,25 +5,50 @@ services:
     image: node:alpine
     command: sh -c "npm install && npm run serve"
     environment:
-      - NODE_ENV=development
-      - PORT=8080
+      NODE_ENV: development
+      PORT: 8080
     ports:
-      - "8080:8080"
+      - 8080:8080
     working_dir: /root/client
     volumes:
       - ./client:/root/client:cached
     depends_on:
       - server
+    networks:
+      - appnetwork
 
   server:
     container_name: gran-server
     image: node:alpine
     command: sh -c "npm install && npm run dev"
+    restart: always
     environment:
-      - NODE_ENV=development
-      - PORT=5000
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_CONNECTION: mongodb://mongodb:27017
+      MONGODB_DATABASE: dev
     ports:
-      - "5000:5000"
+      - 5000:5000
     working_dir: /root/server
     volumes:
       - ./server:/root/server:cached
+    networks:
+      - appnetwork
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    restart: always
+    container_name: mongodb
+    volumes:
+      - ./data-node:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --noauth
+    networks:
+      - appnetwork
+
+networks:
+  appnetwork:
+    driver: bridge

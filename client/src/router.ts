@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import Register from './views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -15,6 +16,11 @@ const routes: RouteConfig[] = [
     path: '/entrar',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/cadastrar',
+    name: 'Cadastro',
+    component: Register
   },
   {
     path: '/dashboard',
@@ -51,42 +57,66 @@ const routes: RouteConfig[] = [
         path: 'investments',
         component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Investments.vue')
       }
-    ]
+    ],
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/contas',
     name: 'Contas',
-    component: () => import(/* webpackChunkName: "accounts" */ './views/dashboard/Accounts.vue')
+    component: () => import(/* webpackChunkName: "accounts" */ './views/dashboard/Accounts.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/contas/criar',
     name: 'Criar Conta',
-    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/CreateDebitAccount.vue')
+    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/CreateDebitAccount.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/contas/:accountId',
     name: 'Criar Conta',
-    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/EditDebitAccount.vue')
+    component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/EditDebitAccount.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/transacoes',
     name: 'Transactions',
-    component: () => import(/* webpackChunkName: "dashboard" */ './views/Transactions.vue')
+    component: () => import(/* webpackChunkName: "dashboard" */ './views/Transactions.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/admin',
     name: 'Admin',
-    component: () => import(/* webpackChunkName: "admin" */ './views/admin/Admin.vue')
+    component: () => import(/* webpackChunkName: "admin" */ './views/admin/Admin.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/admin/usuarios',
     name: 'Admin-users',
-    component: () => import(/* webpackChunkName: "admin" */ './views/admin/Users.vue')
+    component: () => import(/* webpackChunkName: "admin" */ './views/admin/Users.vue'),
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     name: 'Configurações',
     path: '/configuracoes',
-    component: () => import(/* webpackChunkName: "profile" */ './views/profile/Settings.vue')
+    component: () => import(/* webpackChunkName: "profile" */ './views/profile/Settings.vue'),
+    meta: {
+      requiresAuth: true
+    }
   }
 ]
 

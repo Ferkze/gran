@@ -10,10 +10,10 @@
           {{ msg }}
         </h1>
         <p class="subheading font-weight-regular">
-          You can login by clicking here:
           <router-link to="/entrar">
-            Login
+            Register
           </router-link>
+          <span> now to start your Pathway to <b>Financial Freedom</b>!</span>
         </p>
       </v-col>
     </v-row>

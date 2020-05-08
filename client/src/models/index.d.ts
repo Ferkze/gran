@@ -2,9 +2,11 @@ import { AccountTypes, AccountSubtypes, TransactionType } from './enums'
 
 export interface User {
   _id: string
+  username?: string
   email?: string
   firstName?: string
   lastName?: string
+  password?: string
   accounts?: IAccount[]
   createdAt?: string
   updatedAt?: string

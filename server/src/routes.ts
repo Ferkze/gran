@@ -5,6 +5,7 @@ import UserController from './controllers/UserController'
 import UserAccountController from './controllers/UserAccountController'
 import TransactionController from './controllers/TransactionController'
 import IndexController from './controllers/IndexController'
+import passport from 'passport'
 
 const router = Router()
 
@@ -13,6 +14,7 @@ router.get('/', IndexController.index)
 router.post('/auth/register', AuthController.register)
 router.post('/auth/login', AuthController.loginAuth)
 router.post('/auth/login-user', AuthController.login)
+router.get('/auth/profile', passport.authenticate('jwt', { session: false }), (req, res) => res.send(req['user']))
 
 router.get('/users', UserController.index)
 router.get('/user/:id', UserController.find)

@@ -15,7 +15,7 @@
 import Vue from 'vue'
 import AppBar from '@/components/AppBar.vue'
 import Component from 'vue-class-component'
-import { authenticate } from './service/AuthService'
+import { _currentUser } from './service/api/auth'
 import auth from './store/modules/auth'
 
 @Component({
@@ -27,11 +27,7 @@ import auth from './store/modules/auth'
 })
 export default class App extends Vue {
   mounted() {
-    const user = authenticate()
-    if (!user) {
-      return
-    }
-    auth.setUser(user)
+    auth.setUser(_currentUser())
   }
 }
 </script>

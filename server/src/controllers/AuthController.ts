@@ -144,7 +144,8 @@ class AuthController {
           if (err) return res.status(500).json({err})
           return res.json({
             success: true,
-            token: 'Bearer ' + token
+            token: 'Bearer ' + token,
+            user
           })
         }
       )

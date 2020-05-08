@@ -87,7 +87,7 @@
       </v-col>
       <v-col cols="12" sm="6" md="4">
         <v-hover v-slot:default="{ hover }">
-          <v-btn height="160" block color="primary" :outlined="!hover" @click="createCreditCard">
+          <v-btn disabled height="160" block color="primary" :outlined="!hover" @click="createCreditCard">
             <v-container>
               <v-row>
                 <v-col cols="12"><v-icon large left>mdi-credit-card-plus</v-icon></v-col>

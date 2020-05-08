@@ -20,11 +20,11 @@
         <v-row align="center">
           <v-col cols="3" class="text-center">
             <v-avatar color="primary" height="72px" width="72px">
-              <span class="display-1 white--text font-weight-bold">{{ user.firstName[0] }}</span>
+              <span class="display-1 white--text font-weight-bold">{{ username[0] }}</span>
             </v-avatar>
           </v-col>
           <v-col cols="9" class="mt-2">
-            <p>{{ `${user.firstName} ${user.lastName}` }}</p>
+            <p>{{ `${username}` }}</p>
             <p>{{ `${user.email}` }}</p>
             <p>{{ `Criado em ${user.createdAt}` }}</p>
           </v-col>
@@ -32,7 +32,7 @@
       </v-card>
       <div class="mt-3 text-sm-right">
         <v-btn color="error" outlined class="mr-3" v-text="'Delete Account'" />
-        <v-btn color="error" v-text="'Logout'" />
+        <v-btn color="error" v-text="'Logout'" @click="logout" />
       </div>
     </section>
   </v-container>
@@ -40,7 +40,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import auth from '@/store/modules/auth'
+import auth from '../../store/modules/auth'
 import { User } from '../../models'
 
 @Component({
@@ -56,6 +56,17 @@ export default class Settings extends Vue {
   }
   set dark(value) {
     this.$vuetify.theme.dark = value
+  }
+  get username() {
+    if (this.user.firstName) {
+      return `${this.user.firstName} ${this.user.lastName}`
+    } else if (this.user.username) return this.user.username
+    else return ''
+  }
+
+  logout() {
+    auth.logout()
+    this.$router.push('/')
   }
 }
 </script>

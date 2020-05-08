@@ -10,5 +10,6 @@
     "editor.formatOnSave": false
   },
   "editor.tabSize": 2,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "docker-compose.files": ["docker-compose.yaml"]
 }

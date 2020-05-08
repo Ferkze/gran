@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :color="!theme.isDark ? 'white' : undefined" app clipped-left clipped-right elevation="2">
+  <v-app-bar dark :color="!theme.isDark ? 'primary' : undefined" app clipped-left clipped-right flat>
     <base-gran-logo />
     <v-spacer />
 
@@ -17,7 +17,7 @@
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items v-show="isAuthenticated">
-      <v-btn text to="/dashboard" active-class="primary--text">
+      <v-btn text to="/dashboard" active-class="">
         <span class="subtitle-1 text-capitalize font-weight-light">
           Dashboard
         </span>

@@ -1,7 +1,7 @@
 import { Document, Schema, model } from 'mongoose'
-import { IAccount } from './Account'
-import Category, { CategoryInterface } from './Category'
-import { UserInterface } from './User'
+import { IAccount, ACCOUNT } from './Account'
+import Category, { CategoryInterface, CATEGORY } from './Category'
+import { UserInterface, USER } from './User'
 
 enum TransactionType {
   DEBIT = 'debit',
@@ -13,11 +13,11 @@ export type Transaction = {
   amount?: number
   date?: Date
   description?: string
-  debitAccount?: IAccount['_id']
-  creditAccount?: IAccount['_id']
-  category: CategoryInterface
+  debitAccount?: IAccount['_id'] | IAccount
+  creditAccount?: IAccount['_id'] | IAccount
+  category: [CategoryInterface]
   type: TransactionType
-  creator: UserInterface['_id']
+  creator: UserInterface['_id'] | UserInterface
   createdAt?: Date
   updatedAt?: Date
 }
@@ -38,15 +38,18 @@ const SchemaTransaction = new Schema({
   },
   creditAccount: {
     type: Schema.Types.ObjectId,
-    ref: 'Account',
+    ref: ACCOUNT,
     required: false,
   },
   debitAccount: {
     type: Schema.Types.ObjectId,
-    ref: 'Account',
+    ref: ACCOUNT,
     required: false,
   },
-  category: Category.schema,
+  category: [{
+    type: Schema.Types.ObjectId,
+  ref: CATEGORY
+  }],
   type: {
     type: Schema.Types.String,
     required: true,
@@ -54,7 +57,7 @@ const SchemaTransaction = new Schema({
   },
   creator: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: USER,
     required: true,
   },
 }, {

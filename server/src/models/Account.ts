@@ -1,5 +1,8 @@
 import { Document, Schema, model } from 'mongoose'
-import { IUser } from './User'
+import { UserInterface, USER } from './User'
+import { INSTITUTION } from './Institution'
+
+export const ACCOUNT = 'Account'
 
 export enum AccountTypes {
   DEBIT = 'debit',
@@ -16,14 +19,18 @@ export enum AccountSubtypes {
 
 export type Account = {
   _id: string
-  name?: string
-  main?: boolean
+  name: string
+  colors?: {
+    primary?: string,
+    secondary?: string
+  },
+  main: boolean
   institution?: string
   unregisteredInstitution?: string
   type?: AccountTypes
   subtype?: AccountSubtypes
-  startingBalance?: number
-  owner?: IUser['_id']
+  startingBalance: number
+  owner?: UserInterface['_id'] | UserInterface
   createdAt?: string
   updatedAt?: string
 }
@@ -34,6 +41,10 @@ export const AccountSchema = new Schema({
     type: Schema.Types.String,
     required: true
   },
+  colors: {
+    primary: Schema.Types.String,
+    secondary: Schema.Types.String
+  },
   startingBalance: {
     type: Schema.Types.Number,
     required: false,
@@ -43,7 +54,10 @@ export const AccountSchema = new Schema({
     type: Schema.Types.Boolean,
     default: false
   },
-  institution: Schema.Types.String,
+  institution: {
+    type: Schema.Types.ObjectId,
+    ref: INSTITUTION
+  },
   unregisteredInstitution: {
     type: Schema.Types.String
   },
@@ -59,11 +73,11 @@ export const AccountSchema = new Schema({
   },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: 'User',
+    ref: USER,
     required: true
   },
 }, {
   timestamps: true
 })
 
-export default model<IAccount>('Account', AccountSchema)
+export default model<IAccount>(ACCOUNT, AccountSchema)

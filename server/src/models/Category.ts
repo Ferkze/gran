@@ -1,4 +1,7 @@
 import { Document, Schema, model } from 'mongoose'
+import { USER, UserInterface } from './User'
+
+export const CATEGORY = 'Category'
 
 enum CategoryType {
   INCOME = 'income',
@@ -6,15 +9,24 @@ enum CategoryType {
 }
 
 export interface CategoryInterface extends Document {
-  name?: string,
-  type?: CategoryType,
+  name: string,
+  creator?: UserInterface
+  type: CategoryType,
 
   createdAt?: Date
   updatedAt?: Date
 }
 
 const SchemaCategory = new Schema({
-  name: String,
+  name: {
+    type: Schema.Types.String,
+    required: true
+  },
+  creator: {
+    type: Schema.Types.ObjectId,
+    ref: USER,
+    required: true,
+  },
   type: {
     type: Schema.Types.String,
     required: true,
@@ -24,4 +36,4 @@ const SchemaCategory = new Schema({
   timestamps: true
 })
 
-export default model<CategoryInterface>('Category', SchemaCategory)
+export default model<CategoryInterface>(CATEGORY, SchemaCategory)

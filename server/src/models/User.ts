@@ -1,6 +1,8 @@
 import { Document, Schema, model, Types } from 'mongoose'
 import { AccountSchema, Account} from './Account'
 
+export const USER = 'User'
+
 export type User = {
   username ?: string
   email ?: string
@@ -29,4 +31,4 @@ const UserSchema = new Schema({
 
 UserSchema.methods.fullName = function (): string {return `${this.firstName} ${this.lastName}` }
 
-export default model<UserInterface>('User', UserSchema)
+export default model<UserInterface>(USER, UserSchema)

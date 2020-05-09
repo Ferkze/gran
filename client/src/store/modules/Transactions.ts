@@ -1,5 +1,5 @@
 import { Module, VuexModule, getModule } from 'vuex-module-decorators'
-import { ITransaction } from '@/models'
+import { Transaction } from '@/models'
 import store from '..'
 
 @Module({
@@ -9,7 +9,7 @@ import store from '..'
   namespaced: true
 })
 class TransactionsModule extends VuexModule {
-  transactions: Array<ITransaction> = []
+  transactions: Array<Transaction> = []
 }
 
 export default getModule(TransactionsModule)

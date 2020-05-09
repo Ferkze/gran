@@ -1,7 +1,7 @@
 <template>
   <v-container class="">
     <h1>{{ $route.name }}</h1>
-    <v-row v-if="!loading">
+    <v-row>
       <v-col cols="6">
         <section>
           <v-card>
@@ -33,7 +33,7 @@
                 prefix="R$"
               />
               <base-form-field form-label="Data" hide-details label="Data da transação">
-                <base-date-picker disabled v-model="transaction.date" hide-details />
+                <base-date-picker v-model="transaction.date" hide-details />
               </base-form-field>
               <base-form-field
                 v-if="transaction.type == 'transference'"
@@ -81,32 +81,65 @@
               />
             </v-card-text>
           </v-card>
+        </section>
+      </v-col>
+      <v-col cols="6">
+        <section>
+          <v-card>
+            <v-card-title>
+              <h2 class="title font-weight-medium my-2">Informações adicionais</h2>
+            </v-card-title>
+            <v-card-text>
+              <base-form-field
+                v-model="transaction.categories"
+                form-label="Categorias"
+                hide-details
+                label="Categorias da transação"
+              >
+                <v-combobox
+                  v-model="transaction.categories"
+                  :items="categories"
+                  background-color="grey lighten-3"
+                  chips
+                  clearable
+                  flat
+                  item-text="name"
+                  return-object
+                  hide-selected
+                  label="Categorias dessa transação"
+                  multiple
+                  prepend-icon="mdi-label"
+                  solo
+                >
+                  <template v-slot:selection="{ attrs, item, select, selected }">
+                    <v-chip
+                      v-bind="attrs"
+                      :input-value="selected"
+                      :color="item.colors ? item.colors.primary : 'primary'"
+                      class="white--text"
+                      close
+                      @click="select"
+                      @click:close="remove(item)"
+                    >
+                      <span class="font-weight-regular">{{ item.name }}</span>
+                    </v-chip>
+                  </template>
+                </v-combobox>
+              </base-form-field>
+              <!-- <v-row>
+                <v-col cols="12">
+                  
+                </v-col>
+              </v-row> -->
+            </v-card-text>
+          </v-card>
           <div class="mt-4">
-            <v-btn
-              block
-              color="primary"
-              :disabled="loadingEdition"
-              :loading="loadingEdition"
-              large
-              @click="updateTransaction"
-              >Atualizar Transação</v-btn
-            >
-          </div>
-          <div class="mt-4">
-            <v-btn
-              block
-              color="error"
-              outlined
-              :disabled="loadingDeletion"
-              :loading="loadingDeletion"
-              large
-              @click="deleteTransaction"
-              >Deletar Transação</v-btn
+            <v-btn block color="primary" :disabled="loading" :loading="loading" large @click="createTransaction"
+              >Criar Transação</v-btn
             >
           </div>
         </section>
       </v-col>
-      <v-col cols="6"> </v-col>
     </v-row>
   </v-container>
 </template>
@@ -114,32 +147,32 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import auth from '../../store/modules/auth'
-import { User, Transaction } from '../../models'
+import { User, Transaction, Category } from '../../models'
 import { AccountSubtypes, TransactionType } from '../../models/enums'
 import finances from '../../store/modules/finances'
 import status from '../../store/modules/status'
-import { getTransaction } from '../../service/api/transactions'
 
-import BaseDatePicker from '@/components/base/DatePicker.vue'
 import BaseFormField from '@/components/base/FormField.vue'
+import BaseTextField from '@/components/base/TextField.vue'
+import BaseDatePicker from '@/components/base/DatePicker.vue'
+import BaseSelect from '@/components/base/Select.vue'
 
 @Component({
   components: {
+    BaseTextField,
+    BaseFormField,
     BaseDatePicker,
-    BaseFormField
+    BaseSelect
   },
-  name: 'EditDebitAccountView'
+  name: 'CreateTransactionView'
 })
-export default class EditDebitAccount extends Vue {
-  loading = false
-  loadingEdition = false
-  loadingDeletion = false
-  accountTypes = [
-    { text: 'Carteira', value: AccountSubtypes.CURRENCY },
-    { text: 'Carteira Digital', value: AccountSubtypes.DIGITAL_CURRENCY },
-    { text: 'Transação Corrente', value: AccountSubtypes.CURRENT },
-    { text: 'Transação em Corretora', value: AccountSubtypes.BROKER }
-  ]
+export default class CreateTransactionView extends Vue {
+  remove(item: Category) {
+    this.transaction.categories.splice(
+      this.transaction.categories.findIndex(c => c._id == item._id),
+      1
+    )
+  }
 
   types = [
     { value: TransactionType.CREDIT, text: 'Despesa' },
@@ -147,11 +180,44 @@ export default class EditDebitAccount extends Vue {
     { value: TransactionType.TRANSFERENCE, text: 'Transferência' }
   ]
 
+  transaction: Transaction = {
+    type: TransactionType.DEBIT,
+    amount: 0,
+    description: '',
+    categories: [],
+    date: new Date().toISOString().substr(0, 10)
+  }
+  loading = false
+  accountTypes = [
+    { text: 'Carteira', value: AccountSubtypes.CURRENCY },
+    { text: 'Carteira Digital', value: AccountSubtypes.DIGITAL_CURRENCY },
+    { text: 'Transação Corrente', value: AccountSubtypes.CURRENT },
+    { text: 'Transação em Corretora', value: AccountSubtypes.BROKER }
+  ]
+
   get user(): User | null {
     return auth.user
   }
   get accounts() {
     return finances.accounts
+  }
+  get categories() {
+    return finances.categories
+  }
+
+  async created() {
+    if (!finances.accounts.length) {
+      const accs = await finances.fetchAccounts()
+      if (!accs.length) {
+        this.$router.go(-1)
+      }
+    }
+    if (!finances.categories.length) {
+      const cats = await finances.fetchCategories()
+      if (!cats.length) {
+        this.$router.go(-1)
+      }
+    }
   }
 
   get amount(): string {
@@ -167,92 +233,23 @@ export default class EditDebitAccount extends Vue {
     this.transaction.amount = parseFloat(str.replace(',', '.'))
   }
 
-  get transaction(): Transaction {
-    const transactionId = this.$route.params.transactionId
-    const tt = finances.transactions.find(a => a._id == transactionId)
-    if (!tt && transactionId) {
-      this.getTransaction(transactionId).then()
-      this.$router.go(-1)
-      return tt
-    }
-    return tt
-  }
-  set transaction(acc: Transaction) {
-    finances.replaceTransaction(acc)
-  }
-
-  async created() {
-    if (!this.$route.params.transactionId) {
-      this.$router.go(-1)
-      return
-    }
-    if (!finances.transactions.length) {
-      await this.getTransaction(this.$route.params.transactionId)
-    }
-    if (!finances.accounts.length) {
-      const accs = await finances.fetchAccounts()
-      if (!accs.length) {
-        this.$router.go(-1)
-      }
-    }
-    if (!finances.categories.length) {
-      const cats = await finances.fetchCategories()
-      if (!cats.length) {
-        this.$router.go(-1)
-      }
-    }
-  }
-
-  beforeDestroy() {
-    if (finances.transactions.length == 1) {
-      finances.removeTransaction(this.transaction)
-    }
-  }
-
-  async getTransaction(transactionId: string) {
+  async createTransaction() {
     this.loading = true
-    const { data: tt } = await getTransaction(transactionId)
-    finances.setTransactions([tt])
-    this.loading = false
-  }
-
-  async updateTransaction() {
-    this.loadingEdition = true
     try {
-      await finances.changeAccount(this.transaction)
+      await finances.newTransaction(this.transaction)
       status.setStatus({
         type: 'success',
-        message: 'Transação atualizada com sucesso'
+        message: 'Transação criada com sucesso'
       })
-      this.$router.push('/contas')
+      this.$router.push('/transacoes')
     } catch (error) {
       status.setStatus({
         type: 'error',
-        message: `Não foi possível atualizar a conta: ${error.toString()}`
+        message: `Não foi possível criar a transação: ${error.toString()}`
       })
       status.setError(error)
     } finally {
-      this.loadingEdition = true
-    }
-  }
-
-  async deleteTransaction() {
-    this.loadingDeletion = true
-    try {
-      await finances.deleteTransaction(this.transaction)
-      status.setStatus({
-        type: 'success',
-        message: 'Transação deletada com sucesso'
-      })
-      this.$router.push('/contas')
-    } catch (error) {
-      status.setStatus({
-        type: 'error',
-        message: `Não foi possível deletar a transação: ${error.toString()}`
-      })
-      status.setError(error)
-    } finally {
-      this.loadingDeletion = true
+      this.loading = true
     }
   }
 }

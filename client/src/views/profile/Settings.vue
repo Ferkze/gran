@@ -32,7 +32,7 @@
         </v-row>
       </v-card>
       <div class="mt-3 text-sm-right">
-        <v-btn color="error" outlined class="mr-3" v-text="'Delete Account'" />
+        <v-btn color="error" outlined class="mr-3" v-text="'Deletar Conta'" />
         <v-btn color="error" v-text="'Logout'" @click="logout" />
       </div>
     </section>
@@ -47,7 +47,7 @@ import { User } from '../../models'
 @Component({
   name: 'SettingsView'
 })
-export default class Settings extends Vue {
+export default class SettingsView extends Vue {
   get user(): User | null {
     return auth.user
   }
@@ -60,6 +60,9 @@ export default class Settings extends Vue {
     this.$vuetify.theme.dark = value
   }
   get username() {
+    if (!this.user) {
+      return ''
+    }
     if (this.user.firstName) {
       return `${this.user.firstName} ${this.user.lastName}`
     } else if (this.user.username) return this.user.username

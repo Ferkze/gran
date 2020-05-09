@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { UserInterface, USER } from './User'
+import { IUser } from './User'
 import { INSTITUTION } from './Institution'
 
 export const ACCOUNT = 'Account'
@@ -30,7 +30,7 @@ export type Account = {
   type?: AccountTypes
   subtype?: AccountSubtypes
   startingBalance: number
-  owner?: UserInterface['_id'] | UserInterface
+  owner?: IUser['_id'] | IUser
   createdAt?: string
   updatedAt?: string
 }
@@ -73,7 +73,7 @@ export const AccountSchema = new Schema({
   },
   owner: {
     type: Schema.Types.ObjectId,
-    ref: USER,
+    ref: 'User',
     required: true
   },
 }, {

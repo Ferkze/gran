@@ -1,7 +1,8 @@
 import { Document, Schema, model } from 'mongoose'
 import { IAccount, ACCOUNT } from './Account'
-import Category, { CategoryInterface, CATEGORY } from './Category'
-import { UserInterface, USER } from './User'
+import { CategoryInterface, CATEGORY } from './Category'
+import { IUser, USER } from './User'
+import { BUDGET_GROUP, BudgetGroupInterface } from './BudgetGroup'
 
 enum TransactionType {
   DEBIT = 'debit',
@@ -17,7 +18,8 @@ export type Transaction = {
   creditAccount?: IAccount['_id'] | IAccount
   category: [CategoryInterface]
   type: TransactionType
-  creator: UserInterface['_id'] | UserInterface
+  creator: IUser['_id'] | IUser
+  budgetGroup?: BudgetGroupInterface['id'] | BudgetGroupInterface
   createdAt?: Date
   updatedAt?: Date
 }
@@ -59,6 +61,11 @@ const SchemaTransaction = new Schema({
     type: Schema.Types.ObjectId,
     ref: USER,
     required: true,
+  },
+  budgetGroup: {
+    type: Schema.Types.ObjectId,
+    ref: BUDGET_GROUP,
+    required: false
   },
 }, {
   timestamps: true

@@ -23,8 +23,8 @@
         </span>
       </v-btn>
       <v-btn icon class="mx-2" @click="$router.push('/configuracoes')">
-        <v-avatar color="primary" size="42">
-          <v-icon color="white">mdi-account</v-icon>
+        <v-avatar color="white" size="36">
+          <v-icon color="primary">mdi-account</v-icon>
         </v-avatar>
       </v-btn>
     </v-toolbar-items>

@@ -3,14 +3,14 @@ import Account, { Account as AccountModel } from '../models/Account'
 
 class AccountController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const accounts = await Account.find()
+    const accounts = await Account.find().populate('institution')
   
     return res.json(accounts)
   }
   public async find(req: Request, res: Response): Promise<Response> {
     const account = await Account.findOne({
       _id: req.params.accountId
-    })
+    }).populate('institution')
   
     return res.json(account)
   }

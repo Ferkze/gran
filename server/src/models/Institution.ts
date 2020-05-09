@@ -2,7 +2,7 @@ import { Document, Schema, model } from 'mongoose'
 
 export const INSTITUTION = 'Institution'
 
-enum InstitutionType {
+export enum InstitutionType {
   BROKER = 'broker',
   BANK = 'bank',
   PAYMENT_INSTITUTION = 'payment-institution',
@@ -25,7 +25,8 @@ export interface IInstitution extends Institution, Document {}
 const SchemaInstitution = new Schema({
   name: {
     type: Schema.Types.String,
-    required: true
+    required: true,
+    unique: true
   },
   description: {
     type: Schema.Types.String,

@@ -31,7 +31,7 @@ class TransactionController {
   }
 
   public async store(req: Request, res: Response): Promise<Response> {
-    const transaction = req.body as TransactionModel
+    const transaction = req.body.transaction as TransactionModel
     if (!transaction.amount) {
       return res.status(400).json({ message: 'A transação precisa ter um valor' })
     }

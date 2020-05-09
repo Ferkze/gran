@@ -1,13 +1,13 @@
 import { Document, Schema, model } from 'mongoose'
-import { UserInterface, USER } from './User'
+import { IUser, USER } from './User'
 
 export const BUDGET_GROUP = 'BudgetGroup'
 
 export interface BudgetGroupInterface extends Document {
   name: string,
   description?: string,
-  creator?: UserInterface
-  members?: [UserInterface]
+  creator?: IUser | IUser['_id']
+  members?: IUser[] | IUser['_id']
 
   createdAt?: Date
   updatedAt?: Date

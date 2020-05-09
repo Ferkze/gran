@@ -1,4 +1,4 @@
-import { AccountTypes, AccountSubtypes, TransactionType } from './enums'
+import { AccountTypes, AccountSubtypes, TransactionType, InstitutionType, CategoryType } from './enums'
 
 export interface User {
   _id: string
@@ -7,18 +7,22 @@ export interface User {
   firstName?: string
   lastName?: string
   password?: string
-  accounts?: IAccount[]
+  accounts?: Account[] | Account['_id'][]
   createdAt?: string
   updatedAt?: string
 }
 
-export interface IAccount {
+export interface Account {
   _id?: string
-  name?: string
-  main?: boolean
-  institution?: string
+  name: string
+  color?: {
+    primary: string
+    secondary: string
+  }
+  main: boolean
+  institution?: Institution | Institution['_id']
   unregisteredInstitution?: string
-  type?: AccountTypes
+  type: AccountTypes
   subtype?: AccountSubtypes
   startingBalance?: number
   owner?: string
@@ -26,25 +30,57 @@ export interface IAccount {
   updatedAt?: string
 }
 
-export interface ICategory {
+export interface Category {
+  _id?: string
   name?: string
-
+  type?: CategoryType
+  colors?: {
+    primary?: string
+    secondary?: string
+  }
+  creator?: User | User['_id']
   createdAt?: string
   updatedAt?: string
 }
 
-export interface ITransaction {
+export interface Transaction {
   _id?: string
   amount?: number
-  date?: Date
+  date?: Date | string
   description?: string
-  debitAccount?: IAccount
-  creditAccount?: IAccount
-  category: ICategory
+  debitAccount?: Account
+  creditAccount?: Account
+  categories: Category[] | Category['_id'][]
   type: TransactionType
-  creator: User['_id']
+  creator?: User | User['_id']
+  budgetGroup?: BudgetGroup | BudgetGroup['_id']
   createdAt?: string
   updatedAt?: string
+}
+
+export interface BudgetGroup {
+  _id?: string
+  name: string
+  description?: string
+  creator?: User | User['_id']
+  members?: User[] | User['_id']
+
+  createdAt?: Date
+  updatedAt?: Date
+}
+
+export interface Institution {
+  _id?: string
+  name?: string
+  description?: string
+  type?: InstitutionType
+  colors?: {
+    primary: string
+    secondary?: string
+  }
+  logoURL?: string
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface AppStatus {

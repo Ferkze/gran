@@ -31,15 +31,17 @@
                 </v-col>
                 <v-col cols="12">
                   <v-select
+                    v-model="institution"
                     :items="accountInstitutions"
                     solo
                     hide-details
+                    item-text="name"
+                    return-object
                     label="Banco ou corretora"
-                    v-model="account.institution"
                   />
                 </v-col>
               </v-row>
-              <v-row v-if="account.institution == 'other'">
+              <v-row v-if="institution.name == 'Outro'">
                 <v-col cols="12">
                   Outra Instituição
                 </v-col>
@@ -107,11 +109,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import auth from '@/store/modules/auth'
-import { User, IAccount } from '../../models'
+import auth from '../../store/modules/auth'
+import { User, Account } from '../../models'
 import { AccountSubtypes } from '../../models/enums'
-import finances from '@/store/modules/finances'
-import status from '@/store/modules/status'
+import finances from '../../store/modules/finances'
+import status from '../../store/modules/status'
 
 @Component({
   name: 'EditDebitAccountView'
@@ -127,38 +129,16 @@ export default class EditDebitAccount extends Vue {
   ]
 
   get accountInstitutions() {
-    if (this.account.subtype == AccountSubtypes.CURRENT)
-      return [
-        { text: 'Nubank', value: 'nubank' },
-        { text: 'Banco Inter', value: 'banco-inter' },
-        { text: 'Next', value: 'next' },
-        { text: 'Bradesco', value: 'bradesco' },
-        { text: 'Itaú', value: 'itau' },
-        { text: 'Santander', value: 'santander' },
-        { text: 'C6 Bank', value: 'c6' },
-        { text: 'Outro', value: 'other' }
-      ]
-    else if (this.account.subtype == AccountSubtypes.BROKER)
-      return [
-        { text: 'BTG Pactual Digital', value: 'btg-digital' },
-        { text: 'Rico', value: 'banco-inter' },
-        { text: 'Clear', value: 'clear' },
-        { text: 'Modal Mais', value: 'modal-mais' },
-        { text: 'XP', value: 'xp' },
-        { text: 'Santander Corretora', value: 'bradesco-corretora' },
-        { text: 'Itaú Corretora', value: 'itau-corretora' },
-        { text: 'Bradesco Corretora', value: 'santander-corretora' },
-        { text: 'Outro', value: 'other' }
-      ]
-    else if (this.account.subtype == AccountSubtypes.DIGITAL_CURRENCY)
-      return [
-        { text: 'PicPay', value: 'picpay' },
-        { text: 'Meliuz', value: 'meliuz' },
-        { text: 'Ame Digital', value: 'ame' },
-        { text: 'Rappi Creditos', value: 'rappi' },
-        { text: 'Outro', value: 'other' }
-      ]
-    else return []
+    switch (this.account.subtype) {
+      case AccountSubtypes.CURRENT:
+        return finances.bankInstitutions
+      case AccountSubtypes.BROKER:
+        return finances.brokerInstitutions
+      case AccountSubtypes.DIGITAL_CURRENCY:
+        return finances.paymentInstitutions
+      default:
+        return []
+    }
   }
 
   get user(): User | null {
@@ -178,16 +158,24 @@ export default class EditDebitAccount extends Vue {
     this.account.startingBalance = parseFloat(str.replace(',', '.'))
   }
 
-  get account(): IAccount {
+  get account(): Account {
     const acc = finances.accounts.find(a => a._id == this.$route.params.accountId)
     if (!acc) {
       this.$router.go(-1)
-      return {}
+      return acc
     }
     return acc
   }
-  set account(acc: IAccount) {
+  set account(acc: Account) {
     finances.replaceAccount(acc)
+  }
+
+  get institution() {
+    const inst = this.account.institution
+    if (typeof inst == 'string') {
+      this.account.institution = finances.institutions.find(i => i._id == inst)
+    }
+    return this.account.institution
   }
 
   created() {

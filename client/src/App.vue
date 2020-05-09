@@ -17,6 +17,7 @@ import AppBar from '@/components/AppBar.vue'
 import Component from 'vue-class-component'
 import { _currentUser } from './service/api/auth'
 import auth from './store/modules/auth'
+import finances from './store/modules/finances'
 
 @Component({
   components: {
@@ -28,6 +29,8 @@ import auth from './store/modules/auth'
 export default class App extends Vue {
   mounted() {
     auth.setUser(_currentUser())
+    finances.fetchCategories()
+    finances.fetchInstitutions()
   }
 }
 </script>

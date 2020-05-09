@@ -9,42 +9,52 @@
               <h2 class="title font-weight-medium mt-3 mb-2">Dados principais</h2>
             </v-card-title>
             <v-card-text>
-              <v-row>
+              <v-row no-gutters>
                 <v-col cols="12">
-                  Nome
+                  <v-subheader>Nome</v-subheader>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field solo hide-details label="Nome da conta" v-model="account.name" />
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12">
-                  Tipo
-                </v-col>
-                <v-col cols="12">
-                  <v-select :items="accountTypes" solo hide-details label="Tipo de conta" v-model="account.subtype" />
-                </v-col>
-              </v-row>
-              <v-row v-if="account.subtype != 'currency' && account.subtype != ''">
-                <v-col cols="12">
-                  Instituição
-                </v-col>
-                <v-col cols="12">
-                  <v-select
-                    :items="accountInstitutions"
+                  <base-text-field
+                    background-color="grey lighten-3"
+                    flat
                     solo
                     hide-details
-                    label="Banco ou corretora"
-                    v-model="account.institution"
+                    label="Nome da conta"
+                    v-model="account.name"
                   />
                 </v-col>
               </v-row>
-              <v-row v-if="account.institution == 'other'">
+              <v-row no-gutters>
                 <v-col cols="12">
-                  Outra Instituição
+                  <v-subheader>Tipo</v-subheader>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field
+                  <base-select :items="accountTypes" hide-details label="Tipo de conta" v-model="account.subtype" />
+                </v-col>
+              </v-row>
+              <v-row v-if="account.subtype != 'currency' && account.subtype != ''" no-gutters>
+                <v-col cols="12">
+                  <v-subheader>Instituição</v-subheader>
+                </v-col>
+                <v-col cols="12">
+                  <base-select
+                    v-model="account.institution"
+                    :items="accountInstitutions"
+                    item-text="name"
+                    return-object
+                    hide-details
+                    label="Banco ou corretora"
+                  />
+                </v-col>
+              </v-row>
+              <v-row v-if="account.institution.name.startsWith('Outro')" no-gutters>
+                <v-col cols="12">
+                  <v-subheader>Outra Instituição</v-subheader>
+                </v-col>
+                <v-col cols="12">
+                  <base-text-field
+                    background-color="grey lighten-3"
+                    flat
                     solo
                     hide-details
                     label="Banco ou corretora"
@@ -63,17 +73,25 @@
               <h2 class="title font-weight-medium mt-3 mb-2">Detalhes adicionais</h2>
             </v-card-title>
             <v-card-text>
-              <v-row>
+              <v-row no-gutters>
                 <v-col cols="12">
-                  Saldo inicial
+                  <v-subheader>Saldo inicial</v-subheader>
                 </v-col>
                 <v-col cols="12">
-                  <v-text-field solo hide-details prefix="R$ " label="0,00" v-model="balance" />
+                  <base-text-field
+                    background-color="grey lighten-3"
+                    flat
+                    solo
+                    hide-details
+                    prefix="R$ "
+                    label="0,00"
+                    v-model="balance"
+                  />
                 </v-col>
               </v-row>
-              <v-row>
+              <v-row no-gutters>
                 <v-col cols="12">
-                  Principal
+                  <v-subheader>Principal</v-subheader>
                 </v-col>
                 <v-col cols="12">
                   <v-checkbox label="É sua conta principal?" v-model="account.main" />
@@ -95,25 +113,31 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import auth from '@/store/modules/auth'
-import { User, IAccount } from '../../models'
+import auth from '../../store/modules/auth'
+import { User, Account } from '../../models'
 import { AccountSubtypes, AccountTypes } from '../../models/enums'
-import finances from '@/store/modules/finances'
-import status from '@/store/modules/status'
+import finances from '../../store/modules/finances'
+import status from '../../store/modules/status'
+
+import BaseTextField from '@/components/base/TextField.vue'
+import BaseSelect from '@/components/base/Select.vue'
 
 @Component({
+  components: {
+    BaseTextField,
+    BaseSelect
+  },
   name: 'SettingsView'
 })
 export default class Settings extends Vue {
-  account: IAccount = {
+  account: Account = {
     name: '',
     main: false,
     institution: '',
     unregisteredInstitution: '',
     type: AccountTypes.DEBIT,
     subtype: AccountSubtypes.CURRENT,
-    startingBalance: 0.0,
-    owner: auth.user?._id
+    startingBalance: 0.0
   }
   loading = false
   accountTypes = [
@@ -124,38 +148,16 @@ export default class Settings extends Vue {
   ]
 
   get accountInstitutions() {
-    if (this.account.subtype == AccountSubtypes.CURRENT)
-      return [
-        { text: 'Nubank', value: 'nubank' },
-        { text: 'Banco Inter', value: 'banco-inter' },
-        { text: 'Next', value: 'next' },
-        { text: 'Bradesco', value: 'bradesco' },
-        { text: 'Itaú', value: 'itau' },
-        { text: 'Santander', value: 'santander' },
-        { text: 'C6 Bank', value: 'c6' },
-        { text: 'Outro', value: 'other' }
-      ]
-    else if (this.account.subtype == AccountSubtypes.BROKER)
-      return [
-        { text: 'BTG Pactual Digital', value: 'btg-digital' },
-        { text: 'Rico', value: 'banco-inter' },
-        { text: 'Clear', value: 'clear' },
-        { text: 'Modal Mais', value: 'modal-mais' },
-        { text: 'XP', value: 'xp' },
-        { text: 'Santander Corretora', value: 'bradesco-corretora' },
-        { text: 'Itaú Corretora', value: 'itau-corretora' },
-        { text: 'Bradesco Corretora', value: 'santander-corretora' },
-        { text: 'Outro', value: 'other' }
-      ]
-    else if (this.account.subtype == AccountSubtypes.DIGITAL_CURRENCY)
-      return [
-        { text: 'PicPay', value: 'picpay' },
-        { text: 'Meliuz', value: 'meliuz' },
-        { text: 'Ame Digital', value: 'ame' },
-        { text: 'Rappi Creditos', value: 'rappi' },
-        { text: 'Outro', value: 'other' }
-      ]
-    else return []
+    switch (this.account.subtype) {
+      case AccountSubtypes.CURRENT:
+        return finances.bankInstitutions
+      case AccountSubtypes.BROKER:
+        return finances.brokerInstitutions
+      case AccountSubtypes.DIGITAL_CURRENCY:
+        return finances.paymentInstitutions
+      default:
+        return []
+    }
   }
 
   get user(): User | null {

@@ -1,16 +1,27 @@
 <template>
   <v-container class="">
     <h1>{{ $route.name }}</h1>
-    <v-row>
-      <v-col cols="6">
-        <section>
-          <h2 class="font-weight-light">Ultimas</h2>
-          <v-list>
+    <section>
+      <v-row no-gutters>
+        <v-col cols="6">
+          <div class="text-left">
+            <h2 class="font-weight-light">Registros</h2>
+          </div>
+        </v-col>
+        <v-col cols="6">
+          <div class="text-right">
+            <v-btn class="primary" text to="/transacao/criar">Nova transação</v-btn>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-card>
             <app-transaction-item v-for="item in transactions" :key="item._id" :transaction="item" />
-          </v-list>
-        </section>
-      </v-col>
-    </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </section>
   </v-container>
 </template>
 

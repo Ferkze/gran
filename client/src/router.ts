@@ -95,6 +95,14 @@ const routes: RouteConfig[] = [
     }
   },
   {
+    path: '/transacao/criar',
+    name: 'Criar Transação',
+    component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/CreateTransaction.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/transacao/:transactionId/edicao',
     name: 'Editar Transação',
     component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/EditTransaction.vue'),

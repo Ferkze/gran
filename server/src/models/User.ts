@@ -3,7 +3,7 @@ import { AccountSchema, Account} from './Account'
 
 export const USER = 'User'
 
-export type User = {
+export type UserType = {
   username ?: string
   email ?: string
   password ?: string
@@ -14,7 +14,7 @@ export type User = {
   updatedAt?: string
 }
 
-export interface UserInterface extends User, Document {
+export interface IUser extends UserType, Document {
   fullName(): string
 }
 
@@ -31,4 +31,4 @@ const UserSchema = new Schema({
 
 UserSchema.methods.fullName = function (): string {return `${this.firstName} ${this.lastName}` }
 
-export default model<UserInterface>(USER, UserSchema)
+export default model<IUser>(USER, UserSchema)

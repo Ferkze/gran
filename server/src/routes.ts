@@ -6,6 +6,8 @@ import UserAccountController from './controllers/UserAccountController'
 import TransactionController from './controllers/TransactionController'
 import IndexController from './controllers/IndexController'
 import passport from 'passport'
+import InstitutionController from './controllers/InstitutionController'
+import CategoryController from './controllers/CategoryController'
 
 const router = Router()
 
@@ -40,5 +42,13 @@ router.delete('/accounts/:accountId', AccountController.delete)
 router.get('/accounts/:accountId/transactions', TransactionController.findByAccount)
 router.post('/accounts', AccountController.store)
 router.put('/account/:accountId', AccountController.put)
+
+router.get('/institutions', InstitutionController.index)
+router.get('/institution/:institutionId', InstitutionController.find)
+router.post('/institutions', InstitutionController.store)
+
+router.get('/categories', CategoryController.index)
+router.get('/category/:categoryId', CategoryController.find)
+router.post('/categories', CategoryController.store)
 
 export default router

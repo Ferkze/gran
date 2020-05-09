@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { USER, UserInterface } from './User'
+import { USER, IUser } from './User'
 
 export const CATEGORY = 'Category'
 
@@ -9,10 +9,13 @@ enum CategoryType {
 }
 
 export interface CategoryInterface extends Document {
-  name: string,
-  creator?: UserInterface
-  type: CategoryType,
-
+  name: string
+  creator?: IUser | IUser['_id']
+  type: CategoryType
+  colors?: {
+    primary: string
+    secondary: string
+  }
   createdAt?: Date
   updatedAt?: Date
 }
@@ -25,7 +28,11 @@ const SchemaCategory = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: USER,
-    required: true,
+    required: false,
+  },
+  colors: {
+    primary: Schema.Types.String,
+    secondary: Schema.Types.String
   },
   type: {
     type: Schema.Types.String,

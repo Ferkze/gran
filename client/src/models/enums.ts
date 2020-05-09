@@ -16,3 +16,14 @@ export enum AccountSubtypes {
   CREDIT_CARD = 'credit-card',
   BROKER = 'broker-account'
 }
+
+export enum InstitutionType {
+  BROKER = 'broker',
+  BANK = 'bank',
+  PAYMENT_INSTITUTION = 'payment-institution'
+}
+
+export enum CategoryType {
+  INCOME = 'income',
+  EXPENSE = 'expense'
+}

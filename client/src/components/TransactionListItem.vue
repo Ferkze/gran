@@ -1,69 +1,74 @@
 <template>
-  <v-list-item dense three-line>
-    <v-list-item-avatar>
-      <v-icon class="green" color="white">mdi-bank</v-icon>
-    </v-list-item-avatar>
-    <v-list-item-content>
-      <v-list-item-title>
-        {{ transaction.description }}
-      </v-list-item-title>
-      <v-list-item-subtitle class="text--primary">
-        {{ transaction.category.name }}
-      </v-list-item-subtitle>
-      <v-list-item-subtitle>
-        {{ account }}
-      </v-list-item-subtitle>
-    </v-list-item-content>
-    <v-list-item-action-text>
-      <span :class="`${typeColor}--text`">{{ transaction.amount }}</span>
-    </v-list-item-action-text>
-    <v-list-item-action>
-      <v-menu bottom left>
-        <template v-slot:activator="{ on }">
-          <v-btn icon color="primary" dark v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item v-for="item in menuItems" :key="item.action" @click="onMenuItemSelected(item.action)">
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-list-item-action>
-  </v-list-item>
+  <div>
+    <v-row no-gutters :class="`pa-4 transaction ${transaction.type}`">
+      <v-col xs="12" md="6" lg="5">
+        <div class="caption secondary--text">Descrição</div>
+        <div>{{ transaction.description }}</div>
+      </v-col>
+      <v-col xs="6" sm="4" md="2">
+        <div class="caption secondary--text">Valor</div>
+        <div :class="`${typeColor}--text`">R$ {{ transaction.amount }}</div>
+      </v-col>
+      <v-col xs="6" sm="4" md="2">
+        <div class="caption secondary--text">Conta</div>
+        <div>{{ account.name }}</div>
+      </v-col>
+      <v-col xs="6" sm="4" md="2">
+        <div class="caption secondary--text">Data</div>
+        <div>{{ transaction.date.substr(0, 10) }}</div>
+      </v-col>
+      <v-col xs="2" sm="4" md="2" lg="1" class="text-right pr-3 mt-1">
+        <div>
+          <v-menu bottom left>
+            <template v-slot:activator="{ on }">
+              <v-btn icon color="primary" dark v-on="on">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item v-for="item in menuItems" :key="item.action" @click="onMenuItemSelected(item.action)">
+                <v-list-item-title>{{ item.text }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+      </v-col>
+    </v-row>
+    <v-divider />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { ITransaction } from '../models'
+import { Transaction, Account } from '../models'
 import { TransactionType } from '../models/enums'
 import finances from '../store/modules/finances'
 
 @Component
 export default class TransactionListItem extends Vue {
-  @Prop({ type: Object, required: true }) transaction!: ITransaction
+  @Prop({ type: Object, required: true }) transaction!: Transaction
 
   menuItems = [
     { text: 'Editar', action: 'edit' },
     { text: 'Deletar', action: 'delete' }
   ]
 
-  get account() {
+  get account(): Account {
     switch (this.transaction.type) {
       case TransactionType.DEBIT: {
-        return this.transaction.debitAccount.name
+        return this.transaction.debitAccount
       }
       case TransactionType.CREDIT: {
-        return this.transaction.creditAccount.name
+        return this.transaction.creditAccount
       }
       case TransactionType.TRANSFERENCE: {
-        return `${this.transaction.creditAccount.name} para ${this.transaction.debitAccount.name}`
-      }
-      default: {
-        return ''
+        if (!this.transaction.creditAccount) {
+          return this.transaction.debitAccount
+        }
+        return this.transaction.creditAccount
       }
     }
+    return this.transaction.debitAccount
   }
   get typeColor(): string {
     switch (this.transaction.type) {
@@ -96,3 +101,15 @@ export default class TransactionListItem extends Vue {
   }
 }
 </script>
+
+<style>
+.transaction.debit {
+  border-left: 4px solid green;
+}
+.transaction.credit {
+  border-left: 4px solid red;
+}
+.transaction.transference {
+  border-left: 4px solid royalblue;
+}
+</style>

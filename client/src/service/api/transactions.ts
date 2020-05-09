@@ -1,8 +1,8 @@
 import client from '.'
-import { ITransaction, IAccount, User } from '@/models'
+import { Transaction, Account, User } from '@/models'
 import { AxiosResponse } from 'axios'
 
-export const getAccountsTransactions = (accountIds: IAccount['_id'][]) => {
+export const getAccountsTransactions = (accountIds: Account['_id'][]) => {
   return client.get('/transactions', {
     params: {
       accounts: accountIds
@@ -14,15 +14,15 @@ export const getUserTransactions = (userId: User['_id']) => {
   return client.get(`/user/${userId}/transactions`)
 }
 
-export const getTransaction = (transactionId: string): Promise<AxiosResponse<ITransaction | null>> => {
-  return client.get<ITransaction | null>(`/transaction/${transactionId}`)
+export const getTransaction = (transactionId: string): Promise<AxiosResponse<Transaction | null>> => {
+  return client.get<Transaction | null>(`/transaction/${transactionId}`)
 }
 
-export const createTransaction = (transaction: ITransaction) => {
+export const createTransaction = (transaction: Transaction) => {
   return client.post('/transaction', { transaction })
 }
 
-export const updateTransaction = (transaction: ITransaction) => {
+export const updateTransaction = (transaction: Transaction) => {
   return client.put(`/transaction/${transaction._id}`, { transaction })
 }
 

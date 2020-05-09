@@ -4,10 +4,9 @@ import User from '../models/User'
 
 class UserAccountController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const user = await User.findOne({
-      _id: req.params.userId
-    }, 'accounts')
-    return res.json(user.accounts)
+    const accounts = await Account.find({ owner: req.params.userId })
+      .populate({ path: 'institution' })
+    return res.json(accounts)
   }
   public async store(req: Request, res: Response): Promise<Response> {
     console.log(req.body)

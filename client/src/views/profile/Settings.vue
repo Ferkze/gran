@@ -55,7 +55,8 @@ export default class Settings extends Vue {
   get dark() {
     return this.$vuetify.theme.dark
   }
-  set dark(value) {
+  set dark(value: boolean) {
+    localStorage.setItem('theme.dark', JSON.stringify(value))
     this.$vuetify.theme.dark = value
   }
   get username() {

@@ -31,7 +31,7 @@ export interface Account {
 }
 
 export interface Category {
-  _id?: string
+  _id: string
   name?: string
   type?: CategoryType
   colors?: {
@@ -50,7 +50,7 @@ export interface Transaction {
   description?: string
   debitAccount?: Account
   creditAccount?: Account
-  categories: Category[] | Category['_id'][]
+  categories: Category[]
   type: TransactionType
   creator?: User | User['_id']
   budgetGroup?: BudgetGroup | BudgetGroup['_id']
@@ -59,7 +59,7 @@ export interface Transaction {
 }
 
 export interface BudgetGroup {
-  _id?: string
+  _id: string
   name: string
   description?: string
   creator?: User | User['_id']
@@ -70,7 +70,7 @@ export interface BudgetGroup {
 }
 
 export interface Institution {
-  _id?: string
+  _id: string
   name?: string
   description?: string
   type?: InstitutionType

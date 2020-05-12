@@ -27,7 +27,6 @@ export default class AppSnackbar extends Vue {
 
   @Watch('status', { deep: true, immediate: true })
   onStatusChanged(val?: AppStatus) {
-    console.log('val status', val)
     if (val?.message) {
       this.show = true
       return

@@ -13,16 +13,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import auth from '../store/modules/auth'
 
 @Component({
   components: {
     WebRail: () => import('../components/WebRail.vue')
   }
 })
-export default class Dashboard extends Vue {
-  mounted() {
-    console.log('Dashboard: user', auth.user)
-  }
-}
+export default class Dashboard extends Vue {}
 </script>

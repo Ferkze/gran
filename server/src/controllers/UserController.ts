@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import User, { User as UserModel } from '../models/User'
+import User, { UserType } from '../models/User'
 
 class UserController {
   public async index(req: Request, res: Response): Promise<Response> {
@@ -11,12 +11,12 @@ class UserController {
     return res.json(userDoc)
   }
   public async store(req: Request, res: Response): Promise<Response> {
-    const user = req.body as UserModel
+    const user = req.body as UserType
     const userDoc = await User.create(user)
     return res.json(userDoc)
   }
   public async update(req: Request, res: Response): Promise<Response> {
-    const data = req.body as UserModel
+    const data = req.body as UserType
     const user = await User.findByIdAndUpdate(req.params.userId, data, { new: true })
     return res.json(user)
   }

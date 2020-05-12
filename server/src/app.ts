@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
 import database from './config/database'
 
 import routes from './routes'
@@ -23,16 +24,16 @@ class App {
     this.express.use(express.json())
     this.express.use(cors())
     this.express.use(passport.initialize())
-    require("./config/passport")
+    require('./config/passport')
   }
 
   private config(): void {
     passportConfig(passport)
-    const dotenv = require('dotenv')
     dotenv.config()
   }
 
   private routes(): void {
+    this.express.use(express.static('/dist'))
     this.express.use('/api', routes)
   }
 
@@ -44,7 +45,7 @@ class App {
       useFindAndModify: true
     })
     mon.connection.on('open', () => {
-      console.info(`Connected to the database...`)
+      console.info('Connected to the database...')
     })
     mon.connection.on('error', (err) => {
       console.error(`Error connecting to the database: ${err}`)

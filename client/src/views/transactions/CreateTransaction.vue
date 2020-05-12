@@ -168,10 +168,8 @@ import BaseSelect from '@/components/base/Select.vue'
 })
 export default class CreateTransactionView extends Vue {
   remove(item: Category) {
-    this.transaction.categories.splice(
-      this.transaction.categories.findIndex(c => c._id == item._id),
-      1
-    )
+    const index = this.transaction.categories.findIndex(c => c._id == item._id)
+    this.transaction.categories.splice(index, 1)
   }
 
   types = [
@@ -208,13 +206,13 @@ export default class CreateTransactionView extends Vue {
   async created() {
     if (!finances.accounts.length) {
       const accs = await finances.fetchAccounts()
-      if (!accs.length) {
+      if (!accs || !accs.length) {
         this.$router.go(-1)
       }
     }
     if (!finances.categories.length) {
       const cats = await finances.fetchCategories()
-      if (!cats.length) {
+      if (!cats || !cats.length) {
         this.$router.go(-1)
       }
     }

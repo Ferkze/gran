@@ -129,6 +129,9 @@ export default class EditDebitAccount extends Vue {
   ]
 
   get accountInstitutions() {
+    if (!this.account) {
+      return ''
+    }
     switch (this.account.subtype) {
       case AccountSubtypes.CURRENT:
         return finances.bankInstitutions
@@ -146,6 +149,9 @@ export default class EditDebitAccount extends Vue {
   }
 
   get balance(): string {
+    if (!this.account) {
+      return ''
+    }
     const balance = this.account.startingBalance || 0
     if (balance - Math.ceil(balance) !== 0) {
       return balance.toFixed(2).replace('.', ',')
@@ -153,24 +159,31 @@ export default class EditDebitAccount extends Vue {
     return balance.toString()
   }
   set balance(str: string) {
+    if (!this.account) {
+      return
+    }
     str.replace(/\D/g, '')
     if (str == '') str = '0'
     this.account.startingBalance = parseFloat(str.replace(',', '.'))
   }
 
-  get account(): Account {
+  get account(): Account | undefined {
     const acc = finances.accounts.find(a => a._id == this.$route.params.accountId)
     if (!acc) {
       this.$router.go(-1)
-      return acc
+      return undefined
     }
     return acc
   }
-  set account(acc: Account) {
+  set account(acc: Account | undefined) {
+    if (!acc) return
     finances.replaceAccount(acc)
   }
 
   get institution() {
+    if (!this.account) {
+      return undefined
+    }
     const inst = this.account.institution
     if (typeof inst == 'string') {
       this.account.institution = finances.institutions.find(i => i._id == inst)
@@ -186,6 +199,9 @@ export default class EditDebitAccount extends Vue {
   }
 
   async updateAccount() {
+    if (!this.account) {
+      return
+    }
     this.loadingEdition = true
     try {
       await finances.changeAccount(this.account)
@@ -206,6 +222,9 @@ export default class EditDebitAccount extends Vue {
   }
 
   async deleteAccount() {
+    if (!this.account) {
+      return
+    }
     this.loadingDeletion = true
     try {
       await finances.deleteAccount(this.account)

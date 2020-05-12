@@ -11,5 +11,11 @@
   },
   "editor.tabSize": 2,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "docker-compose.files": ["docker-compose.yaml"]
+  "docker-compose.files": [
+    "docker-compose.yaml"
+  ],
+  "appService.zipIgnorePattern": [
+    "node_modules{,/**}",
+    ".vscode{,/**}"
+  ]
 }

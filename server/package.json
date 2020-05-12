@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
+    "tsc": "tsc",
     "build": "sucrase ./src -d ./dist --transforms typescript.imports",
     "dev": "nodemon src/index.ts",
     "start": "nodemon index.js"
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/Ferkze/fkz-finance-servers#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "connect-history-api-fallback": "^1.6.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",

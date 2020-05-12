@@ -53,7 +53,7 @@ export default class TransactionListItem extends Vue {
     { text: 'Deletar', action: 'delete' }
   ]
 
-  get account(): Account {
+  get account(): Account | undefined {
     switch (this.transaction.type) {
       case TransactionType.DEBIT: {
         return this.transaction.debitAccount

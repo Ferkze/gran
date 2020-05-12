@@ -1,7 +1,7 @@
 <template>
   <v-container class="">
     <h1>{{ $route.name }}</h1>
-    <v-row v-if="!loading">
+    <v-row v-if="!loading && transaction">
       <v-col cols="6">
         <section>
           <v-card>
@@ -155,6 +155,7 @@ export default class EditDebitAccount extends Vue {
   }
 
   get amount(): string {
+    if (!this.transaction) return ''
     const amount = this.transaction.amount || 0
     if (amount - Math.ceil(amount) !== 0) {
       return amount.toFixed(2).replace('.', ',')
@@ -162,23 +163,24 @@ export default class EditDebitAccount extends Vue {
     return amount.toString()
   }
   set amount(str: string) {
+    if (!this.transaction) return
     str.replace(/\D/g, '')
     if (str == '') str = '0'
     this.transaction.amount = parseFloat(str.replace(',', '.'))
   }
 
-  get transaction(): Transaction {
+  get transaction(): Transaction | undefined {
     const transactionId = this.$route.params.transactionId
     const tt = finances.transactions.find(a => a._id == transactionId)
     if (!tt && transactionId) {
-      this.getTransaction(transactionId).then()
-      this.$router.go(-1)
-      return tt
+      this.getTransaction(transactionId)
+      return undefined
     }
     return tt
   }
-  set transaction(acc: Transaction) {
-    finances.replaceTransaction(acc)
+  set transaction(transaction: Transaction | undefined) {
+    if (!transaction) return
+    finances.replaceTransaction(transaction)
   }
 
   async created() {
@@ -191,20 +193,20 @@ export default class EditDebitAccount extends Vue {
     }
     if (!finances.accounts.length) {
       const accs = await finances.fetchAccounts()
-      if (!accs.length) {
+      if (!accs || !accs.length) {
         this.$router.go(-1)
       }
     }
     if (!finances.categories.length) {
       const cats = await finances.fetchCategories()
-      if (!cats.length) {
+      if (!cats || !cats.length) {
         this.$router.go(-1)
       }
     }
   }
 
   beforeDestroy() {
-    if (finances.transactions.length == 1) {
+    if (finances.transactions.length == 1 && this.transaction) {
       finances.removeTransaction(this.transaction)
     }
   }
@@ -212,14 +214,19 @@ export default class EditDebitAccount extends Vue {
   async getTransaction(transactionId: string) {
     this.loading = true
     const { data: tt } = await getTransaction(transactionId)
+    if (!tt) {
+      this.loading = false
+      return
+    }
     finances.setTransactions([tt])
     this.loading = false
   }
 
   async updateTransaction() {
+    if (!this.transaction) return
     this.loadingEdition = true
     try {
-      await finances.changeAccount(this.transaction)
+      await finances.changeTransaction(this.transaction)
       status.setStatus({
         type: 'success',
         message: 'Transação atualizada com sucesso'
@@ -237,6 +244,7 @@ export default class EditDebitAccount extends Vue {
   }
 
   async deleteTransaction() {
+    if (!this.transaction) return
     this.loadingDeletion = true
     try {
       await finances.deleteTransaction(this.transaction)

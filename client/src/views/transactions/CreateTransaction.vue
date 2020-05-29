@@ -1,6 +1,6 @@
 <template>
   <v-container class="">
-    <h1>{{ $route.name }}</h1>
+    <h1 class="display-1">{{ $route.name }}</h1>
     <v-row>
       <v-col cols="6">
         <section>

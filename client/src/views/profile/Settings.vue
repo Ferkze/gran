@@ -1,6 +1,6 @@
 <template>
   <v-container class="">
-    <h1>{{ $route.name }}</h1>
+    <h1 class="display-1">{{ $route.name }}</h1>
     <section>
       <h2 class="font-weight-light mt-3 mb-2">Preferências</h2>
       <v-card>

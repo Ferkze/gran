@@ -1,5 +1,5 @@
 {
-  "name": "fkz-finance-servers",
+  "name": "gran-finance-servers",
   "version": "0.0.0",
   "description": "",
   "main": "src/index.js",
@@ -7,18 +7,19 @@
     "tsc": "tsc",
     "build": "sucrase ./src -d ./dist --transforms typescript.imports",
     "dev": "nodemon src/index.ts",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "seed": "sucrase-node src/seed/index.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Ferkze/fkz-finance-servers.git"
+    "url": "git+https://github.com/Ferkze/gran.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Ferkze/fkz-finance-servers/issues"
+    "url": "https://github.com/Ferkze/gran/issues"
   },
-  "homepage": "https://github.com/Ferkze/fkz-finance-servers#readme",
+  "homepage": "https://github.com/Ferkze/gran#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-history-api-fallback": "^1.6.0",

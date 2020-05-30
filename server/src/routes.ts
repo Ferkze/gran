@@ -44,8 +44,11 @@ router.post('/accounts', AccountController.store)
 router.put('/account/:accountId', AccountController.put)
 
 router.get('/institutions', InstitutionController.index)
+router.get('/institutions/type/:type', InstitutionController.findByType)
 router.get('/institution/:institutionId', InstitutionController.find)
+router.delete('/institution/:institutionId', InstitutionController.delete)
 router.post('/institutions', InstitutionController.store)
+router.delete('/institutions', InstitutionController.deleteMany)
 
 router.get('/categories', CategoryController.index)
 router.get('/category/:categoryId', CategoryController.find)

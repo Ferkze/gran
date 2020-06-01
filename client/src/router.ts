@@ -87,6 +87,14 @@ const routes: RouteConfig[] = [
     }
   },
   {
+    path: '/investimentos',
+    name: 'Investimentos',
+    component: () => import(/* webpackChunkName: "investments" */ './views/investments/Investment.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/transacoes',
     name: 'Transactions',
     component: () => import(/* webpackChunkName: "dashboard" */ './views/Transactions.vue'),

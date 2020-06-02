@@ -27,3 +27,15 @@ export enum CategoryType {
   INCOME = 'income',
   EXPENSE = 'expense'
 }
+
+export enum InvestmentSubType {
+  ACOES = 'acoes',
+  RENDA_FIXA = 'renda-fixa',
+  FIIS = 'fiis',
+  FUNDOS = 'fundos'
+}
+
+export enum InvestmentType {
+  RENDA_FIXA = 'renda-fixa',
+  RENDA_VARIAVEL = 'renda-variavel'
+}

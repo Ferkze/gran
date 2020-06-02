@@ -7,36 +7,8 @@
         <v-col cols="12"> Total investido: R$ {{ totalInvested | formatCurrency }} </v-col>
       </v-row>
     </section>
-    <section>
-      <v-row>
-        <v-col v-for="investment in investments" :key="investment.name" cols="12" sm="6" md="4">
-          <v-card>
-            <v-card-title :class="`white--text ${investment.color}`">
-              <v-row>
-                <v-col cols="8">{{ investment.name }}</v-col>
-                <v-col cols="4" class="text-right">
-                  <div>{{ investment.totalAsset }} %</div>
-                </v-col>
-              </v-row>
-            </v-card-title>
-            <v-card-text class="">
-              <!-- <v-row>
-                <v-col cols="6">Resultado no mês:</v-col>
-                <v-col cols="6" class="text-right">
-                  <b>R$ {{ investment.monthResult | formatCurrency }}</b>
-                </v-col>
-              </v-row> -->
-              <v-row>
-                <v-col cols="6">Número de Ativos:</v-col>
-                <v-col cols="6" class="text-right">
-                  <b>{{ investment.totalAsset }}</b>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </section>
+    <investment-asset-section class="mt-3" section="Ações" :assets="sharesInvestments" />
+    <investment-asset-section class="mt-3" section="Fundos Imobiliários" :assets="fundsInvestments" />
   </v-container>
 </template>
 
@@ -44,7 +16,10 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  name: 'InvestmentView'
+  name: 'InvestmentView',
+  components: {
+    InvestmentAssetSection: () => import('./components/AssetsSection.vue')
+  }
 })
 export default class Investment extends Vue {
   investmentTypes = [

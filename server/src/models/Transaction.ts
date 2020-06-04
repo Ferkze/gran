@@ -1,10 +1,10 @@
-import { Document, Schema, model } from 'mongoose'
-import { IAccount, ACCOUNT } from './Account'
-import { CategoryInterface, CATEGORY } from './Category'
-import { IUser, USER } from './User'
+import { Document, Schema, Model, model, DocumentQuery } from 'mongoose'
+import { IAccount } from './Account'
+import { CategoryInterface } from './Category'
+import { IUser } from './User'
 import { BUDGET_GROUP, BudgetGroupInterface } from './BudgetGroup'
 
-enum TransactionType {
+export enum TransactionType {
   DEBIT = 'debit',
   CREDIT = 'credit',
   TRANSFERENCE = 'transference',
@@ -23,7 +23,23 @@ export type Transaction = {
   createdAt?: Date
   updatedAt?: Date
 }
-export interface ITransaction extends Transaction, Document {}
+export interface ITransaction extends Document {
+  amount?: number
+  date?: Date
+  description?: string
+  debitAccount?: IAccount['_id'] | IAccount
+  creditAccount?: IAccount['_id'] | IAccount
+  category: [CategoryInterface]
+  type: TransactionType
+  creator: IUser['_id'] | IUser
+  budgetGroup?: BudgetGroupInterface['id'] | BudgetGroupInterface
+  createdAt?: Date
+  updatedAt?: Date
+}
+
+export interface ITransactionModel extends Model<ITransaction, typeof transactionQueryHelpers> {
+  byAccount(accountId: string)
+}
 
 const SchemaTransaction = new Schema({
   amount: {
@@ -40,17 +56,17 @@ const SchemaTransaction = new Schema({
   },
   creditAccount: {
     type: Schema.Types.ObjectId,
-    ref: ACCOUNT,
+    ref: 'Account',
     required: false,
   },
   debitAccount: {
     type: Schema.Types.ObjectId,
-    ref: ACCOUNT,
+    ref: 'Account',
     required: false,
   },
   category: [{
     type: Schema.Types.ObjectId,
-  ref: CATEGORY
+  ref: 'Category'
   }],
   type: {
     type: Schema.Types.String,
@@ -59,7 +75,7 @@ const SchemaTransaction = new Schema({
   },
   creator: {
     type: Schema.Types.ObjectId,
-    ref: USER,
+    ref: 'User',
     required: true,
   },
   budgetGroup: {
@@ -71,4 +87,17 @@ const SchemaTransaction = new Schema({
   timestamps: true
 })
 
-export default model<ITransaction>('Transaction', SchemaTransaction)
+let transactionQueryHelpers = {
+  byAccount(this: DocumentQuery<ITransaction[], ITransaction>, accountId: string) {
+    return this.where({
+      $or: [
+        { debitAccount: accountId },
+        { creditAccount: accountId }
+      ]
+    });
+  }
+}
+
+SchemaTransaction.query = transactionQueryHelpers
+
+export default model<ITransaction, ITransactionModel>('Transaction', SchemaTransaction)

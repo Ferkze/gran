@@ -1,0 +1,60 @@
+{
+	"extends": ["plugin:prettier/recommended", "plugin:vue/essential", "@vue/typescript"],
+	"rules": {
+		"indent": ["warn", "tab", { "SwitchCase": 1 }],
+		"no-console": "warn",
+		"no-unused-vars": [
+			"warn",
+			{
+				"ignoreSibilings": true,
+				"argsIgnorePattern": "res|next|^err"
+			}
+		],
+		"semi": ["error", "never"],
+		"quotes": ["error", "single"],
+		"vue/html-indent": [
+			"error",
+			"tab",
+			{
+				"attribute": 1,
+				"baseIndent": 1,
+				"closeBracket": 0,
+				"alignAttributesVertically": true,
+				"ignores": []
+			}
+		],
+		"vue/html-closing-bracket-newline": [
+			"error",
+			{
+				"singleline": "never",
+				"multiline": "always"
+			}
+		],
+		"vue/html-self-closing": [
+			"error",
+			{
+				"html": {
+					"void": "always",
+					"normal": "always",
+					"component": "always"
+				}
+			}
+		]
+	},
+	"parserOptions": {
+		"parser": "@typescript-eslint/parser",
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"modules": true
+		},
+		"ecmaVersion": 2018
+	},
+	"overrides": [
+		{
+			"files": ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
+			"env": {
+				"jest": true
+			}
+		}
+	]
+}

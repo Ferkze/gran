@@ -1,0 +1,17 @@
+{
+	"semi": false,
+	"singleQuote": true,
+	"bracketSpacing": true,
+	"printWidth": 120,
+	"tabWidth": 2,
+	"useTabs": true,
+	"vueIndentScriptAndStyle": false,
+	"overrides": [
+		{
+			"files": "*.test.js",
+			"options": {
+				"semi": true
+			}
+		}
+	]
+}

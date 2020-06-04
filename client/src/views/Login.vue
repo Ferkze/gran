@@ -1,55 +1,55 @@
 <template>
-  <v-container class="fill-height">
-    <v-row justify="center">
-      <v-col cols="12" sm="8" md="6">
-        <v-form ref="loginForm" v-model="valid" @submit.prevent="submitLogin">
-          <v-row>
-            <v-col class="text-center" cols="12">
-              <v-avatar class="mb-4" color="primary" size="78">
-                <v-icon large color="white">
-                  mdi-account
-                </v-icon>
-              </v-avatar>
-              <h2 v-text="'Entrar'" />
-            </v-col>
-            <v-col class="pa-4" cols="12">
-              <v-text-field
-                v-model="email"
-                :background-color="!theme.isDark ? 'grey lighten-3' : undefined"
-                label="Email"
-                dense
-                flat
-                rounded
-                solo
-                :error-messages="error ? error.message : ''"
-              />
-              <v-text-field
-                v-model="password"
-                :background-color="!theme.isDark ? 'grey lighten-3' : undefined"
-                label="Senha"
-                dense
-                flat
-                rounded
-                solo
-                type="password"
-              />
-              <v-btn
-                type="submit"
-                color="primary"
-                elevation="6"
-                block
-                large
-                rounded
-                :loading="loading"
-                @submit.prevent="submitLogin"
-                v-text="'Entrar'"
-              />
-            </v-col>
-          </v-row>
-        </v-form>
-      </v-col>
-    </v-row>
-  </v-container>
+	<v-container class="fill-height">
+		<v-row justify="center">
+			<v-col cols="12" sm="8" md="6">
+				<v-form ref="loginForm" v-model="valid" @submit.prevent="submitLogin">
+					<v-row>
+						<v-col class="text-center" cols="12">
+							<v-avatar class="mb-4" color="primary" size="78">
+								<v-icon large color="white">
+									mdi-account
+								</v-icon>
+							</v-avatar>
+							<h2 v-text="'Entrar'" />
+						</v-col>
+						<v-col class="pa-4" cols="12">
+							<v-text-field
+								v-model="email"
+								:background-color="!theme.isDark ? 'grey lighten-3' : undefined"
+								label="Email"
+								dense
+								flat
+								rounded
+								solo
+								:error-messages="error ? error.message : ''"
+							/>
+							<v-text-field
+								v-model="password"
+								:background-color="!theme.isDark ? 'grey lighten-3' : undefined"
+								label="Senha"
+								dense
+								flat
+								rounded
+								solo
+								type="password"
+							/>
+							<v-btn
+								type="submit"
+								color="primary"
+								elevation="6"
+								block
+								large
+								rounded
+								:loading="loading"
+								@submit.prevent="submitLogin"
+								v-text="'Entrar'"
+							/>
+						</v-col>
+					</v-row>
+				</v-form>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
 <script lang="ts">
@@ -57,38 +57,38 @@ import { Vue, Component } from 'vue-property-decorator'
 import auth from '../store/modules/auth'
 
 @Component({
-  inject: ['theme']
+	inject: ['theme']
 })
 export default class Login extends Vue {
-  email: string = ''
-  password: string = ''
-  error: Error | null = null
-  valid = true
-  loading = false
+	email: string = ''
+	password: string = ''
+	error: Error | null = null
+	valid = true
+	loading = false
 
-  async submitLogin() {
-    this.loading = true
-    this.error = null
-    try {
-      const user = await auth.login({
-        email: this.email,
-        password: this.password
-      })
-      if (user != null) {
-        this.$router.push('/dashboard')
-      }
-    } catch (error) {
-      const message = error.response ? error.response.data : 'Erro ao entrar'
-      this.error = message
-    } finally {
-      this.loading = false
-    }
-  }
+	async submitLogin() {
+		this.loading = true
+		this.error = null
+		try {
+			const user = await auth.login({
+				email: this.email,
+				password: this.password
+			})
+			if (user != null) {
+				this.$router.push('/dashboard')
+			}
+		} catch (error) {
+			const message = error.response ? error.response.data : 'Erro ao entrar'
+			this.error = message
+		} finally {
+			this.loading = false
+		}
+	}
 
-  mounted() {
-    if (auth.isAuthenticated) {
-      this.$router.push('/dashboard')
-    }
-  }
+	mounted() {
+		if (auth.isAuthenticated) {
+			this.$router.push('/dashboard')
+		}
+	}
 }
 </script>

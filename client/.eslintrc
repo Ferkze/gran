@@ -3,13 +3,8 @@
 	"rules": {
 		"indent": ["warn", "tab", { "SwitchCase": 1 }],
 		"no-console": "warn",
-		"no-unused-vars": [
-			"warn",
-			{
-				"ignoreSibilings": true,
-				"argsIgnorePattern": "res|next|^err"
-			}
-		],
+		"no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": ["error"],
 		"semi": ["error", "never"],
 		"quotes": ["error", "single"],
 		"vue/html-indent": [

@@ -3,13 +3,13 @@ import { Transaction } from '@/models'
 import store from '..'
 
 @Module({
-  store,
-  dynamic: true,
-  name: 'transactions',
-  namespaced: true
+	store,
+	dynamic: true,
+	name: 'transactions',
+	namespaced: true
 })
 class TransactionsModule extends VuexModule {
-  transactions: Array<Transaction> = []
+	transactions: Array<Transaction> = []
 }
 
 export default getModule(TransactionsModule)

@@ -3,5 +3,5 @@ import { Category } from '@/models'
 import { AxiosResponse } from 'axios'
 
 export const getCategories = (): Promise<AxiosResponse<Category[]>> => {
-  return client.get<Category[]>('/categories')
+	return client.get<Category[]>('/categories')
 }

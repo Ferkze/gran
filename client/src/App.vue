@@ -1,14 +1,14 @@
 <template>
-  <v-app>
-    <app-bar />
-    <app-snackbar />
+	<v-app>
+		<app-bar />
+		<app-snackbar />
 
-    <v-content>
-      <v-slide-x-reverse-transition mode="out-in">
-        <router-view />
-      </v-slide-x-reverse-transition>
-    </v-content>
-  </v-app>
+		<v-content>
+			<v-slide-x-reverse-transition mode="out-in">
+				<router-view />
+			</v-slide-x-reverse-transition>
+		</v-content>
+	</v-app>
 </template>
 
 <script lang="ts">
@@ -20,17 +20,17 @@ import auth from './store/modules/auth'
 import finances from './store/modules/finances'
 
 @Component({
-  components: {
-    AppBar,
-    AppSnackbar: () => import('@/components/AppBar.vue')
-  },
-  name: 'App'
+	components: {
+		AppBar,
+		AppSnackbar: () => import('@/components/AppBar.vue')
+	},
+	name: 'App'
 })
 export default class App extends Vue {
-  mounted() {
-    auth.setUser(_currentUser())
-    finances.fetchCategories()
-    finances.fetchInstitutions()
-  }
+	mounted() {
+		auth.setUser(_currentUser())
+		finances.fetchCategories()
+		finances.fetchInstitutions()
+	}
 }
 </script>

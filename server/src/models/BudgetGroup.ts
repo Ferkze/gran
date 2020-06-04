@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { IUser, USER } from './User'
+import { IUser } from './User'
 
 export const BUDGET_GROUP = 'BudgetGroup'
 
@@ -21,12 +21,12 @@ const SchemaBudgetGroup = new Schema({
   description: String,
   creator: {
     type: Schema.Types.ObjectId,
-    ref: USER,
+    ref: 'User',
     required: true
   },
   members: [{
     type: Schema.Types.ObjectId,
-    ref: USER
+    ref: 'User'
   }]
 }, {
   timestamps: true

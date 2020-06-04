@@ -19,9 +19,8 @@ class TransactionController {
   }
 
   public async findByAccount(req: Request, res: Response): Promise<Response> {
-    const transactions = await Transaction.find({
-      $or: [{ debitAccount: req.params.accountId }, { creditAccount: req.params.accountId }]
-    }).populate('debitAccount creditAccount')
+    const { accountId } = req.params
+    const transactions = await Transaction.find().byAccount(accountId).populate('debitAccount creditAccount')
     return res.json(transactions)
   }
 

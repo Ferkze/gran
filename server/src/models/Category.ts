@@ -1,5 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
-import { USER, IUser } from './User'
+import { IUser } from './User'
 
 export const CATEGORY = 'Category'
 
@@ -27,7 +27,7 @@ const SchemaCategory = new Schema({
   },
   creator: {
     type: Schema.Types.ObjectId,
-    ref: USER,
+    ref: 'User',
     required: false,
   },
   colors: {

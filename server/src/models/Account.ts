@@ -1,6 +1,6 @@
-import { Document, Schema, model } from 'mongoose'
+import { Document, Schema, Model, model } from 'mongoose'
 import { IUser } from './User'
-import { INSTITUTION } from './Institution'
+import Transaction from './Transaction'
 
 export const ACCOUNT = 'Account'
 
@@ -34,7 +34,26 @@ export type Account = {
   createdAt?: string
   updatedAt?: string
 }
-export type IAccount = Document & Account
+export interface IAccount extends Document {
+  name: string
+  colors?: {
+    primary?: string,
+    secondary?: string
+  },
+  main: boolean
+  institution?: string
+  unregisteredInstitution?: string
+  type?: AccountTypes
+  subtype?: AccountSubtypes
+  startingBalance: number
+  owner?: IUser['_id'] | IUser
+  createdAt?: string
+  updatedAt?: string
+
+}
+export interface IAccountModel extends Model<IAccount, typeof accountQueryHelpers> {
+  calculateBalance()
+}
 
 export const AccountSchema = new Schema({
   name: {
@@ -56,7 +75,7 @@ export const AccountSchema = new Schema({
   },
   institution: {
     type: Schema.Types.ObjectId,
-    ref: INSTITUTION
+    ref: 'Institution'
   },
   unregisteredInstitution: {
     type: Schema.Types.String
@@ -79,5 +98,11 @@ export const AccountSchema = new Schema({
 }, {
   timestamps: true
 })
+
+let accountQueryHelpers = {}
+
+AccountSchema.methods.calculateBalance = async function() {
+  return Transaction.find().byAccount(this._id)
+}
 
 export default model<IAccount>(ACCOUNT, AccountSchema)

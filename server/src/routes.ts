@@ -42,6 +42,7 @@ router.delete('/accounts/:accountId', AccountController.delete)
 router.get('/accounts/:accountId/transactions', TransactionController.findByAccount)
 router.post('/accounts', AccountController.store)
 router.put('/account/:accountId', AccountController.put)
+router.get('/account/:accountId/balance', AccountController.balance)
 
 router.get('/institutions', InstitutionController.index)
 router.get('/institutions/type/:type', InstitutionController.findByType)

@@ -30,6 +30,15 @@ class AccountController {
     })
     return res.json(result)
   }
+
+  public async balance(req: Request, res: Response): Promise<Response> {
+    const { accountId } = req.params
+    const transactions = await Transaction.find().byAccount(accountId)
+    const balance = transactions.reduce((total, cur) => {
+      return total
+    }, 0)
+    return res.json(balance)
+  }
 }
 
 export default new AccountController()

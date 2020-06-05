@@ -47,7 +47,7 @@
 									/>
 								</v-col>
 							</v-row>
-							<v-row v-if="account.institution.name.startsWith('Outro')" no-gutters>
+							<v-row v-if="account.institution && account.institution.name.startsWith('Outro')" no-gutters>
 								<v-col cols="12">
 									<v-subheader>Outra Instituição</v-subheader>
 								</v-col>
@@ -133,7 +133,7 @@ export default class Settings extends Vue {
 	account: Account = {
 		name: '',
 		main: false,
-		institution: '',
+		institution: null,
 		unregisteredInstitution: '',
 		type: AccountTypes.DEBIT,
 		subtype: AccountSubtypes.CURRENT,

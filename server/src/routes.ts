@@ -28,7 +28,7 @@ router.get('/user/:userId/transactions', TransactionController.findByUser)
 router.get('/user/:userId/accounts', UserAccountController.index)
 router.post('/user/:userId/accounts', UserAccountController.store)
 router.put('/user/:userId/account/:accountId', UserAccountController.update)
-router.delete('/user/:userId/account/:accountId', UserAccountController.delete)
+// router.delete('/user/:userId/account/:accountId', UserAccountController.delete)
 
 router.get('/transactions', TransactionController.index)
 router.get('/transaction/:transactionId', TransactionController.find)

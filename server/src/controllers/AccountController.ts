@@ -20,15 +20,16 @@ class AccountController {
     return res.json(doc)
   }
   public async put(req: Request, res: Response): Promise<Response> {
+    const { accountId } = req.params
     const account = req.body as AccountModel
-    const doc = await Account.findByIdAndUpdate(req.params.accountId, account, { new: true })
+    console.info(`Received ${accountId} account data for updating: ${account}`)
+    const doc = await Account.findByIdAndUpdate(accountId, account, { new: true })
     return res.json(doc)
   }
   public async delete(req: Request, res: Response): Promise<Response> {
-    const result = await Account.deleteOne({
-      _id: req.params.accountId
-    })
-    return res.json(result)
+    const { accountId } = req.params
+    const account = await Account.findByIdAndDelete(accountId)
+    return res.json(account)
   }
 
   public async balance(req: Request, res: Response): Promise<Response> {

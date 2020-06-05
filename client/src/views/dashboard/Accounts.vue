@@ -9,7 +9,7 @@
 			</v-col>
 			<v-col cols="12" sm="6" md="4">
 				<v-hover v-slot:default="{ hover }">
-					<v-btn height="160" block color="primary" :outlined="!hover" @click="createAccount">
+					<v-btn height="100%" block color="primary" :outlined="!hover" @click="createAccount">
 						<v-container>
 							<v-row>
 								<v-col cols="12"><v-icon large left>mdi-bank-plus</v-icon></v-col>

@@ -11,6 +11,14 @@
 						<v-card-text>
 							<v-row>
 								<v-col cols="12">
+									Código
+								</v-col>
+								<v-col cols="12">
+									<v-text-field solo hide-details label="Código da conta" disabled :value="account._id" />
+								</v-col>
+							</v-row>
+							<v-row>
+								<v-col cols="12">
 									Nome
 								</v-col>
 								<v-col cols="12">
@@ -41,7 +49,7 @@
 									/>
 								</v-col>
 							</v-row>
-							<v-row v-if="institution.name == 'Outro'">
+							<v-row v-if="account.institution && account.institution.name == 'Outro'">
 								<v-col cols="12">
 									Outra Instituição
 								</v-col>
@@ -118,7 +126,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import auth from '../../store/modules/auth'
-import { User, Account } from '../../models'
+import { User, Account, Institution } from '../../models'
 import { AccountSubtypes } from '../../models/enums'
 import finances from '../../store/modules/finances'
 import status from '../../store/modules/status'
@@ -188,15 +196,29 @@ export default class EditDebitAccount extends Vue {
 		finances.replaceAccount(acc)
 	}
 
-	get institution() {
+	get institution(): Institution | null {
 		if (!this.account) {
-			return undefined
+			return null
+		}
+		if (!this.account.institution) {
+			return null
 		}
 		const inst = this.account.institution
 		if (typeof inst == 'string') {
-			this.account.institution = finances.institutions.find(i => i._id == inst)
+			return finances.institutions.find(i => i._id == inst)
 		}
-		return this.account.institution
+		return inst
+	}
+
+	set institution(institution: Institution) {
+		if (!this.account) {
+			return
+		}
+		if (!this.institution) {
+			this.account.institution = null
+			return
+		}
+		this.account.institution = institution._id
 	}
 
 	created() {

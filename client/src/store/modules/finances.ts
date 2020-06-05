@@ -96,7 +96,7 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user._id || !account._id) {
 			return null
 		}
-		return (await deleteAccount(auth.user._id, account._id)).data
+		return (await deleteAccount(account._id)).data
 	}
 
 	@Action({ commit: 'setTransactions', rawError: true })

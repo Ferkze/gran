@@ -28,15 +28,15 @@ class UserAccountController {
     await user.save()
     return res.json(account)
   }
-  public async delete(req: Request, res: Response): Promise<Response> {
-    const user = await User.findById(req.params.userId)
-    const account = await user.accounts.id(req.params.accountId)
-    if (account !== null) {
-      account.remove()
-      await user.save()
-    }
-    return res.json(account)
-  }
+  // public async delete(req: Request, res: Response): Promise<Response> {
+  //   const user = await User.findById(req.params.userId)
+  //   const account = await user.accounts.id(req.params.accountId)
+  //   if (account !== null) {
+  //     account.remove()
+  //     await user.save()
+  //   }
+  //   return res.json(account)
+  // }
 }
 
 export default new UserAccountController()

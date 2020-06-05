@@ -1,7 +1,7 @@
 <template>
-	<v-snackbar bottom v-model="show" v-if="status" :timeout="7000">
-		<span>{{ status.message }}</span>
-		<v-btn icon :color="status.type" @click="show = false">
+	<v-snackbar v-if="message" v-model="show" bottom :timeout="6000">
+		<span>{{ message }}</span>
+		<v-btn :color="type" icon @click="show = false">
 			<v-icon>mdi-close</v-icon>
 		</v-btn>
 	</v-snackbar>
@@ -10,7 +10,6 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import status from '../store/modules/status'
-import { AppStatus } from '../models'
 
 @Component({
 	inject: ['theme']
@@ -18,16 +17,17 @@ import { AppStatus } from '../models'
 export default class AppSnackbar extends Vue {
 	show = false
 
-	get status() {
-		return {
-			message: status.message,
-			type: status.type
-		}
+	get message() {
+		return status.message
 	}
 
-	@Watch('status', { deep: true, immediate: true })
-	onStatusChanged(val?: AppStatus) {
-		if (val?.message) {
+	get type() {
+		return status.type
+	}
+
+	@Watch('message', { deep: true, immediate: true })
+	onStatusChanged(message: string) {
+		if (message) {
 			this.show = true
 			return
 		}

@@ -4,11 +4,14 @@
 		<app-snackbar />
 		<web-rail />
 
-		<v-content>
+		<v-content v-if="!loading">
 			<v-slide-x-reverse-transition mode="out-in">
 				<router-view />
 			</v-slide-x-reverse-transition>
 		</v-content>
+		<v-overlay v-else>
+			<v-progress-circular indeterminate size="64" />
+		</v-overlay>
 	</v-app>
 </template>
 
@@ -23,16 +26,25 @@ import finances from './store/modules/finances'
 @Component({
 	components: {
 		AppBar,
-		AppSnackbar: () => import('@/components/AppBar.vue'),
+		AppSnackbar: () => import('@/components/AppSnackbar.vue'),
 		WebRail: () => import('@/components/WebRail.vue')
 	},
 	name: 'App'
 })
 export default class App extends Vue {
-	mounted() {
+	loading = false
+
+	async mounted() {
+		this.loading = true
 		auth.setUser(_currentUser())
-		finances.fetchCategories()
-		finances.fetchInstitutions()
+
+		await Promise.all([
+			finances.fetchCategories(),
+			finances.fetchInstitutions(),
+			finances.fetchAccounts(),
+			finances.fetchTransactions()
+		])
+		this.loading = false
 	}
 }
 </script>

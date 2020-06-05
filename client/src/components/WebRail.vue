@@ -1,6 +1,17 @@
 <template>
 	<v-navigation-drawer permanent app clipped :mini-variant="mini" mini-variant-width="80">
-		<v-row class="fill-height" no-gutters align="end">
+		<v-row class="fill-height" no-gutters align="center">
+			<v-col>
+				<v-list two-line>
+					<v-list-item>
+						<v-list-item-action>
+							<v-btn fab color="primary">
+								<v-icon>mdi-plus</v-icon>
+							</v-btn>
+						</v-list-item-action>
+					</v-list-item>
+				</v-list>
+			</v-col>
 			<v-col>
 				<v-list two-line>
 					<v-list-item v-for="item in items" :key="item.name" :to="item.route" exact active-class="primary--text">
@@ -51,6 +62,6 @@ export default class WebRail extends Vue {
 		return auth.user
 	}
 
-	mini = false
+	mini = true
 }
 </script>

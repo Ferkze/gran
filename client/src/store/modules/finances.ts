@@ -129,7 +129,8 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user._id || !transaction._id) {
 			return null
 		}
-		return (await deleteTransaction(transaction._id)).data
+		await deleteTransaction(transaction._id)
+		return transaction
 	}
 
 	@Mutation

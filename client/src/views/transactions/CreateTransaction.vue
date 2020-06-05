@@ -239,7 +239,7 @@ export default class CreateTransactionView extends Vue {
 				type: 'success',
 				message: 'Transação criada com sucesso'
 			})
-			this.$router.push('/transacoes')
+			this.$router.push('/dashboard/transactions')
 		} catch (error) {
 			status.setStatus({
 				type: 'error',

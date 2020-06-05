@@ -43,6 +43,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Transaction, Account } from '../models'
 import { TransactionType } from '../models/enums'
 import finances from '../store/modules/finances'
+import status from '../store/modules/status'
 
 @Component
 export default class TransactionListItem extends Vue {
@@ -54,21 +55,26 @@ export default class TransactionListItem extends Vue {
 	]
 
 	get account(): Account | undefined {
+		let account: any
 		switch (this.transaction.type) {
 			case TransactionType.DEBIT: {
-				return this.transaction.debitAccount
+				account = this.transaction.debitAccount
 			}
 			case TransactionType.CREDIT: {
-				return this.transaction.creditAccount
+				account = this.transaction.creditAccount
 			}
 			case TransactionType.TRANSFERENCE: {
 				if (!this.transaction.creditAccount) {
-					return this.transaction.debitAccount
+					account = this.transaction.debitAccount
+				} else {
+					account = this.transaction.creditAccount
 				}
-				return this.transaction.creditAccount
 			}
 		}
-		return this.transaction.debitAccount
+		if (typeof account == 'string') {
+			return finances.accounts.find(a => a._id == account)
+		}
+		return account
 	}
 	get typeColor(): string {
 		switch (this.transaction.type) {
@@ -87,13 +93,19 @@ export default class TransactionListItem extends Vue {
 		}
 	}
 
-	onMenuItemSelected(action: string) {
+	async onMenuItemSelected(action: string) {
 		switch (action) {
 			case 'edit':
 				this.$router.push(`/transacao/${this.transaction._id}/edicao`)
 				break
 			case 'delete':
-				finances.deleteTransaction(this.transaction)
+				try {
+					finances.deleteTransaction(this.transaction)
+					status.setStatus({
+						type: 'success',
+						message: 'Transação excluída com sucesso'
+					})
+				} catch (error) {}
 				break
 			default:
 				break

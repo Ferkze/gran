@@ -64,9 +64,10 @@ class TransactionController {
   }
 
   public async remove(req: Request, res: Response): Promise<Response> {
-    console.info('Deleting Transaction', req.params.transactionId)
+    const { transactionId } = req.params
+    console.info('Deleting Transaction', transactionId)
     try {
-      const count = await Transaction.deleteOne({ _id: req.params.transactionId })
+      const count = await Transaction.deleteOne({ _id: transactionId })
       console.info('Transactions deleted', count)
       return res.json({ count })
     } catch (error) {

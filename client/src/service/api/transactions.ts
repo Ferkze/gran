@@ -27,5 +27,5 @@ export const updateTransaction = (transaction: Transaction) => {
 }
 
 export const deleteTransaction = (transactionId: string) => {
-	return client.delete(`/transaction/${transactionId}`)
+	return client.delete<Transaction | Error>(`/transaction/${transactionId}`)
 }

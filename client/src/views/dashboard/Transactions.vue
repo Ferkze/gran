@@ -28,6 +28,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import finances from '../../store/modules/finances'
+import status from '../../store/modules/status'
 
 @Component({
 	components: {
@@ -44,6 +45,10 @@ export default class Transactions extends Vue {
 		if (this.transactions.length <= 1) {
 			finances.fetchTransactions()
 		}
+		status.setStatus({
+			message: 'Tudo carregado!',
+			type: 'warning'
+		})
 	}
 }
 </script>

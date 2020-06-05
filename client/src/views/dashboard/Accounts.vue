@@ -1,15 +1,15 @@
 <template>
-	<v-container class="">
-		<h1 class="display-1">{{ $route.name }}</h1>
+	<v-container>
+		<h1 class="display-1 mb-3">{{ $route.name }}</h1>
 		<h2 class="font-weight-light">Minhas contas</h2>
 		<v-divider />
 		<v-row>
-			<v-col cols="12" sm="6" md="4" v-for="acc in debitAccounts" :key="acc._id">
+			<v-col cols="12" sm="6" md="4" lg="3" v-for="acc in debitAccounts" :key="acc._id">
 				<account-card :account="acc" />
 			</v-col>
-			<v-col cols="12" sm="6" md="4">
+			<v-col cols="12" sm="6" md="4" lg="3">
 				<v-hover v-slot:default="{ hover }">
-					<v-btn height="100%" block color="primary" :outlined="!hover" @click="createAccount">
+					<v-btn height="100%" min-height="198" block color="primary" :outlined="!hover" @click="createAccount">
 						<v-container>
 							<v-row>
 								<v-col cols="12"><v-icon large left>mdi-bank-plus</v-icon></v-col>
@@ -27,7 +27,7 @@
 		<h2 class="font-weight-light">Meus cartões de crédito</h2>
 		<v-divider />
 		<v-row>
-			<v-col cols="12" sm="6" md="4" v-for="acc in creditAccounts" :key="acc._id">
+			<v-col cols="12" sm="6" md="4" lg="3" v-for="acc in creditAccounts" :key="acc._id">
 				<v-card>
 					<v-card-title>
 						<v-row no-gutters>
@@ -54,9 +54,17 @@
 					</v-card-text>
 				</v-card>
 			</v-col>
-			<v-col cols="12" sm="6" md="4">
+			<v-col cols="12" sm="6" md="4" lg="3">
 				<v-hover v-slot:default="{ hover }">
-					<v-btn disabled height="160" block color="primary" :outlined="!hover" @click="createCreditCard">
+					<v-btn
+						disabled
+						height="100%"
+						min-height="198"
+						block
+						color="primary"
+						:outlined="!hover"
+						@click="createCreditCard"
+					>
 						<v-container>
 							<v-row>
 								<v-col cols="12"><v-icon large left>mdi-credit-card-plus</v-icon></v-col>

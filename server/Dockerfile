@@ -1,11 +1,20 @@
-FROM node:alpine
+FROM node:lts-alpine as build-stage
 
-RUN mkdir -p /root/server
-WORKDIR /root/server
+RUN mkdir -p /home/node/server
+WORKDIR /home/node/server
 
-COPY . /root/server
-RUN npm install
+COPY package*.json ./
+# RUN npm install'
+ENV NODE_ENV=production
+RUN npm ci
 
-EXPOSE 5000
+COPY . .
+RUN npm run build
 
-CMD ["npm", "run dev"]
+USER node
+
+FROM node:lts-alpine as production-stage
+COPY --from=build-stage /home/node/server/dist /home/node/server/
+COPY --from=build-stage /home/node/server/node_modules /home/node/server/
+
+CMD ["node", "index.js"]

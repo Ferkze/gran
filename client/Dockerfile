@@ -1,11 +1,16 @@
-FROM node:alpine
+FROM node:lts-alpine as build-stage
 
 RUN mkdir -p /root/client
 WORKDIR /root/client
 
-COPY . /root/client
+COPY package*.json ./
 RUN npm install
 
-EXPOSE 8080
+COPY . .
+RUN npm run build
 
-CMD ["npm", "run serve"]
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /root/client/dist /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

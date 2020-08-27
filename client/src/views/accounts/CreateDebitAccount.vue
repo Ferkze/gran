@@ -133,7 +133,6 @@ export default class Settings extends Vue {
 	account: Account = {
 		name: '',
 		main: false,
-		institution: null,
 		unregisteredInstitution: '',
 		type: AccountTypes.DEBIT,
 		subtype: AccountSubtypes.CURRENT,

@@ -205,20 +205,23 @@ export default class EditDebitAccount extends Vue {
 		}
 		const inst = this.account.institution
 		if (typeof inst == 'string') {
-			return finances.institutions.find(i => i._id == inst)
+			const institution = finances.institutions.find(i => i._id == inst)
+			return institution || null
 		}
 		return inst
 	}
 
-	set institution(institution: Institution) {
+	set institution(institution: Institution | null) {
 		if (!this.account) {
 			return
 		}
 		if (!this.institution) {
-			this.account.institution = null
+			this.account.institution = undefined
 			return
 		}
-		this.account.institution = institution._id
+		if (institution) {
+			this.account.institution = institution._id
+		}
 	}
 
 	created() {

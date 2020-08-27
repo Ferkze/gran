@@ -10,11 +10,12 @@ interface RequestInterface {
 	data: User[]
 }
 
-const baseDomain = 'http://localhost:5000'
-const baseURL = `${baseDomain}/api`
-
+let serverHost = process.env.VUE_APP_SERVER_HOST
+if (!serverHost) {
+	serverHost = process.env.NODE_ENV == 'development' ? 'http://localhost:5000' : 'https://gran-server.azurewebsites.net'
+}
 const client = Axios.create({
-	baseURL
+	baseURL: `${serverHost}/api`
 })
 
 export default client

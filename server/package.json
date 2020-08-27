@@ -1,13 +1,12 @@
 {
-  "name": "gran-finance-servers",
-  "version": "0.0.0",
+  "name": "gran-finance-server",
+  "version": "0.0.1",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "tsc": "tsc",
-    "build": "sucrase ./src -d ./dist --transforms typescript.imports",
+    "build": "tsc",
     "dev": "nodemon src/index.ts",
-    "start": "nodemon index.js",
+    "start": "node dist/index.js",
     "seed": "sucrase-node src/seed/index.ts"
   },
   "repository": {

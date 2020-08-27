@@ -30,6 +30,7 @@ class App {
   private config(): void {
     passportConfig(passport)
     dotenv.config()
+    console.log(`${process.env.NODE_ENV} environment configured:`, process.env)
   }
 
   private routes(): void {

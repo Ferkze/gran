@@ -11,7 +11,8 @@ const seeds: SeedModel[] = [
 ]
 
 async function execute() {
-	const con = await Mongoose.connect('mongodb://mongodb:27017/dev', {
+	const conString = process.env.MONGODB_CONNECTION || 'mongodb://root:pass@mongodb:27017/dev'
+	const con = await Mongoose.connect(conString, {
 		useCreateIndex: true,
 		useNewUrlParser: true,
 		useUnifiedTopology: true

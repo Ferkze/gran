@@ -1,40 +1,12 @@
 {
-	"extends": ["plugin:prettier/recommended", "plugin:vue/essential", "@vue/typescript"],
+	"extends": ["plugin:vue/essential", "@vue/typescript"],
 	"rules": {
-		"indent": ["warn", "tab", { "SwitchCase": 1 }],
-		"no-console": "warn",
+		"indent": ["off", "tab", { "SwitchCase": 1 }],
+		"no-console": "off",
 		"no-unused-vars": "off",
-		"@typescript-eslint/no-unused-vars": ["error"],
-		"semi": ["error", "never"],
-		"quotes": ["error", "single"],
-		"vue/html-indent": [
-			"error",
-			"tab",
-			{
-				"attribute": 1,
-				"baseIndent": 1,
-				"closeBracket": 0,
-				"alignAttributesVertically": true,
-				"ignores": []
-			}
-		],
-		"vue/html-closing-bracket-newline": [
-			"error",
-			{
-				"singleline": "never",
-				"multiline": "always"
-			}
-		],
-		"vue/html-self-closing": [
-			"error",
-			{
-				"html": {
-					"void": "always",
-					"normal": "always",
-					"component": "always"
-				}
-			}
-		]
+		"@typescript-eslint/no-unused-vars": ["off"],
+		"semi": ["off", "never"],
+		"quotes": ["off", "single"]
 	},
 	"parserOptions": {
 		"parser": "@typescript-eslint/parser",

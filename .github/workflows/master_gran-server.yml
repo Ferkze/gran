@@ -1,36 +1,62 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - gran-server
+# name: Build and deploy Node.js app to Azure Web App - gran-server
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@master
+#     steps:
+#       - uses: actions/checkout@master
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
+#       - name: Set up Node.js version
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: "12.x"
 
-      - name: npm install, build, and test
-        run: |
-          cd server
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+#       - name: npm install, build, and test
+#         run: |
+#           cd server
+#           npm install
+#           npm run build --if-present
+#           npm run test --if-present
 
-      - name: "Deploy to Azure Web App"
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: "gran-server"
-          slot-name: "production"
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_1db1e6b9c3ef402cb39b9bc1bc5af007 }}
-          package: ./server/
+#       - name: "Deploy to Azure Web App"
+#         uses: azure/webapps-deploy@v2
+#         with:
+#           app-name: "gran-server"
+#           slot-name: "production"
+#           startup-command: "npm start"
+#           publish-profile: ${{ secrets.AzureAppService_PublishProfile_1db1e6b9c3ef402cb39b9bc1bc5af007 }}
+#           package: ./server/
+
+#   build-and-deploy-to-dev:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@master
+#       - name: Azure authentication
+#         uses: azure/login@v1
+#         with:
+#           creds: ${{ secrets.AZURE_CREDENTIALS  }}
+#       #     - name: Azure CLI script to provision a new Web App for Container
+#       #       uses: azure/CLI@v0-beta
+#       #       with:
+#       #         azcliversion: latest
+#       #         inlineScript: |
+#       #           az webapp create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --plan ${{ env.AZURE_APP_PLAN }} --name ${{ env.AZURE_WEBAPP_NAME }}  -i nginx
+#       - name: ACR authentication
+#         uses: azure/docker-login@v1
+#         with:
+#           login-server: ${{ env.CONTAINER_REGISTRY }}
+#           username: ${{ secrets.REGISTRY_USERNAME }}
+#           password: ${{ secrets.REGISTRY_PASSWORD }}
+#       - name: Docker Build & Push to ACR
+#         run: |
+#           docker build . -t ${{ env.CONTAINER_REGISTRY }}/gran-server:${{ github.sha }}
+#           docker push ${{ env.CONTAINER_REGISTRY }}/gran-server:${{ github.sha }}

@@ -1,11 +1,19 @@
-FROM node:alpine
+FROM node:lts-alpine as build-stage
 
-RUN mkdir -p /root/server
-WORKDIR /root/server
+RUN mkdir -p /home/node/server
+WORKDIR /home/node/server
 
-COPY . /root/server
-RUN npm install
+COPY package*.json ./
+ENV NODE_ENV=production
+RUN npm ci
 
-EXPOSE 5000
+COPY . .
+RUN npm run build
 
-CMD ["npm", "run dev"]
+USER node
+
+ENV PORT=8080
+
+EXPOSE 8080
+
+CMD ["node", "dist/index.js"]

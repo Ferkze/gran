@@ -1,21 +1,16 @@
 {
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "eslint.validate": ["javascript", "vue", "typescript"],
-  "[javascript]": {
-    "editor.formatOnSave": false
-  },
-  "[typescript]": {
-    "editor.formatOnSave": false
-  },
   "editor.tabSize": 2,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "docker-compose.files": [
-    "docker-compose.yaml"
-  ],
-  "appService.zipIgnorePattern": [
-    "node_modules{,/**}",
-    ".vscode{,/**}"
-  ]
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "vetur.format.options.tabSize": 2,
+  "eslint.format.enable": true,
+  "eslint.validate": ["javascript", "vue", "typescript"],
+  "[javascript, typescript, vue]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "docker-compose.files": ["docker-compose.yaml"],
+  "appService.zipIgnorePattern": ["node_modules{,/**}", ".vscode{,/**}"]
 }

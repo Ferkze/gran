@@ -51,11 +51,6 @@ const routes: RouteConfig[] = [
 				name: 'Transações',
 				path: 'transactions',
 				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Transactions.vue')
-			},
-			{
-				name: 'Investimentos',
-				path: 'investments',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Investments.vue')
 			}
 		],
 		meta: {

@@ -5,5 +5,5 @@
 //   connectionString = `${connection}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
 // }
 export default {
-  connectionString: process.env.MONGODB_CONNECTION
+	connectionString: process.env.MONGODB_CONNECTION
 }

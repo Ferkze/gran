@@ -1,39 +1,9 @@
 import { Document, Schema, Model, model } from 'mongoose'
-import { IUser } from './User'
-import Transaction from './Transaction'
+import { IUser } from './UserModel'
+import { AccountTypes, AccountSubtypes } from '../../../models/entities/Account'
 
 export const ACCOUNT = 'Account'
 
-export enum AccountTypes {
-  DEBIT = 'debit',
-  CREDIT = 'credit'
-}
-
-export enum AccountSubtypes {
-  CURRENCY = 'currency',
-  DIGITAL_CURRENCY  = 'digital-currency',
-  CURRENT = 'current-account',
-  CREDIT_CARD = 'credit-card',
-  BROKER = 'broker-account'
-}
-
-export type Account = {
-  _id: string
-  name: string
-  colors?: {
-    primary?: string,
-    secondary?: string
-  },
-  main: boolean
-  institution?: string
-  unregisteredInstitution?: string
-  type?: AccountTypes
-  subtype?: AccountSubtypes
-  startingBalance: number
-  owner?: IUser['_id'] | IUser
-  createdAt?: string
-  updatedAt?: string
-}
 export interface IAccount extends Document {
   name: string
   colors?: {
@@ -55,7 +25,7 @@ export interface IAccountModel extends Model<IAccount, typeof accountQueryHelper
   calculateBalance()
 }
 
-export const AccountSchema = new Schema({
+export const AccountSchema = new Schema<IAccount>({
   name: {
     type: Schema.Types.String,
     required: true
@@ -101,8 +71,8 @@ export const AccountSchema = new Schema({
 
 let accountQueryHelpers = {}
 
-AccountSchema.methods.calculateBalance = async function() {
-  return Transaction.find().byAccount(this._id)
-}
+// AccountSchema.methods.calculateBalance = async function() {
+//   return Transaction.find().byAccount(this._id)
+// }
 
 export default model<IAccount>(ACCOUNT, AccountSchema)

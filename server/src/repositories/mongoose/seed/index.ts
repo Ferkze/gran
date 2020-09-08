@@ -1,4 +1,4 @@
-import institutionsSeeder from './institutions-seeder'
+import InstitutionsSeed from './InstitutionsSeed'
 import Mongoose, { Model } from 'mongoose'
 
 interface SeedModel {
@@ -7,7 +7,7 @@ interface SeedModel {
 }
 
 const seeds: SeedModel[] = [
-	institutionsSeeder
+	InstitutionsSeed
 ]
 
 async function execute() {

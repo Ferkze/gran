@@ -1,78 +1,94 @@
 import mongoose from 'mongoose'
-import Institution , { Institution as IInstitution, InstitutionType } from "../models/Institution"
-import database from '../config/database';
+import InstitutionModel , { InstitutionType } from '../models/InstitutionModel'
+import database from '../../../config/database';
 
-const documents: IInstitution[] = [
+const documents: any[] = [
 	{
-		name: "Nubank",
+		name: 'Nubank',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'purple',
 			secondary: 'white'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "Banco Inter",
+		name: 'Banco Inter',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'orange',
 			secondary: 'white'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "Next",
+		name: 'Next',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'green',
 			secondary: 'black'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "Bradesco",
+		name: 'Bradesco',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'red',
 			secondary: 'white'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "Itaú",
+		name: 'Itaú',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'orange',
 			secondary: 'darkblue'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "Santander",
+		name: 'Santander',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'red',
 			secondary: 'white'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "C6 Bank",
+		name: 'C6 Bank',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'black',
 			secondary: 'yellow'
-		}
+		},
+		logoUrl: ''
 	},
 	{
-		name: "Outro Banco",
+		name: 'Outro Banco',
+		description: '',
 		type: InstitutionType.BANK,
 		colors: {
 			primary: 'black',
 			secondary: 'white'
-		}
+		},
+		logoUrl: ''
 	},
 ];
 
 export const seedInstitutions = async () => {
 	mongoose.connect(database.connectionString)
 	try {
-		const docs = await Institution.insertMany(documents)
+		const docs = await InstitutionModel.insertMany(documents)
 		if (docs.length == documents.length) {
 			mongoose.disconnect()
 		}
@@ -82,6 +98,6 @@ export const seedInstitutions = async () => {
 }
 
 export default {
-	model: Institution,
+	model: InstitutionModel,
 	documents
 }

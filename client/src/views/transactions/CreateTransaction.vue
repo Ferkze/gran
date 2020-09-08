@@ -207,13 +207,18 @@ export default class CreateTransactionView extends Vue {
 		if (!finances.accounts.length) {
 			const accs = await finances.fetchAccounts()
 			if (!accs || !accs.length) {
-				this.$router.go(-1)
+				status.setStatus({
+					type: 'error',
+					message: `Adicione uma conta para começar a registrar transações`
+				})
+				this.$router.push('/dashboard/contas')
+				return
 			}
 		}
 		if (!finances.categories.length) {
 			const cats = await finances.fetchCategories()
 			if (!cats || !cats.length) {
-				this.$router.go(-1)
+				console.log('Sem transações')
 			}
 		}
 	}

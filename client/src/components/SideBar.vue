@@ -1,17 +1,6 @@
 <template>
 	<v-navigation-drawer permanent app clipped :mini-variant="mini" mini-variant-width="80">
 		<v-row class="fill-height" no-gutters>
-			<!-- <v-col>
-				<v-list two-line>
-					<v-list-item>
-						<v-list-item-action>
-							<v-btn fab color="primary">
-								<v-icon>mdi-plus</v-icon>
-							</v-btn>
-						</v-list-item-action>
-					</v-list-item>
-				</v-list>
-			</v-col> -->
 			<v-col>
 				<v-list nav>
 					<v-list-item
@@ -46,7 +35,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import auth from '../store/modules/auth'
 
 @Component
-export default class WebRail extends Vue {
+export default class SideBar extends Vue {
 	mini = true
 
 	items = [

@@ -1,24 +1,24 @@
-const JwtStrategy = require('passport-jwt').Strategy
-const ExtractJwt = require('passport-jwt').ExtractJwt
 import Repository from '../repositories'
+import { PassportStatic } from 'passport'
+import { ExtractJwt, Strategy } from 'passport-jwt'
 
 export const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'secret'
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+	secretOrKey: 'secret'
 }
 
-export default (passport) => {
-  passport.use(
-    new JwtStrategy(opts, async (jwt_payload, done) => {
-      try {
-        const user = await Repository.findUserById(jwt_payload.id)
-        if (user) {
-          return done(null, user);
-        }
-        return done(null, false);
-      } catch (error) {
-        return done(null, false);
-      }
-    })
-  );
-};
+export default (passport: PassportStatic): void => {
+	passport.use(
+		new Strategy(opts, async (jwtPayload, done) => {
+			try {
+				const user = await Repository.UserRepository.findUserById(jwtPayload.id)
+				if (user) {
+					return done(null, user)
+				}
+				return done(null, false)
+			} catch (error) {
+				return done(null, false)
+			}
+		})
+	)
+}

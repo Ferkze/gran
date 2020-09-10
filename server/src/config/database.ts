@@ -1,9 +1,17 @@
-// let connectionString = `${process.env.MONGODB_PROTOCOL}${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
+import Mongoose from 'mongoose'
 
-// const connection = process.env.MONGODB_CONNECTION
-// if (connection) {
-//   connectionString = `${connection}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
-// }
-export default {
-	connectionString: process.env.MONGODB_CONNECTION
+export default async (): Promise<void> => {
+	console.info(`Conectando ao MongoDB usando a URL: ${process.env.MONGODB_CONNECTION}`)
+	try {
+		await Mongoose.connect(process.env.MONGODB_CONNECTION, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+			useFindAndModify: true
+		})
+		console.log('Sucesso ao se conectar com o MongoDB')
+	} catch (error) {
+		console.error('Erro ao se conectar com o MongoDB:', error)
+		throw new Error(error)
+	}
+	return
 }

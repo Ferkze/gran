@@ -1,8 +1,10 @@
-import UserRepository from './UserRepository'
-import { RepositoriesInterface } from '..'
+import userRepository from './user.repository'
+import institutionRepository from './institution.repository'
+import { Repositories } from '..'
 
-const repository: RepositoriesInterface = {
-	UserRepository
+const repository: Repositories = {
+	user: userRepository,
+	institutions: institutionRepository
 }
 
 export default repository

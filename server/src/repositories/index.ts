@@ -7,7 +7,7 @@ import { Transaction } from '../models/entities/Transaction'
 import { BudgetGroup } from '../models/entities/BudgetGroup'
 import { Budget } from '../models/entities/Budget'
 
-export interface UserRepositoryInterface {
+export interface UserRepository {
 	getAllUsers(): Promise<User[]>
 	findUserById(id: string): Promise<User | null>
 	findUserByEmail(email: string): Promise<User | null>
@@ -34,7 +34,7 @@ export interface CategoryRepositoryInterface {
 	deleteCategory(categoryId: Category['id']): Promise<void>
 }
 
-export interface InstitutionRepositoryInterface {
+export interface InstitutionRepository {
 	getAllInstitutions(): Promise<Institution[]>
 	findInstitutionById(id: string): Promise<Institution | null>
 	saveInstitution(institution: Institution): Promise<Institution>
@@ -70,11 +70,12 @@ export interface BudgetGroupRepositoryInterface {
 	deleteBudgetGroup(budgetGroupId: BudgetGroup['id']): Promise<void>
 }
 
-export interface RepositoriesInterface {
-  UserRepository: UserRepositoryInterface
+export interface Repositories {
+	user: UserRepository
+	institutions: InstitutionRepository
 }
 
-function repositoriesInstance(): RepositoriesInterface {
+function repositoriesInstance(): Repositories {
 	return MongooseRepository
 }
 

@@ -21,55 +21,56 @@ export interface IAccount extends Document {
   updatedAt?: string
 
 }
-export interface IAccountModel extends Model<IAccount, typeof accountQueryHelpers> {
-  calculateBalance()
-}
 
 export const AccountSchema = new Schema<IAccount>({
-  name: {
-    type: Schema.Types.String,
-    required: true
-  },
-  colors: {
-    primary: Schema.Types.String,
-    secondary: Schema.Types.String
-  },
-  startingBalance: {
-    type: Schema.Types.Number,
-    required: false,
-    default: 0
-  },
-  main: {
-    type: Schema.Types.Boolean,
-    default: false
-  },
-  institution: {
-    type: Schema.Types.ObjectId,
-    ref: 'Institution'
-  },
-  unregisteredInstitution: {
-    type: Schema.Types.String
-  },
-  type: {
-    type: Schema.Types.String,
-    default: AccountTypes.DEBIT,
-    enum: [ AccountTypes.CREDIT, AccountTypes.DEBIT ]
-  },
-  subtype: {
-    type: Schema.Types.String,
-    default: AccountSubtypes.CURRENCY,
-    enum: [ AccountSubtypes.BROKER, AccountSubtypes.CURRENT, AccountSubtypes.CURRENCY, AccountSubtypes.CREDIT_CARD, AccountSubtypes.DIGITAL_CURRENCY ]
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
+	name: {
+		type: Schema.Types.String,
+		required: true
+	},
+	colors: {
+		primary: Schema.Types.String,
+		secondary: Schema.Types.String
+	},
+	startingBalance: {
+		type: Schema.Types.Number,
+		required: false,
+		default: 0
+	},
+	main: {
+		type: Schema.Types.Boolean,
+		default: false
+	},
+	institution: {
+		type: Schema.Types.ObjectId,
+		ref: 'Institution'
+	},
+	unregisteredInstitution: {
+		type: Schema.Types.String
+	},
+	type: {
+		type: Schema.Types.String,
+		default: AccountTypes.DEBIT,
+		enum: [ AccountTypes.CREDIT, AccountTypes.DEBIT ]
+	},
+	subtype: {
+		type: Schema.Types.String,
+		default: AccountSubtypes.CURRENCY,
+		enum: [ AccountSubtypes.BROKER, AccountSubtypes.CURRENT, AccountSubtypes.CURRENCY, AccountSubtypes.CREDIT_CARD, AccountSubtypes.DIGITAL_CURRENCY ]
+	},
+	owner: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+		required: true
+	},
 }, {
-  timestamps: true
+	timestamps: true
 })
 
-let accountQueryHelpers = {}
+const accountQueryHelpers = {}
+
+export interface IAccountExtended extends Model<IAccount, typeof accountQueryHelpers> {
+  calculateBalance()
+}
 
 // AccountSchema.methods.calculateBalance = async function() {
 //   return Transaction.find().byAccount(this._id)

@@ -26,7 +26,7 @@ export interface Account {
   type: AccountTypes
   subtype: AccountSubtypes
   startingBalance: number
-  owner: User
+  owner: User['id']
   createdAt: string
   updatedAt: string
 }

@@ -2,7 +2,7 @@
 	<v-app>
 		<app-bar />
 		<app-snackbar />
-		<web-rail />
+		<side-bar />
 
 		<v-content v-if="!loading">
 			<v-slide-x-reverse-transition mode="out-in">
@@ -26,7 +26,7 @@ import finances from './store/modules/finances'
 	components: {
 		AppBar,
 		AppSnackbar: () => import('@/components/AppSnackbar.vue'),
-		WebRail: () => import('@/components/WebRail.vue')
+		SideBar: () => import('@/components/SideBar.vue')
 	},
 	name: 'App'
 })

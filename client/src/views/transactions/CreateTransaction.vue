@@ -208,20 +208,25 @@ export default class CreateTransactionView extends Vue {
     return finances.categories;
   }
 
-  async created() {
-    if (!finances.accounts.length) {
-      const accs = await finances.fetchAccounts();
-      if (!accs || !accs.length) {
-        this.$router.go(-1);
-      }
-    }
-    if (!finances.categories.length) {
-      const cats = await finances.fetchCategories();
-      if (!cats || !cats.length) {
-        this.$router.go(-1);
-      }
-    }
-  }
+	async created() {
+		if (!finances.accounts.length) {
+			const accs = await finances.fetchAccounts()
+			if (!accs || !accs.length) {
+				status.setStatus({
+					type: 'error',
+					message: `Adicione uma conta para começar a registrar transações`
+				})
+				this.$router.push('/dashboard/contas')
+				return
+			}
+		}
+		if (!finances.categories.length) {
+			const cats = await finances.fetchCategories()
+			if (!cats || !cats.length) {
+				console.log('Sem transações')
+			}
+		}
+	}
 
   get amount(): string {
     const amount = this.transaction.amount || 0;

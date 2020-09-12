@@ -46,10 +46,6 @@ export default class Transactions extends Vue {
     if (this.transactions.length <= 1) {
       finances.fetchTransactions();
     }
-    status.setStatus({
-      message: "Tudo carregado!",
-      type: "warning",
-    });
   }
 }
 </script>

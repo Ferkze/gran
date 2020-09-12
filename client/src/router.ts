@@ -51,11 +51,6 @@ const routes: RouteConfig[] = [
 				name: 'Transações',
 				path: 'transactions',
 				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Transactions.vue')
-			},
-			{
-				name: 'Investimentos',
-				path: 'investments',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Investments.vue')
 			}
 		],
 		meta: {
@@ -82,14 +77,6 @@ const routes: RouteConfig[] = [
 		path: '/contas/:accountId',
 		name: 'Criar Conta',
 		component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/EditDebitAccount.vue'),
-		meta: {
-			requiresAuth: true
-		}
-	},
-	{
-		path: '/investimentos',
-		name: 'Investimentos',
-		component: () => import(/* webpackChunkName: "investments" */ './views/investments/Investment.vue'),
 		meta: {
 			requiresAuth: true
 		}

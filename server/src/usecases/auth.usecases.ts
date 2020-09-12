@@ -9,6 +9,11 @@ import jwt from 'jsonwebtoken'
 import { opts } from '../config/passport'
 import { User } from '../models/entities/User'
 
+interface UserDataPayload {
+	id: User['id']
+	email: User['email']
+}
+
 export class AuthUsecasesImpl implements AuthUsecases {
 	
 	constructor(private repo: Repositories) { }
@@ -31,11 +36,19 @@ export class AuthUsecasesImpl implements AuthUsecases {
 	}
 
 	generateToken(user: User): string {
-		const payload = {
+		const payload: UserDataPayload = {
 			id: user.id,
 			email: user.email,
 		}
 		return jwt.sign(payload, opts.secretOrKey, { expiresIn: 31556926 }) /* 1year */
+	}
+
+	async getUserFromToken(token: string): Promise<User> {
+		const payload = jwt.decode(token, { json: true })
+		if (!payload) {
+			return null
+		}
+		return await this.repo.user.findUserById(payload['id'])
 	}
 
 	async register(data: RegisterData): Promise<User> {

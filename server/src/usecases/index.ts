@@ -25,6 +25,7 @@ export interface AccountUsecases {
 export interface AuthUsecases {
 	login(data: LoginData): Promise<User>
 	generateToken(user: User): string
+	getUserFromToken(token: string): Promise<User | null>
 	register(data: RegisterData): Promise<User>
 	logout(): void
 }

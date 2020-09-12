@@ -3,26 +3,28 @@ import { UsecasesImpl } from './usecases'
 import { LoginData, RegisterData } from '../models/entities/Auth'
 import { User } from '../models/entities/User'
 import { Institution } from '../models/entities/Institution'
+import { Account } from '../models/entities/Account'
 
 export interface Usecases {
-	authUsecases: AuthUsecases
-	accountUsecases: AccountUsecases
-	budgetUsecases: BudgetUsecases
-	budgetGroupUsecases: BudgetGroupUsecases
-	categoryUsecases: CategoryUsecases
-	instutionUsecases: InstitutionUsecases
-	userUsecases: UserUsecases
-	transactionUsecases: TransactionUsecases
+	auth: AuthUsecases
+	account: AccountUsecases
+	budget: BudgetUsecases
+	budgetGroup: BudgetGroupUsecases
+	category: CategoryUsecases
+	instution: InstitutionUsecases
+	user: UserUsecases
+	transaction: TransactionUsecases
 }
 
 export interface AccountUsecases {
 	showBalance(): void
-	listAccounts(): void
+	listAccounts(): Promise<Account[]>
 	registerAccount(): void
 }
 
 export interface AuthUsecases {
 	login(data: LoginData): Promise<User>
+	generateToken(user: User): string
 	register(data: RegisterData): Promise<User>
 	logout(): void
 }

@@ -5,6 +5,8 @@ import validateRegisterInput from '../models/validator/register'
 import validateLoginInput from '../models/validator/login'
 import { Repositories } from '../repositories'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
+import { opts } from '../config/passport'
 import { User } from '../models/entities/User'
 
 export class AuthUsecasesImpl implements AuthUsecases {
@@ -16,12 +18,26 @@ export class AuthUsecasesImpl implements AuthUsecases {
 		if (!isValid) {
 			throw new ValidationError(errors)
 		}
-		const user = await this.repo.user.findUserByEmail(data.email)
+		const { email, password } = data as LoginData
+		const user = await this.repo.user.findUserByEmail(email)
 		if (!user) {
-			throw new Error('Email inválido')
+			throw new Error('Usuário não encontrado')
+		}
+		const isMatch = await bcrypt.compare(password, user.password)
+		if (!isMatch) {
+			throw new Error('Senha incorreta')
 		}
 		return user
 	}
+
+	generateToken(user: User): string {
+		const payload = {
+			id: user.id,
+			email: user.email,
+		}
+		return jwt.sign(payload, opts.secretOrKey, { expiresIn: 31556926 }) /* 1year */
+	}
+
 	async register(data: RegisterData): Promise<User> {
 		const { isValid, errors } = validateRegisterInput(data)
 		if (!isValid) {

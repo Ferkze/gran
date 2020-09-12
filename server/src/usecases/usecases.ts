@@ -11,51 +11,24 @@ import { BudgetUsecasesImpl } from './budget.usecases'
 
 export class UsecasesImpl implements Usecases {
 	
-	accountUsecases: AccountUsecases
-	authUsecases: AuthUsecases
-	budgetUsecases: BudgetUsecases
-	budgetGroupUsecases: BudgetGroupUsecases
-	categoryUsecases: CategoryUsecases
-	instutionUsecases: InstitutionUsecases
-	userUsecases: UserUsecases
-	transactionUsecases: TransactionUsecases
+	account: AccountUsecases
+	auth: AuthUsecases
+	budget: BudgetUsecases
+	budgetGroup: BudgetGroupUsecases
+	category: CategoryUsecases
+	instution: InstitutionUsecases
+	user: UserUsecases
+	transaction: TransactionUsecases
 
-	constructor(private repo: Repositories) {
-		this.accountUsecases = new AccountUsecasesImpl(repo)
-		this.authUsecases = new AuthUsecasesImpl(repo)
-		this.budgetUsecases = new BudgetUsecasesImpl(repo)
-		this.budgetGroupUsecases = new BudgetGroupUsecasesImpl(repo)
-		this.categoryUsecases = new CategoryUsecasesImpl(repo)
-		this.transactionUsecases = new TransactionUsecasesImpl(repo)
-		this.instutionUsecases = new InstitutionUsecasesImpl(repo)
-		this.userUsecases = new UserUsecasesImpl(repo)
+	constructor(repo: Repositories) {
+		this.account = new AccountUsecasesImpl(repo)
+		this.auth = new AuthUsecasesImpl(repo)
+		this.budget = new BudgetUsecasesImpl(repo)
+		this.budgetGroup = new BudgetGroupUsecasesImpl(repo)
+		this.category = new CategoryUsecasesImpl(repo)
+		this.transaction = new TransactionUsecasesImpl(repo)
+		this.instution = new InstitutionUsecasesImpl(repo)
+		this.user = new UserUsecasesImpl(repo)
 	}
 
-	listTransactions(): void {
-		throw new Error('Method not implemented.')
-	}
-	listCategories(): void {
-		throw new Error('Method not implemented.')
-	}
-	listBudgets(): void {
-		throw new Error('Method not implemented.')
-	}
-	listBudgetGroups(): void {
-		throw new Error('Method not implemented.')
-	}
-	registerTransaction(): void {
-		throw new Error('Method not implemented.')
-	}
-	registerCategory(): void {
-		throw new Error('Method not implemented.')
-	}
-	registerBudget(): void {
-		throw new Error('Method not implemented.')
-	}
-	registerBudgetGroup(): void {
-		throw new Error('Method not implemented.')
-	}
-	joinBudgetGroup(): void {
-		throw new Error('Method not implemented.')
-	}
 }

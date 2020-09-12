@@ -1,5 +1,6 @@
 import { Repositories } from '../repositories'
 import { AccountUsecases } from '.'
+import { Account } from '../models/entities/Account'
 
 export class AccountUsecasesImpl implements AccountUsecases {
 	
@@ -8,8 +9,8 @@ export class AccountUsecasesImpl implements AccountUsecases {
 	showBalance(): void {
 		throw new Error('Method not implemented.')
 	}
-	listAccounts(): void {
-		throw new Error('Method not implemented.')
+	async listAccounts(): Promise<Account[]> {
+		return await this.repo.account.getAllAccounts()
 	}
 	registerAccount(): void {
 		throw new Error('Method not implemented.')

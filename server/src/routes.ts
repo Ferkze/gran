@@ -12,6 +12,7 @@ router.get('/', IndexController.index)
 
 router.post('/auth/login', AuthController.login)
 router.post('/auth/register', AuthController.register)
+router.post('/auth/current', AuthController.current)
 // router.get('/auth/profile', passport.authenticate('jwt', { session: false }), (req, res) => res.send(req['user']))
 
 router.get('/users', UserController.index)

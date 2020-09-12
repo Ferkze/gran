@@ -23,5 +23,6 @@ module.exports = {
     "linebreak-style": ["warn", "unix"],
     quotes: ["warn", "single"],
     semi: ["warn", "never"],
+    '@typescript-eslint/interface-name-prefix': 'off'
   },
 };

@@ -1,55 +1,55 @@
 import { Router } from 'express'
-import AccountController from './controllers/AccountController'
-import AuthController from './controllers/AuthController'
-import IndexController from './controllers/IndexController'
-import InstitutionController from './controllers/InstitutionController'
-import UserController from './controllers/UserController'
-// import passport from 'passport'
+import passport from 'passport'
+import accountController from './controllers/account.controller'
+import authController from './controllers/auth.controller'
+import categoryController from './controllers/category.controller'
+import indexController from './controllers/index.controller'
+import institutionController from './controllers/institution.controller'
+import userController from './controllers/user.controller'
+import authenticationMiddleware from './middlewares/authentication.middleware'
 
 const router = Router()
 
-router.get('/', IndexController.index)
+router.get('/', indexController.index)
 
-router.post('/auth/login', AuthController.login)
-router.post('/auth/register', AuthController.register)
-router.post('/auth/current', AuthController.current)
-// router.get('/auth/profile', passport.authenticate('jwt', { session: false }), (req, res) => res.send(req['user']))
+router.post('/auth/login', authController.login)
+router.post('/auth/register', authController.register)
+router.post('/auth/current', authController.current)
 
-router.get('/users', UserController.index)
-// router.get('/user/:id', UserController.find)
-// router.post('/users', UserController.store)
-// router.delete('/user/:userId', UserController.delete)
-// router.put('/user/:userId', UserController.update)
-// router.get('/user/:userId/transactions', TransactionController.findByUser)
+// Dados do usuário, precisa estar autenticado para acesser os dados de usuários
+// router.get('/users', userController.index)
+// router.get('/user/:id', userController.find)
+// router.post('/users', userController.store)
+// router.delete('/user/:userId', userController.delete)
+router.put('/user', authenticationMiddleware.userRequired, userController.update)
 
-// router.get('/user/:userId/accounts', UserAccountController.index)
-// router.post('/user/:userId/accounts', UserAccountController.store)
-// router.put('/user/:userId/account/:accountId', UserAccountController.update)
-// // router.delete('/user/:userId/account/:accountId', UserAccountController.delete)
+// Precisam de autenticação, para que as transações do usuário sejam encontradas
+// router.get('/transactions', authenticationMiddleware.userRequired, transactionController.index)
+// router.get('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.find)
+// router.put('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.update)
+// router.post('/transaction', authenticationMiddleware.userRequired, transactionController.store)
+// router.post('/transactions', authenticationMiddleware.userRequired, transactionController.store)
+// router.delete('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.remove)
 
-// router.get('/transactions', TransactionController.index)
-// router.get('/transaction/:transactionId', TransactionController.find)
-// router.put('/transaction/:transactionId', TransactionController.update)
-// router.post('/transaction', TransactionController.store)
-// router.post('/transactions', TransactionController.store)
-// router.delete('/transaction/:transactionId', TransactionController.remove)
+// Precisam de autenticação, para que as contas do usuário sejam encontradas
+router.get('/accounts', authenticationMiddleware.userRequired, accountController.index)
+// router.delete('/accounts/:accountId', authenticationMiddleware.userRequired, accountController.delete)
+// router.get('/accounts/:accountId/transactions', authenticationMiddleware.userRequired, transactionController.findByAccount)
+// router.post('/accounts', authenticationMiddleware.userRequired, accountController.store)
+// router.put('/account/:accountId', authenticationMiddleware.userRequired, accountController.put)
+// router.get('/account/:accountId/balance', authenticationMiddleware.userRequired, accountController.balance)
 
-router.get('/accounts', AccountController.index)
-// router.delete('/accounts/:accountId', AccountController.delete)
-// router.get('/accounts/:accountId/transactions', TransactionController.findByAccount)
-// router.post('/accounts', AccountController.store)
-// router.put('/account/:accountId', AccountController.put)
-// router.get('/account/:accountId/balance', AccountController.balance)
+// Não precisam de autenticação, essas instituições são genéricas para o app
+router.get('/institutions', institutionController.index)
+// router.get('/institutions/type/:type', institutionController.findByType)
+// router.get('/institution/:institutionId', institutionController.find)
+// router.delete('/institution/:institutionId', institutionController.delete)
+// router.post('/institutions', institutionController.store)
+// router.delete('/institutions', institutionController.deleteMany)
 
-router.get('/institutions', InstitutionController.index)
-// router.get('/institutions/type/:type', InstitutionController.findByType)
-// router.get('/institution/:institutionId', InstitutionController.find)
-// router.delete('/institution/:institutionId', InstitutionController.delete)
-// router.post('/institutions', InstitutionController.store)
-// router.delete('/institutions', InstitutionController.deleteMany)
-
-// router.get('/categories', CategoryController.index)
-// router.get('/category/:categoryId', CategoryController.find)
-// router.post('/categories', CategoryController.store)
+// Não precisam de autenticação, uma vez que o usuário utiliza as categorias padrões
+router.get('/categories', authenticationMiddleware.userRequired, categoryController.index)
+// router.get('/category/:categoryId', authenticationMiddleware.userRequired, categoryController.find)
+// router.post('/categories', authenticationMiddleware.userRequired, categoryController.store)
 
 export default router

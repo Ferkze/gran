@@ -37,7 +37,7 @@ class AuthController {
 	}
 
 	async current(req: Request, res: Response): Promise<Response> {
-		const token = req.headers['Authorization'].toString()
+		const token = req.headers.authorization
 
 		if(!token) {
 			return res.status(400).json({ error: 'Nenhum token especificado' })
@@ -45,10 +45,12 @@ class AuthController {
 			return res.status(400).json({ error: 'Token inválido' })
 		}
 
-		usecases.auth.getUserFromToken(token.replace('Bearer ', '').trim())
-
+		const user = await usecases.auth.getUserFromToken(token.replace('Bearer ', '').trim())
+		if (!user) {
+			return res.status(400).json({ error: 'Usuário não encontrado' })
+		}
+		return res.status(200).json({ user })
 	}
-	
 }
 
 export default new AuthController()

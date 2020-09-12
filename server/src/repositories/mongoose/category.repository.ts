@@ -1,12 +1,15 @@
 import { CategoryRepository } from '..'
 import { Category } from '../../models/entities/Category'
+import CategoryModel, { ICategory } from './models/CategoryModel'
 
 class MongooseCategoryRepository implements CategoryRepository {
-	getAllCategories(): Promise<Category[]> {
-		throw new Error('Method not implemented.')
+	async getAllCategories(): Promise<Category[]> {
+		const docs = await CategoryModel.find()
+		return docs.map(d => this.deserialize(d))
 	}
-	getAllUserCategories(userId: string): Promise<Category[]> {
-		throw new Error('Method not implemented.')
+	async getAllUserCategories(userId: string): Promise<Category[]> {
+		const docs = await CategoryModel.find({ creator: userId })
+		return docs.map(d => this.deserialize(d))
 	}
 	findCategoryById(id: string): Promise<Category> {
 		throw new Error('Method not implemented.')
@@ -21,6 +24,20 @@ class MongooseCategoryRepository implements CategoryRepository {
 		throw new Error('Method not implemented.')
 	}
 	
+	private deserialize(category: ICategory): Category {
+		return {
+			id: category._id,
+			name: category.name,
+			creator: category.creator,
+			type: category.type,
+			colors: {
+				primary: category.colors.primary,
+				secondary: category.colors.secondary,
+			},
+			createdAt: category.createdAt,
+			updatedAt: category.updatedAt,
+		}
+	}
 
 }
 

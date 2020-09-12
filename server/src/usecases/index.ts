@@ -4,6 +4,7 @@ import { LoginData, RegisterData } from '../models/entities/Auth'
 import { User } from '../models/entities/User'
 import { Institution } from '../models/entities/Institution'
 import { Account } from '../models/entities/Account'
+import { Category } from '../models/entities/Category'
 
 export interface Usecases {
 	auth: AuthUsecases
@@ -19,7 +20,10 @@ export interface Usecases {
 export interface AccountUsecases {
 	showBalance(): void
 	listAccounts(): Promise<Account[]>
-	registerAccount(): void
+	findAccountById(id: Account['id']): Promise<Account | null>
+	deleteAccount(id: Account['id']):  Promise<void>
+	editAccount(account: Account): Promise<Account>
+	registerAccount(account: Account): Promise<Account>
 }
 
 export interface AuthUsecases {
@@ -42,8 +46,8 @@ export interface BudgetGroupUsecases {
 }
 
 export interface CategoryUsecases {
-	listCategories(): void
-	registerCategory(): void
+	listCategories(userId: User['id']): Promise<Category[]>
+	registerCategory(category: Category): Promise<Category>
 }
 
 export interface InstitutionUsecases {
@@ -56,6 +60,7 @@ export interface TransactionUsecases {
 }
 
 export interface UserUsecases {
+	editUser(id: User['id'], data: User): Promise<User>
 	listUsers(): Promise<User[]>
 }
 

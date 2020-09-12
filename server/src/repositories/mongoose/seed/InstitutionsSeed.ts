@@ -1,6 +1,9 @@
 import mongoose from 'mongoose'
 import InstitutionModel , { InstitutionType } from '../models/InstitutionModel'
-import database from '../../../config/database';
+import database from '../../../config/database'
+import debug from 'debug'
+
+const log = debug('app:institution:seed')
 
 const documents: any[] = [
 	{
@@ -83,17 +86,17 @@ const documents: any[] = [
 		},
 		logoUrl: ''
 	},
-];
+]
 
-export const seedInstitutions = async () => {
-	mongoose.connect(database.connectionString)
+export const seedInstitutions = async (): Promise<void> => {
+	await database()
 	try {
 		const docs = await InstitutionModel.insertMany(documents)
 		if (docs.length == documents.length) {
 			mongoose.disconnect()
 		}
 	} catch (error) {
-		console.error(error)	
+		log(error)	
 	}
 }
 

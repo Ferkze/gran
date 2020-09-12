@@ -10,7 +10,7 @@ class MongooseUserRepository implements UserRepository {
 	}
 	
 	async findUserById(id: string): Promise<User | null> {
-		const user = await UserModel.findById(id)
+		const user = await UserModel.findById(id, '-accounts')
 		if (user) {
 			return this.deserialize(user)
 		}
@@ -18,7 +18,7 @@ class MongooseUserRepository implements UserRepository {
 	}
 
 	async findUserByEmail(email: string): Promise<User> {
-		const user = await UserModel.findOne({ email })
+		const user = await UserModel.findOne({ email }, '-accounts')
 		if (user) {
 			return this.deserialize(user)
 		}
@@ -30,9 +30,10 @@ class MongooseUserRepository implements UserRepository {
 		return this.deserialize(userDoc)
 	}
 
-	async updateUser(user: User): Promise<User> {
-		const { id, ...data } = user
-		await UserModel.update({ _id: id }, data)
+	async updateUser(_id: User['id'], user: User): Promise<User> {
+		// Faço isso para não correr o risco de sobscrever o id do usuário, recomendo fazer nos outros modelos
+		delete user.id
+		await UserModel.update({ _id }, user)
 		return user
 	}
 

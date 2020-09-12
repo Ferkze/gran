@@ -67,7 +67,7 @@ export interface UserRepository {
 	findUserById(id: string): Promise<User | null>
 	findUserByEmail(email: string): Promise<User | null>
 	saveUser(user: User): Promise<User>
-	updateUser(user: User): Promise<User>
+	updateUser(userId: User['id'], user: User): Promise<User>
 	deleteUser(userId: User['id']): Promise<void>
 }
 

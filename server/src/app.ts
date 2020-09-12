@@ -5,28 +5,22 @@ import databaseConfig from './config/database'
 import routes from './routes'
 import passport from 'passport'
 import passportConfig from './config/passport'
-import { exit } from 'process'
 
 class App {
-	public express: express.Application
+	public server: express.Application
 
 	constructor() {
-		this.express = express()
+		this.server = express()
 
-		try {
-			this.config()
-			this.middlewares()
-			this.routes()
-		} catch (error) {
-			console.error('Não foi possível iniciar o servidor:', error)
-			exit(0)
-		}
+		this.config()
+		this.middlewares()
+		this.routes()
 	}
 
 	private middlewares(): void {
-		this.express.use(express.json())
-		this.express.use(cors())
-		this.express.use(passport.initialize())
+		this.server.use(express.json())
+		this.server.use(cors())
+		this.server.use(passport.initialize())
 		require('./config/passport')
 	}
 
@@ -37,9 +31,9 @@ class App {
 	}
 
 	private routes(): void {
-		this.express.use('/api', routes)
+		this.server.use('/api', routes)
 	}
 
 }
 
-export default new App().express
+export default new App()

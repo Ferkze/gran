@@ -1,18 +1,13 @@
 import store from '..'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { getAccounts, createAccount, updateAccount, deleteAccount } from '../../service/api/account'
+import AccountService from '@/service/api/AccountService'
 import auth from './auth'
-import { CategoryType, InstitutionType } from '../../models/enums'
+import { CategoryType, InstitutionType } from '@/models/enums'
 
 import { Account, Transaction, Category, Institution } from '@/models'
-import {
-	getUserTransactions,
-	updateTransaction,
-	deleteTransaction,
-	createTransaction
-} from '@/service/api/transactions'
-import { getInstitutions } from '@/service/api/institution'
-import { getCategories } from '@/service/api/categories'
+import TransactionService from '@/service/api/TransactionService'
+import InstitutionService from '@/service/api/InstitutionService'
+import CategoryService from '@/service/api/CategoryService'
 
 @Module({
 	store,
@@ -27,7 +22,7 @@ class FinancesModule extends VuexModule {
 	institutions: Institution[] = []
 
 	get accountIds() {
-		return this.accounts.map(a => a._id)
+		return this.accounts.map(a => a.id)
 	}
 
 	get bankInstitutions() {
@@ -52,84 +47,84 @@ class FinancesModule extends VuexModule {
 
 	@Action({ commit: 'setInstitutions', rawError: true })
 	async fetchInstitutions(): Promise<Institution[] | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await getInstitutions()).data
+		return (await InstitutionService.getInstitutions()).data
 	}
 
 	@Action({ commit: 'setCategories', rawError: true })
 	async fetchCategories(): Promise<Category[] | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await getCategories()).data
+		return (await CategoryService.getCategories()).data
 	}
 
 	@Action({ commit: 'setAccounts', rawError: true })
 	async fetchAccounts(): Promise<Account[] | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await getAccounts(auth.user._id)).data
+		return (await AccountService.getAccounts(auth.user.id)).data
 	}
 
 	@Action({ commit: 'addAccount', rawError: true })
 	async newAccount(account: Account): Promise<Account | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return null
 		}
-		account.owner = auth.user._id
-		return (await createAccount(auth.user._id, account)).data
+		account.owner = auth.user.id
+		return (await AccountService.createAccount(auth.user.id, account)).data
 	}
 
 	@Action({ commit: 'replaceAccount', rawError: true })
 	async changeAccount(account: Account): Promise<Account | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return null
 		}
-		return (await updateAccount(auth.user._id, account)).data
+		return (await AccountService.updateAccount(auth.user.id, account)).data
 	}
 
 	@Action({ commit: 'removeAccount', rawError: true })
 	async deleteAccount(account: Account): Promise<Account | null> {
-		if (!auth.user || !auth.user._id || !account._id) {
+		if (!auth.user || !auth.user.id || !account.id) {
 			return null
 		}
-		return (await deleteAccount(account._id)).data
+		return (await AccountService.deleteAccount(account.id)).data
 	}
 
 	@Action({ commit: 'setTransactions', rawError: true })
 	async fetchTransactions(): Promise<Transaction[] | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await getUserTransactions(auth.user._id)).data
+		return (await TransactionService.getUserTransactions(auth.user.id)).data
 	}
 
 	@Action({ commit: 'addTransaction', rawError: true })
 	async newTransaction(transaction: Transaction): Promise<Transaction | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return null
 		}
-		transaction.creator = auth.user._id
-		return (await createTransaction(transaction)).data
+		transaction.creator = auth.user.id
+		return (await TransactionService.createTransaction(transaction)).data
 	}
 
 	@Action({ commit: 'replaceTransaction', rawError: true })
 	async changeTransaction(transaction: Transaction): Promise<Transaction | null> {
-		if (!auth.user || !auth.user._id) {
+		if (!auth.user || !auth.user.id) {
 			return null
 		}
-		return (await updateTransaction(transaction)).data
+		return (await TransactionService.updateTransaction(transaction)).data
 	}
 
 	@Action({ commit: 'removeTransaction', rawError: true })
 	async deleteTransaction(transaction: Transaction): Promise<Transaction | null> {
-		if (!auth.user || !auth.user._id || !transaction._id) {
+		if (!auth.user || !auth.user.id || !transaction.id) {
 			return null
 		}
-		await deleteTransaction(transaction._id)
+		await TransactionService.deleteTransaction(transaction.id)
 		return transaction
 	}
 
@@ -155,13 +150,13 @@ class FinancesModule extends VuexModule {
 
 	@Mutation
 	replaceAccount(account: Account) {
-		const index = this.accounts.findIndex(a => a._id == account._id)
+		const index = this.accounts.findIndex(a => a.id == account.id)
 		this.accounts.splice(index, 1, account)
 	}
 
 	@Mutation
 	removeAccount(account: Account) {
-		const index = this.accounts.findIndex(a => a._id == account._id)
+		const index = this.accounts.findIndex(a => a.id == account.id)
 		this.accounts.splice(index, 1)
 	}
 
@@ -177,13 +172,13 @@ class FinancesModule extends VuexModule {
 
 	@Mutation
 	replaceTransaction(transaction: Transaction) {
-		const index = this.transactions.findIndex(a => a._id == transaction._id)
+		const index = this.transactions.findIndex(a => a.id == transaction.id)
 		this.transactions.splice(index, 1, transaction)
 	}
 
 	@Mutation
 	removeTransaction(transaction: Transaction) {
-		const index = this.transactions.findIndex(a => a._id == transaction._id)
+		const index = this.transactions.findIndex(a => a.id == transaction.id)
 		this.transactions.splice(index, 1)
 	}
 }

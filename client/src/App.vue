@@ -19,7 +19,6 @@
 import Vue from 'vue'
 import AppBar from '@/components/AppBar.vue'
 import Component from 'vue-class-component'
-import { _currentUser } from './service/api/auth'
 import auth from './store/modules/auth'
 import finances from './store/modules/finances'
 
@@ -36,7 +35,7 @@ export default class App extends Vue {
 
 	async mounted() {
 		this.loading = true
-		auth.setUser(_currentUser())
+		auth.silentLogin()
 
 		await Promise.all([
 			finances.fetchCategories(),

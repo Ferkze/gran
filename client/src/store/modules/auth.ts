@@ -1,7 +1,8 @@
 import store from '..'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
-import { loginToken, register, logout, LoginData, RegisterData } from '@/service/api/auth'
 import { User } from '@/models'
+import { LoginData, RegisterData } from '@/models/auth'
+import AuthService from '@/service/api/AuthService'
 
 @Module({
 	store,
@@ -20,19 +21,22 @@ class AuthModule extends VuexModule {
 
 	@Action({ commit: 'setUser', rawError: true })
 	async login(data: LoginData): Promise<User> {
-		return await loginToken(data)
+		return await AuthService.login(data)
+	}
+	
+	@Action({ commit: 'setUser', rawError: true })
+	async silentLogin(): Promise<User | null> {
+		return await AuthService.silentLogin()
 	}
 
 	@Action({ commit: 'setUser', rawError: true })
 	async register(data: RegisterData): Promise<User> {
-		const user = await register(data)
-		await loginToken({ email: data.email, password: data.password })
-		return user
+		return await AuthService.register(data)
 	}
 
 	@Action({ commit: 'setUser', rawError: true })
 	logout(): null {
-		logout()
+		AuthService.logout()
 		return null
 	}
 

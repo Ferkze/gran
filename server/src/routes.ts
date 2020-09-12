@@ -1,17 +1,17 @@
 import { Router } from 'express'
+import AccountController from './controllers/AccountController'
 import AuthController from './controllers/AuthController'
-import UserController from './controllers/UserController'
 import IndexController from './controllers/IndexController'
 import InstitutionController from './controllers/InstitutionController'
+import UserController from './controllers/UserController'
 // import passport from 'passport'
 
 const router = Router()
 
 router.get('/', IndexController.index)
 
+router.post('/auth/login', AuthController.login)
 router.post('/auth/register', AuthController.register)
-router.post('/auth/login', AuthController.loginAuth)
-router.post('/auth/login-user', AuthController.login)
 // router.get('/auth/profile', passport.authenticate('jwt', { session: false }), (req, res) => res.send(req['user']))
 
 router.get('/users', UserController.index)
@@ -33,7 +33,7 @@ router.get('/users', UserController.index)
 // router.post('/transactions', TransactionController.store)
 // router.delete('/transaction/:transactionId', TransactionController.remove)
 
-// router.get('/accounts', AccountController.index)
+router.get('/accounts', AccountController.index)
 // router.delete('/accounts/:accountId', AccountController.delete)
 // router.get('/accounts/:accountId/transactions', TransactionController.findByAccount)
 // router.post('/accounts', AccountController.store)

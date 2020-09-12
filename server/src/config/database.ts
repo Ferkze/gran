@@ -8,6 +8,7 @@ export default async (): Promise<void> => {
 			useUnifiedTopology: true,
 			useFindAndModify: true
 		})
+		Mongoose.set('returnOriginal', false)
 		console.log('Sucesso ao se conectar com o MongoDB')
 	} catch (error) {
 		console.error('Erro ao se conectar com o MongoDB:', error)

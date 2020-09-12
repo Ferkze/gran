@@ -1,12 +1,15 @@
 import { Request, Response } from 'express'
-import InstitutionModel from '../repositories/mongoose/models/InstitutionModel'
+import usecases from '../usecases'
 // import Institution, { Institution as InstitutionModel } from '../models/Institution'
 
 class InstitutionController {
 	public async index(req: Request, res: Response): Promise<Response> {
-		const institutions = await InstitutionModel.find()
-		console.info('Institutions found', institutions.length)
-		return res.json(institutions)
+		try {
+			const institutions = await usecases.instutionUsecases.listInstitutions()
+			return res.json(institutions)
+		} catch (error) {
+			return res.status(500).json({ error })
+		}
 	}
 
 	//   public async find(req: Request, res: Response): Promise<Response> {

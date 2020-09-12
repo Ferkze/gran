@@ -1,10 +1,14 @@
 import { Request, Response } from 'express'
+import usecases from '../usecases'
 
 class AccountController {
 	public async index(req: Request, res: Response): Promise<Response> {
-		// const accounts = await Account.find().populate('institution')
-		// return res.json(accounts)
-		return res.json(null)
+		try {
+			const accounts = await usecases.account.listAccounts()
+			return res.status(200).json(accounts)
+		} catch (error) {
+			return res.status(500).json({ error: error.message })
+		}
 	}
 	public async find(req: Request, res: Response): Promise<Response> {
 		// const account = await Account.findOne({

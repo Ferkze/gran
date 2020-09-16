@@ -6,15 +6,17 @@ import debug from 'debug'
 const log = debug('app:account:controller')
 
 class AccountController {
+
 	public async index(req: Request, res: Response): Promise<Response> {
 		try {
-			const accounts = await usecases.account.listAccounts()
+			const accounts = await usecases.account.listAccountsByUser(req.user['id'])
 			return res.status(200).json(accounts)
 		} catch (error) {
 			return res.status(500).json({ error: error.message })
 		}
 	}
-	public async find(req: Request, res: Response): Promise<Response> {
+
+	public async findById(req: Request, res: Response): Promise<Response> {
 		try {
 			const account = await usecases.account.findAccountById(req.params.accountId)
 			return res.status(200).json({ account })
@@ -23,7 +25,8 @@ class AccountController {
 			return res.status(500).json({ error: error.message })
 		}
 	}
-	public async store(req: Request, res: Response): Promise<Response> {
+
+	public async create(req: Request, res: Response): Promise<Response> {
 		try {
 			const account = await usecases.account.registerAccount(req.body as Account)
 			return res.status(200).json({ account })
@@ -32,7 +35,8 @@ class AccountController {
 			return res.status(500).json({ error: error.message })
 		}
 	}
-	public async put(req: Request, res: Response): Promise<Response> {
+
+	public async update(req: Request, res: Response): Promise<Response> {
 		try {
 			const account = await usecases.account.editAccount(req.body as Account)
 			return res.status(200).json({ account })
@@ -41,6 +45,7 @@ class AccountController {
 			return res.status(500).json({ error: error.message })
 		}
 	}
+
 	public async delete(req: Request, res: Response): Promise<Response> {
 		try {
 			const account = await usecases.account.deleteAccount(req.params.accountId)
@@ -74,6 +79,7 @@ class AccountController {
 		// return res.json(balance)
 		return res.json(null)
 	}
+
 }
 
 export default new AccountController()

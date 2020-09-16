@@ -7,10 +7,10 @@ class UserController {
 	// 	const users = await usecases.listUsers()
 	// 	return res.json(users)
 	// }
-	// public async find(req: Request, res: Response): Promise<Response> {
-	// 	const userDoc = await UserRepository.findUserById(req.params.id)
-	// 	return res.json(userDoc)
-	// }
+	public async readById(req: Request, res: Response): Promise<Response> {
+		const user = await usecases.user.getUser(req.params.userId)
+		return res.json({ user })
+	}
 	// public async store(req: Request, res: Response): Promise<Response> {
 	// 	const user = req.body as User
 	// 	const userDoc = await UserRepository.saveUser(user)

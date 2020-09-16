@@ -9,18 +9,23 @@ export class AccountUsecasesImpl implements AccountUsecases {
 	showBalance(): void {
 		throw new Error('Method not implemented.')
 	}
-	async listAccounts(): Promise<Account[]> {
-		return await this.repo.account.getAllAccounts()
+
+	async listAccountsByUser(userId: string): Promise<Account[]> {
+		return this.repo.account.getAllUserAccounts(userId)
 	}
+
 	async findAccountById(id: Account['id']): Promise<Account | null> {
 		return this.repo.account.findAccountById(id)
 	}
+
 	async deleteAccount(id: Account['id']):  Promise<void> {
 		return await this.repo.account.deleteAccount(id)
 	}
+
 	async editAccount(account: Account): Promise<Account> {
 		return await this.repo.account.updateAccount(account)
 	}
+
 	async registerAccount(account: Account): Promise<Account> {
 		return await this.repo.account.saveAccount(account)
 	}

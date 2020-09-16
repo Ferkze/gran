@@ -22,7 +22,7 @@ export interface Usecases {
 
 export interface AccountUsecases {
 	showBalance(): void
-	listAccounts(): Promise<Account[]>
+	listAccountsByUser(userId: User['id']): Promise<Account[]>
 	findAccountById(id: Account['id']): Promise<Account | null>
 	deleteAccount(id: Account['id']):  Promise<void>
 	editAccount(account: Account): Promise<Account>

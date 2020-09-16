@@ -13,6 +13,9 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 		throw new Error('Method not implemented.')
 	}
 	registerTransaction(data: Transaction): Promise<Transaction> {
+		if (!data.amount) {
+			throw new Error('A transação precisa ter um valor')
+		}
 		throw new Error('Method not implemented.')
 	}
 	

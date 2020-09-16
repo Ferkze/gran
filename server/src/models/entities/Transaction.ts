@@ -1,6 +1,6 @@
 import { User } from './User'
 import { Category } from './Category'
-import { BudgetGroup } from './BudgetGroup'
+import { Group } from './Group'
 
 export enum TransactionType {
   DEBIT = 'debit',
@@ -18,7 +18,7 @@ export interface Transaction {
   categories: Category[]
   type: TransactionType
   creator: User
-  budgetGroup: BudgetGroup
+  group: Group
   createdAt: Date
   updatedAt: Date
 }

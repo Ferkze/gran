@@ -6,14 +6,14 @@ import { Institution } from '../models/entities/Institution'
 import { Account } from '../models/entities/Account'
 import { Category } from '../models/entities/Category'
 import { Budget } from '../models/entities/Budget'
-import { BudgetGroup } from '../models/entities/BudgetGroup'
+import { Group } from '../models/entities/Group'
 import { Transaction } from '../models/entities/Transaction'
 
 export interface Usecases {
 	auth: AuthUsecases
 	account: AccountUsecases
 	budget: BudgetUsecases
-	budgetGroup: BudgetGroupUsecases
+	group: GroupUsecases
 	category: CategoryUsecases
 	instution: InstitutionUsecases
 	user: UserUsecases
@@ -43,17 +43,17 @@ export interface BudgetUsecases {
 	registerBudget(data: Budget): Promise<Budget>
 }
 
-export interface BudgetGroupUsecases {
-	editBudgetGroup(id:BudgetGroup['id'], data: BudgetGroup): Promise<BudgetGroup>
-	listBudgetGroups(userId: User['id']): Promise<BudgetGroup[]>
-	registerBudgetGroup(data: BudgetGroup): Promise<BudgetGroup>
-	joinBudgetGroup(userId: User['id'], budgetGroupId: BudgetGroup['id']): Promise<void>
-}
-
 export interface CategoryUsecases {
 	editCategory(id:Category['id'], data: Category): Promise<Category>
 	listCategories(userId: User['id']): Promise<Category[]>
 	registerCategory(category: Category): Promise<Category>
+}
+
+export interface GroupUsecases {
+	editGroup(id:Group['id'], data: Group): Promise<Group>
+	listGroups(userId: User['id']): Promise<Group[]>
+	registerGroup(data: Group): Promise<Group>
+	joinGroup(userId: User['id'], groupId: Group['id']): Promise<void>
 }
 
 export interface InstitutionUsecases {

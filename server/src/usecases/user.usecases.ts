@@ -10,6 +10,10 @@ export class UserUsecasesImpl implements UserUsecases {
 		return await this.repo.user.updateUser(id, data)
 	}
 
+	getUser(id: string): Promise<User> {
+		throw new Error('Method not implemented.')
+	}
+	
 	async listUsers(): Promise<User[]> {
 		return await this.repo.user.getAllUsers()
 	}

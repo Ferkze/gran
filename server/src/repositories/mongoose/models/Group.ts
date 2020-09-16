@@ -1,9 +1,9 @@
 import { Document, Schema, model } from 'mongoose'
 import { IUser } from './UserModel'
 
-export const BUDGET_GROUP: string = 'BudgetGroup'
+export const GROUP: string = 'Group'
 
-export interface IBudgetGroup extends Document {
+export interface IGroup extends Document {
   name: string,
   description: string,
   creator: IUser | IUser['_id']
@@ -12,7 +12,7 @@ export interface IBudgetGroup extends Document {
   updatedAt: Date
 }
 
-const SchemaBudgetGroup = new Schema<IBudgetGroup>({
+const SchemaGroup = new Schema<IGroup>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -21,4 +21,4 @@ const SchemaBudgetGroup = new Schema<IBudgetGroup>({
   timestamps: true
 })
 
-export default model<IBudgetGroup>(BUDGET_GROUP, SchemaBudgetGroup)
+export default model<IGroup>(GROUP, SchemaGroup)

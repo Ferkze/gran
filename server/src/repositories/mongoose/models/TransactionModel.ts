@@ -2,7 +2,7 @@ import { Document, Schema, Model, model, DocumentQuery } from 'mongoose'
 import { IAccount } from './AccountModel'
 import { ICategory } from './CategoryModel'
 import { IUser } from './UserModel'
-import { BUDGET_GROUP, IBudgetGroup } from './BudgetGroup'
+import { BUDGET_GROUP, IGroup } from './Group'
 
 export const TRANSACTION: string = 'Transaction'
 
@@ -21,7 +21,7 @@ export interface ITransaction extends Document {
   category: [ICategory]
   type: TransactionType
   creator: IUser['_id'] | IUser
-  budgetGroup?: IBudgetGroup['id'] | IBudgetGroup
+  group?: IGroup['id'] | IGroup
   createdAt: Date
   updatedAt: Date
 }
@@ -39,7 +39,7 @@ const SchemaTransaction = new Schema<ITransaction>({
   category: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   type: { type: Schema.Types.String, required: true, enum: [ TransactionType.CREDIT, TransactionType.DEBIT, TransactionType.TRANSFERENCE ] },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true, },
-  budgetGroup: { type: Schema.Types.ObjectId, ref: BUDGET_GROUP, required: false }
+  group: { type: Schema.Types.ObjectId, ref: BUDGET_GROUP, required: false }
 }, {
   timestamps: true
 })

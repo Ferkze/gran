@@ -4,7 +4,7 @@ import { Account } from '../models/entities/Account'
 import MongooseRepository from './mongoose'
 import { Institution } from '../models/entities/Institution'
 import { Transaction } from '../models/entities/Transaction'
-import { BudgetGroup } from '../models/entities/BudgetGroup'
+import { Group } from '../models/entities/Group'
 import { Budget } from '../models/entities/Budget'
 
 
@@ -26,15 +26,6 @@ export interface BudgetRepository {
 	deleteBudget(budgetId: Budget['id']): Promise<void>
 }
 
-export interface BudgetGroupRepository {
-	getAllBudgetGroups(): Promise<BudgetGroup[]>
-	getAllUserBudgetGroups(userId: User['id']): Promise<BudgetGroup[]>
-	findBudgetGroupById(id: string): Promise<BudgetGroup | null>
-	saveBudgetGroup(budgetGroup: BudgetGroup): Promise<BudgetGroup>
-	updateBudgetGroup(budgetGroup: BudgetGroup): Promise<BudgetGroup>
-	deleteBudgetGroup(budgetGroupId: BudgetGroup['id']): Promise<void>
-}
-
 export interface CategoryRepository {
 	getAllCategories(): Promise<Category[]>
 	getAllUserCategories(userId: User['id']): Promise<Category[]>
@@ -42,6 +33,15 @@ export interface CategoryRepository {
 	saveCategory(category: Category): Promise<Category>
 	updateCategory(category: Category): Promise<Category>
 	deleteCategory(categoryId: Category['id']): Promise<void>
+}
+
+export interface GroupRepository {
+	getAllGroups(): Promise<Group[]>
+	getAllUserGroups(userId: User['id']): Promise<Group[]>
+	findGroupById(id: string): Promise<Group | null>
+	saveGroup(group: Group): Promise<Group>
+	updateGroup(group: Group): Promise<Group>
+	deleteGroup(groupId: Group['id']): Promise<void>
 }
 
 export interface InstitutionRepository {
@@ -74,7 +74,7 @@ export interface UserRepository {
 export interface Repositories {
 	account: AccountRepository
 	budget: BudgetRepository
-	budgetGroup: BudgetGroupRepository
+	group: GroupRepository
 	category: CategoryRepository
 	institution: InstitutionRepository
 	user: UserRepository

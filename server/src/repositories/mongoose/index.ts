@@ -7,7 +7,7 @@ import categoryRepository from './category.repository'
 const repository: Repositories = {
 	account: accountRepository,
 	budget: null,
-	budgetGroup: null,
+	group: null,
 	category: categoryRepository,
 	institution: institutionRepository,
 	user: userRepository,

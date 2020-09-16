@@ -5,6 +5,9 @@ import { User } from '../models/entities/User'
 import { Institution } from '../models/entities/Institution'
 import { Account } from '../models/entities/Account'
 import { Category } from '../models/entities/Category'
+import { Budget } from '../models/entities/Budget'
+import { BudgetGroup } from '../models/entities/BudgetGroup'
+import { Transaction } from '../models/entities/Transaction'
 
 export interface Usecases {
 	auth: AuthUsecases
@@ -28,24 +31,27 @@ export interface AccountUsecases {
 
 export interface AuthUsecases {
 	login(data: LoginData): Promise<User>
+	logout(): void
 	generateToken(user: User): string
 	getUserFromToken(token: string): Promise<User | null>
 	register(data: RegisterData): Promise<User>
-	logout(): void
 }
 
 export interface BudgetUsecases {
-	listBudgets(): void
-	registerBudget(): void
+	editBudget(id:Budget['id'], data: Budget): Promise<Budget>
+	listBudgetsByUser(userId: User['id']): Promise<Budget[]>
+	registerBudget(data: Budget): Promise<Budget>
 }
 
 export interface BudgetGroupUsecases {
-	listBudgetGroups(): void
-	registerBudgetGroup(): void
-	joinBudgetGroup(): void
+	editBudgetGroup(id:BudgetGroup['id'], data: BudgetGroup): Promise<BudgetGroup>
+	listBudgetGroups(userId: User['id']): Promise<BudgetGroup[]>
+	registerBudgetGroup(data: BudgetGroup): Promise<BudgetGroup>
+	joinBudgetGroup(userId: User['id'], budgetGroupId: BudgetGroup['id']): Promise<void>
 }
 
 export interface CategoryUsecases {
+	editCategory(id:Category['id'], data: Category): Promise<Category>
 	listCategories(userId: User['id']): Promise<Category[]>
 	registerCategory(category: Category): Promise<Category>
 }
@@ -55,11 +61,13 @@ export interface InstitutionUsecases {
 }
 
 export interface TransactionUsecases {
-	listTransactions(): void
-	registerTransaction(): void
+	editTransaction(id:Transaction['id'], data: Transaction): Promise<Transaction>
+	listTransactionsByUser(userId: User['id']): Promise<Transaction[]>
+	registerTransaction(data: Transaction): Promise<Transaction>
 }
 
 export interface UserUsecases {
+	getUser(id: User['id']): Promise<User>
 	editUser(id: User['id'], data: User): Promise<User>
 	listUsers(): Promise<User[]>
 }

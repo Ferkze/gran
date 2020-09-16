@@ -77,7 +77,7 @@ export class AuthUsecasesImpl implements AuthUsecases {
 				bcrypt.hash(user.password, salt, async (err, hash) => {
 					if (err) reject(err)
 					user.password = hash
-					user = await this.repo.user.updateUser(user)
+					user = await this.repo.user.updateUser(user.id, user)
 					return resolve(user)
 				})
 			})

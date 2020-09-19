@@ -11,8 +11,8 @@ class TransactionService {
     });
   }
 
-  getUserTransactions(userId: User["id"]) {
-    return client.get(`/user/${userId}/transactions`);
+  async getUserTransactions() {
+    return await (await client.get(`/transactions`)).data;
   }
 
   getTransaction(

@@ -12,6 +12,7 @@ class AuthenticationMiddleware {
 				return res.status(401).json({ error: 'Usuário precisa estar autenticado' })
 			}
 			log('Usuário autenticado:', user['id'])
+			req.user = user
 			next()
 		})(req, res, next)
 	}

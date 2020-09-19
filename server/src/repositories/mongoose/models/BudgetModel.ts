@@ -1,10 +1,13 @@
 import { Document, Schema, model } from 'mongoose'
+import { IUser } from './UserModel'
 
 export const BUDGET: string = 'Budget'
 
 export interface IBudget extends Document {
   name: string,
   description: string,
+  creator: IUser['_id']
+  members: IUser[]
   createdAt: Date
   updatedAt: Date
 }

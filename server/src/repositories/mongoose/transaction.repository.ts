@@ -1,29 +1,56 @@
 import { TransactionRepository } from '..'
 import { Transaction } from '../../models/entities/Transaction'
+import { MongooseCategoryRepository } from './category.repository'
+import TransactionModel, { ITransaction } from './models/TransactionModel'
 
 class MongooseTransactionRepository implements TransactionRepository {
-	getAllTransactions(): Promise<Transaction[]> {
-		throw new Error('Method not implemented.')
+	async getAllTransactions(): Promise<Transaction[]> {
+		const docs = await TransactionModel.find().populate('categories')
+		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
-	getAllUserTransactions(userId: string): Promise<Transaction[]> {
-		throw new Error('Method not implemented.')
+	async getAllUserTransactions(userId: string): Promise<Transaction[]> {
+		const docs = await TransactionModel.find({ creator: userId }).populate('categories')
+		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
-	getAllAccountTransactions(accountId: string): Promise<Transaction[]> {
-		throw new Error('Method not implemented.')
+	async getAllAccountTransactions(accountId: string): Promise<Transaction[]> {
+		const docs = await TransactionModel.byAccount(accountId)
+		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
-	findTransactionById(id: string): Promise<Transaction> {
-		throw new Error('Method not implemented.')
+	async findTransactionById(id: string): Promise<Transaction> {
+		const doc = await TransactionModel.findById(id)
+		return MongooseTransactionRepository.deserializeTransaction(doc)
 	}
-	saveTransaction(transaction: Transaction): Promise<Transaction> {
-		throw new Error('Method not implemented.')
+	async saveTransaction(transaction: Transaction): Promise<Transaction> {
+		const doc = await TransactionModel.create(transaction)
+		return MongooseTransactionRepository.deserializeTransaction(doc)
 	}
-	updateTransaction(transaction: Transaction): Promise<Transaction> {
-		throw new Error('Method not implemented.')
+	async updateTransaction(id: Transaction['id'], transaction: Transaction): Promise<Transaction> {
+		const doc = await TransactionModel.update({ _id: id }, transaction)
+		return MongooseTransactionRepository.deserializeTransaction(doc)
 	}
-	deleteTransaction(transactionId: string): Promise<void> {
-		throw new Error('Method not implemented.')
+	async deleteTransaction(transactionId: string): Promise<void> {
+		await TransactionModel.deleteOne({ _id: transactionId })
+	}
+
+	static deserializeTransaction(transaction: ITransaction): Transaction {
+		return {
+			id: transaction.id,
+			amount: transaction.amount,
+			date: transaction.date,
+			description: transaction.description,
+			account: transaction.account,
+			categories: MongooseCategoryRepository.deserializeCategories(transaction.categories),
+			type: transaction.type,
+			creator: transaction.creator,
+			group: transaction.group,
+			createdAt: transaction.createdAt,
+			updatedAt: transaction.updatedAt,
+		}
 	}
 	
+	static deserializeTransactions(transactions: ITransaction[]): Transaction[] {
+		return transactions.map(t => MongooseTransactionRepository.deserializeTransaction(t))
+	}
 
 }
 

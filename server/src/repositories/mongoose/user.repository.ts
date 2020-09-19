@@ -2,17 +2,17 @@ import UserModel, { IUser } from './models/UserModel'
 import { UserRepository } from '..'
 import { User } from '../../models/entities/User'
 
-class MongooseUserRepository implements UserRepository {
+export class MongooseUserRepository implements UserRepository {
 	
 	async getAllUsers(): Promise<User[]> {
 		const users = await UserModel.find(null, '-accounts')
-		return users.map(u => this.deserialize(u))
+		return users.map(u => MongooseUserRepository.deserializeUser(u))
 	}
 	
 	async findUserById(id: string): Promise<User | null> {
 		const user = await UserModel.findById(id, '-accounts')
 		if (user) {
-			return this.deserialize(user)
+			return MongooseUserRepository.deserializeUser(user)
 		}
 		return null
 	}
@@ -20,14 +20,14 @@ class MongooseUserRepository implements UserRepository {
 	async findUserByEmail(email: string): Promise<User> {
 		const user = await UserModel.findOne({ email }, '-accounts')
 		if (user) {
-			return this.deserialize(user)
+			return MongooseUserRepository.deserializeUser(user)
 		}
 		return null
 	}
 
 	async saveUser(user: User): Promise<User> {
 		const userDoc = await UserModel.create(user)
-		return this.deserialize(userDoc)
+		return MongooseUserRepository.deserializeUser(userDoc)
 	}
 
 	async updateUser(_id: User['id'], user: User): Promise<User> {
@@ -39,10 +39,9 @@ class MongooseUserRepository implements UserRepository {
 
 	async deleteUser(userId: string): Promise<void> {
 		await UserModel.deleteOne({ _id: userId })
-		return
 	}
 
-	private deserialize(user: IUser): User {
+	static deserializeUser(user: IUser): User {
 		return {
 			id: user._id as string,
 			username: user.username,

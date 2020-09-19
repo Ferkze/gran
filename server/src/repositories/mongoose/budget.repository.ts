@@ -1,26 +1,51 @@
 import { BudgetRepository } from '..'
 import { Budget } from '../../models/entities/Budget'
+import BudgetModel, { IBudget } from './models/BudgetModel'
+import { MongooseUserRepository } from './user.repository'
 
-class MongooseBudgetRepository implements BudgetRepository {
-	getAllBudgets(): Promise<Budget[]> {
-		throw new Error('Method not implemented.')
+export class MongooseBudgetRepository implements BudgetRepository {
+	
+	async getAllBudgets(): Promise<Budget[]> {
+		const budgets = await BudgetModel.find()
+		return budgets.map(budget => MongooseBudgetRepository.deserializeBudget(budget))
 	}
-	getAllUserBudgets(userId: string): Promise<Budget[]> {
-		throw new Error('Method not implemented.')
+
+	async getAllUserBudgets(userId: string): Promise<Budget[]> {
+		const budgets = await BudgetModel.find({ creator: userId })
+		return budgets.map(budget => MongooseBudgetRepository.deserializeBudget(budget))
 	}
-	findBudgetById(id: string): Promise<Budget> {
-		throw new Error('Method not implemented.')
+
+	async findBudgetById(id: string): Promise<Budget> {
+		const budget = await BudgetModel.findById(id)
+		return MongooseBudgetRepository.deserializeBudget(budget)
 	}
-	saveBudget(budget: Budget): Promise<Budget> {
-		throw new Error('Method not implemented.')
+
+	async saveBudget(budget: Budget): Promise<Budget> {
+		const doc = await BudgetModel.create(budget)
+		return MongooseBudgetRepository.deserializeBudget(doc)
 	}
-	updateBudget(budget: Budget): Promise<Budget> {
-		throw new Error('Method not implemented.')
+
+	async updateBudget(budgetId: Budget['id'], budget: Budget): Promise<Budget> {
+		delete budget.id
+		const doc = await BudgetModel.create(budget)
+		return MongooseBudgetRepository.deserializeBudget(doc)
 	}
-	deleteBudget(budgetId: string): Promise<void> {
-		throw new Error('Method not implemented.')
+
+	async deleteBudget(budgetId: string): Promise<void> {
+		await BudgetModel.deleteOne({ _id: budgetId })
 	}
 	
+	static deserializeBudget(budget: IBudget): Budget {
+		return {
+			id: budget._id as string,
+			name: budget.name,
+			description: budget.description,
+			creator: budget.creator,
+			members: budget.members.map(member => MongooseUserRepository.deserializeUser(member)),
+			createdAt: budget.createdAt,
+			updatedAt: budget.updatedAt,
+		}
+	}
 
 }
 

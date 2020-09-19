@@ -2,29 +2,38 @@ import { CategoryRepository } from '..'
 import { Category } from '../../models/entities/Category'
 import CategoryModel, { ICategory } from './models/CategoryModel'
 
-class MongooseCategoryRepository implements CategoryRepository {
+export class MongooseCategoryRepository implements CategoryRepository {
+
 	async getAllCategories(): Promise<Category[]> {
 		const docs = await CategoryModel.find()
-		return docs.map(d => this.deserialize(d))
-	}
-	async getAllUserCategories(userId: string): Promise<Category[]> {
-		const docs = await CategoryModel.find({ creator: userId })
-		return docs.map(d => this.deserialize(d))
-	}
-	findCategoryById(id: string): Promise<Category> {
-		throw new Error('Method not implemented.')
-	}
-	saveCategory(category: Category): Promise<Category> {
-		throw new Error('Method not implemented.')
-	}
-	updateCategory(category: Category): Promise<Category> {
-		throw new Error('Method not implemented.')
-	}
-	deleteCategory(categoryId: string): Promise<void> {
-		throw new Error('Method not implemented.')
+		return MongooseCategoryRepository.deserializeCategories(docs)
 	}
 	
-	private deserialize(category: ICategory): Category {
+	async getAllUserCategories(userId: string): Promise<Category[]> {
+		const docs = await CategoryModel.find({ creator: userId })
+		return MongooseCategoryRepository.deserializeCategories(docs)
+	}
+	
+	async findCategoryById(id: string): Promise<Category> {
+		const doc = await CategoryModel.findById(id)
+		return MongooseCategoryRepository.deserializeCategory(doc)
+	}
+	
+	async saveCategory(category: Category): Promise<Category> {
+		const doc = await CategoryModel.create(category)
+		return MongooseCategoryRepository.deserializeCategory(doc)
+	}
+	
+	async updateCategory(categoryId: Category['id'], category: Category): Promise<Category> {
+		const doc = await CategoryModel.update({ _id: categoryId }, category)
+		return MongooseCategoryRepository.deserializeCategory(doc)
+	}
+	
+	async deleteCategory(categoryId: string): Promise<void> {
+		await CategoryModel.deleteOne({ _id: categoryId})
+	}
+	
+	static deserializeCategory(category: ICategory): Category {
 		return {
 			id: category._id,
 			name: category.name,
@@ -37,6 +46,10 @@ class MongooseCategoryRepository implements CategoryRepository {
 			createdAt: category.createdAt,
 			updatedAt: category.updatedAt,
 		}
+	}
+	
+	static deserializeCategories(categories: ICategory[]): Category[] {
+		return categories.map(d => MongooseCategoryRepository.deserializeCategory(d))
 	}
 
 }

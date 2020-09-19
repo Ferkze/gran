@@ -22,7 +22,7 @@ export interface BudgetRepository {
 	getAllUserBudgets(userId: User['id']): Promise<Budget[]>
 	findBudgetById(id: string): Promise<Budget | null>
 	saveBudget(budget: Budget): Promise<Budget>
-	updateBudget(budget: Budget): Promise<Budget>
+	updateBudget(budgetId: Budget['id'], budget: Budget): Promise<Budget>
 	deleteBudget(budgetId: Budget['id']): Promise<void>
 }
 
@@ -31,7 +31,7 @@ export interface CategoryRepository {
 	getAllUserCategories(userId: User['id']): Promise<Category[]>
 	findCategoryById(id: string): Promise<Category | null>
 	saveCategory(category: Category): Promise<Category>
-	updateCategory(category: Category): Promise<Category>
+	updateCategory(categoryId: Category['id'], category: Category): Promise<Category>
 	deleteCategory(categoryId: Category['id']): Promise<void>
 }
 
@@ -58,7 +58,7 @@ export interface TransactionRepository {
 	getAllAccountTransactions(accountId: Account['id']): Promise<Transaction[]>
 	findTransactionById(id: string): Promise<Transaction | null>
 	saveTransaction(transaction: Transaction): Promise<Transaction>
-	updateTransaction(transaction: Transaction): Promise<Transaction>
+	updateTransaction(id: Transaction['id'], transaction: Transaction): Promise<Transaction>
 	deleteTransaction(transactionId: Transaction['id']): Promise<void>
 }
 

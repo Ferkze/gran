@@ -1,22 +1,23 @@
 import { Repositories } from '../repositories'
 import { TransactionUsecases } from '.'
 import { Transaction } from '../models/entities/Transaction'
+import { ValidationError } from '../models/errors/ValidationError';
 
 export class TransactionUsecasesImpl implements TransactionUsecases {
 	
 	constructor(private repo: Repositories) { }
 	
-	editTransaction(id: string, data: Transaction): Promise<Transaction> {
-		throw new Error('Method not implemented.')
+	async editTransaction(id: string, data: Transaction): Promise<Transaction> {
+		return await this.repo.transaction.updateTransaction(id, data)
 	}
-	listTransactionsByUser(userId: string): Promise<Transaction[]> {
-		throw new Error('Method not implemented.')
+	async listTransactionsByUser(userId: string): Promise<Transaction[]> {
+		return await this.repo.transaction.getAllUserTransactions(userId);
 	}
-	registerTransaction(data: Transaction): Promise<Transaction> {
+	async registerTransaction(data: Transaction): Promise<Transaction> {
 		if (!data.amount) {
-			throw new Error('A transação precisa ter um valor')
+			throw new ValidationError('A transação precisa ter um valor')
 		}
-		throw new Error('Method not implemented.')
+		return await this.repo.transaction.saveTransaction(data)
 	}
 	
 }

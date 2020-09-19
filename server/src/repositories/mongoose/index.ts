@@ -3,15 +3,17 @@ import institutionRepository from './institution.repository'
 import userRepository from './user.repository'
 import { Repositories } from '..'
 import categoryRepository from './category.repository'
+import budgetRepository from './budget.repository'
+import transactionRepository from './transaction.repository'
 
 const repository: Repositories = {
 	account: accountRepository,
-	budget: null,
+	budget: budgetRepository,
 	group: null,
 	category: categoryRepository,
 	institution: institutionRepository,
 	user: userRepository,
-	transaction: null,
+	transaction: transactionRepository,
 }
 
 export default repository

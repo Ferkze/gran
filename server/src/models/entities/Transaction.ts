@@ -13,8 +13,7 @@ export interface Transaction {
   amount: number
   date: Date
   description: string
-  debitAccount: Account
-  creditAccount: Account
+  account: Account
   categories: Category[]
   type: TransactionType
   creator: User

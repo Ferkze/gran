@@ -11,6 +11,7 @@ class InstitutionController {
 			const institutions = await usecases.instution.listInstitutions()
 			return res.json({ institutions })
 		} catch (error) {
+			log('Erro ao listar instituições', error)
 			return res.status(500).json({ error })
 		}
 	}

@@ -32,7 +32,7 @@
 									<base-select :items="accountTypes" hide-details label="Tipo de conta" v-model="account.subtype" />
 								</v-col>
 							</v-row>
-							<v-row v-if="account.subtype != 'currency' && account.subtype != ''" no-gutters>
+							<v-row v-if="account.subtype != 'currency' && account.subtype" no-gutters>
 								<v-col cols="12">
 									<v-subheader>Instituição</v-subheader>
 								</v-col>
@@ -145,6 +145,10 @@ export default class Settings extends Vue {
 		{ text: 'Conta Corrente', value: AccountSubtypes.CURRENT },
 		{ text: 'Conta em Corretora', value: AccountSubtypes.BROKER }
 	]
+
+	mounted() {
+		finances.fetchInstitutions()
+	}
 
 	get accountInstitutions() {
 		switch (this.account.subtype) {

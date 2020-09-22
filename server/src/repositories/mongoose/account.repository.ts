@@ -2,7 +2,7 @@ import { AccountRepository } from '..'
 import { Account } from '../../models/entities/Account'
 import AccountModel, { IAccount } from './models/AccountModel'
 
-class MongooseAccountRepository implements AccountRepository {
+export class MongooseAccountRepository implements AccountRepository {
 	
 	async getAllAccounts(): Promise<Account[]> {
 		const accounts = await AccountModel.find().populate('institution')

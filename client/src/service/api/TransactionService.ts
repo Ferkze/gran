@@ -2,35 +2,39 @@ import client from "./ApiService";
 import { Transaction, Account, User } from "@/models";
 import { AxiosResponse } from "axios";
 
+interface TransactionResponse {
+  transaction: Transaction
+}
+
 class TransactionService {
   getAccountsTransactions(accountIds: Account["id"][]) {
     return client.get("/transactions", {
-      params: {
-        accounts: accountIds,
-      },
+      params: { accounts: accountIds }
     });
   }
 
   async getUserTransactions() {
-    return await (await client.get(`/transactions`)).data;
+    return await (await client.get(`/transactions`)).data.transactions;
   }
 
-  getTransaction(
-    transactionId: string
-  ): Promise<AxiosResponse<Transaction | null>> {
-    return client.get<Transaction | null>(`/transaction/${transactionId}`);
+  async getTransaction(transactionId: string) {
+    return (await client.get<TransactionResponse>(`/transaction/${transactionId}`)).data.transaction;
   }
 
-  createTransaction(transaction: Transaction) {
-    return client.post("/transaction", { transaction });
+  async createTransaction(data: Transaction) {
+    const transaction = {
+      ...data,
+      categories: data.categories.map(c => c.id)
+    }
+    return (await client.post("/transactions", { transaction })).data.transaction;
   }
 
-  updateTransaction(transaction: Transaction) {
-    return client.put(`/transaction/${transaction.id}`, { transaction });
+  async updateTransaction(transaction: Transaction) {
+    return (await client.put(`/transaction/${transaction.id}`, { transaction })).data.transaction;
   }
 
   deleteTransaction(transactionId: string) {
-    return client.delete<Transaction | Error>(`/transaction/${transactionId}`);
+    return client.delete(`/transaction/${transactionId}`);
   }
 }
 

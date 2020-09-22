@@ -7,7 +7,7 @@ export class InstitutionUsecasesImpl implements InstitutionUsecases {
 	constructor(private repo: Repositories) {}
 	
 	async listInstitutions(): Promise<Institution[]> {
-		return await this.repo.institutions.getAllInstitutions()
+		return await this.repo.institution.getAllInstitutions()
 	}
 
 }

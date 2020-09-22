@@ -27,30 +27,6 @@
 									<span class="blue--text">{{ item.amount }}</span>
 								</v-list-item-action-text>
 							</v-list-item>
-							<!-- <v-list-item dense two-line>
-                                <v-list-item-avatar>
-                                    <v-icon class="orange">mdi-bank</v-icon>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title>Salário</v-list-item-title>
-                                    <v-list-item-subtitle>Débito na conta Banco Inter</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action-text>
-                                    <span class="green--text">R$ 531,17</span>
-                                </v-list-item-action-text>
-                            </v-list-item>
-                            <v-list-item dense two-line>
-                                <v-list-item-avatar>
-                                    <v-icon class="purple">mdi-bank</v-icon>
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title>Fatura do Cartão de Crédito</v-list-item-title>
-                                    <v-list-item-subtitle>Crédito na conta Nubank</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action-text>
-                                    <span class="red--text">- R$ 231,10</span>
-                                </v-list-item-action-text>
-                            </v-list-item> -->
 						</v-list>
 					</v-card-text>
 				</v-card>

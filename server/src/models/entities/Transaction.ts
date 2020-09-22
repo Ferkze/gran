@@ -1,6 +1,7 @@
 import { User } from './User'
 import { Category } from './Category'
 import { Group } from './Group'
+import { Account } from './Account'
 
 export enum TransactionType {
   DEBIT = 'debit',

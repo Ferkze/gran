@@ -8,6 +8,7 @@ if (!serverHost) {
 const ApiSerivce = Axios.create({ baseURL: `${serverHost}/api` })
 
 export const setAuthToken = (token: Token) => {
+	console.log('Setting auth token', token)
 	if (token) {
 		ApiSerivce.defaults.headers.common['Authorization'] = token
 	} else {

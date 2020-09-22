@@ -24,7 +24,7 @@ class TransactionsModule extends VuexModule {
     if (!auth.user || !auth.user.id) {
       return [];
     }
-    return (await TransactionService.getUserTransactions(auth.user.id)).data;
+    return await TransactionService.getUserTransactions();
   }
 
   @Action({ commit: "addTransaction", rawError: true })

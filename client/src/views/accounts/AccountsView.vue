@@ -46,13 +46,13 @@
           <v-card-text>
             <p>
               Saldo
-              <span class="font-weight-black float-right">{{ acc.startingBalance | formatCurrency }}</span>
+              <span class="font-weight-black float-right">R$ {{ acc.startingBalance | formatCurrency }}</span>
             </p>
             <p>
               Instituição
               <span class="font-weight-black float-right">{{ acc.institution }}</span>
             </p>
-            <p>Criado em {{ acc.createdAt }}</p>
+            <p>Criado em {{ acc.createdAt.substring(0, 10) }}</p>
           </v-card-text>
         </v-card>
       </v-col>

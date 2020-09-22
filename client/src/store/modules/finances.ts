@@ -50,7 +50,7 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await InstitutionService.getInstitutions()).data
+		return await InstitutionService.getInstitutions()
 	}
 
 	@Action({ commit: 'setCategories', rawError: true })
@@ -58,7 +58,7 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await CategoryService.getCategories()).data
+		return await CategoryService.getCategories()
 	}
 
 	@Action({ commit: 'setAccounts', rawError: true })
@@ -66,7 +66,7 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await AccountService.getAccounts(auth.user.id)).data
+		return await AccountService.getAccounts()
 	}
 
 	@Action({ commit: 'addAccount', rawError: true })
@@ -99,7 +99,7 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return (await TransactionService.getUserTransactions(auth.user.id)).data
+		return await TransactionService.getUserTransactions()
 	}
 
 	@Action({ commit: 'addTransaction', rawError: true })

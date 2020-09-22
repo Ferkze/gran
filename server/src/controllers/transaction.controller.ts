@@ -11,7 +11,7 @@ class TransactionController {
 	}
 
 	public async create(req: Request, res: Response): Promise<Response> {
-		const data = req.body
+		const data = req.body.transaction
 		try {
 			const transaction = await usecases.transaction.registerTransaction(data)
 			return res.status(200).json({ transaction })

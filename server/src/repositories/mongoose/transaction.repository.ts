@@ -1,15 +1,16 @@
 import { TransactionRepository } from '..'
 import { Transaction } from '../../models/entities/Transaction'
+import { MongooseAccountRepository } from './account.repository'
 import { MongooseCategoryRepository } from './category.repository'
 import TransactionModel, { ITransaction } from './models/TransactionModel'
 
 class MongooseTransactionRepository implements TransactionRepository {
 	async getAllTransactions(): Promise<Transaction[]> {
-		const docs = await TransactionModel.find().populate('categories')
+		const docs = await TransactionModel.find().populate('account categories')
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async getAllUserTransactions(userId: string): Promise<Transaction[]> {
-		const docs = await TransactionModel.find({ creator: userId }).populate('categories')
+		const docs = await TransactionModel.find({ creator: userId }).populate('account categories')
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async getAllAccountTransactions(accountId: string): Promise<Transaction[]> {
@@ -17,7 +18,7 @@ class MongooseTransactionRepository implements TransactionRepository {
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async findTransactionById(id: string): Promise<Transaction> {
-		const doc = await TransactionModel.findById(id)
+		const doc = await TransactionModel.findById(id).populate('account categories')
 		return MongooseTransactionRepository.deserializeTransaction(doc)
 	}
 	async saveTransaction(transaction: Transaction): Promise<Transaction> {
@@ -38,7 +39,7 @@ class MongooseTransactionRepository implements TransactionRepository {
 			amount: transaction.amount,
 			date: transaction.date,
 			description: transaction.description,
-			account: transaction.account,
+			account: MongooseAccountRepository.deserializeAccount(transaction.account),
 			categories: MongooseCategoryRepository.deserializeCategories(transaction.categories),
 			type: transaction.type,
 			creator: transaction.creator,

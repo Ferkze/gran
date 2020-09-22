@@ -2,9 +2,13 @@ import client from './ApiService'
 import { Category } from '@/models'
 import { AxiosResponse } from 'axios'
 
+interface CategoriesResponse {
+	categories: Category[]
+}
+
 class CategoryService {
-	getCategories(): Promise<AxiosResponse<Category[]>> {
-		return client.get<Category[]>('/categories')
+	async getCategories(): Promise<Category[]> {
+		return await (await client.get<CategoriesResponse>('/categories')).data.categories
 	}
 }
 

@@ -37,7 +37,7 @@
               </base-form-field>
               <base-form-field
                 v-if="transaction.type == 'transference'"
-                v-model="transaction.creditAccount"
+                v-model="transaction.account"
                 field-type="select"
                 :items="accounts"
                 form-label="Tranferir da conta"
@@ -48,7 +48,7 @@
               />
               <base-form-field
                 v-if="transaction.type == 'transference'"
-                v-model="transaction.debitAccount"
+                v-model="transferenceTo"
                 field-type="select"
                 :items="accounts"
                 form-label="Para a conta"
@@ -59,7 +59,7 @@
               />
               <base-form-field
                 v-if="transaction.type == 'credit'"
-                v-model="transaction.creditAccount"
+                v-model="transaction.account"
                 field-type="select"
                 :items="accounts"
                 form-label="Conta creditada"
@@ -70,7 +70,7 @@
               />
               <base-form-field
                 v-if="transaction.type == 'debit'"
-                v-model="transaction.debitAccount"
+                v-model="transaction.account"
                 field-type="select"
                 :items="accounts"
                 form-label="Conta debitada"
@@ -172,6 +172,8 @@ import BaseSelect from "@/components/base/Select.vue";
   name: "CreateTransactionView",
 })
 export default class CreateTransactionView extends Vue {
+  transferenceTo: Account['id'] = ''
+
   remove(item: Category) {
     const index = this.transaction.categories.findIndex((c) => c.id == item.id);
     this.transaction.categories.splice(index, 1);
@@ -222,9 +224,6 @@ export default class CreateTransactionView extends Vue {
 		}
 		if (!finances.categories.length) {
 			const cats = await finances.fetchCategories()
-			if (!cats || !cats.length) {
-				console.log('Sem transações')
-			}
 		}
 	}
 

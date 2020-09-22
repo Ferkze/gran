@@ -121,6 +121,10 @@ export default class EditDebitAccount extends Vue {
     { text: "Conta em Corretora", value: AccountSubtypes.BROKER },
   ];
 
+	mounted() {
+		finances.fetchInstitutions()
+	}
+
   get accountInstitutions() {
     if (!this.account) {
       return "";
@@ -199,7 +203,7 @@ export default class EditDebitAccount extends Vue {
       return;
     }
     if (institution) {
-      this.account.institution = institution.id;
+      this.account.institution = institution;
     }
   }
 

@@ -1,17 +1,21 @@
 import client from "./ApiService";
 import { Account } from "@/models";
 
+interface AccountsResponse {
+  accounts: Account[]
+}
+
 class AccountService {
-  getAccounts (userId: string) {
-    return client.get(`/user/${userId}/accounts`);
+  async getAccounts () {
+    return await (await client.get<AccountsResponse>(`/accounts`)).data.accounts;
   };
   
   createAccount (userId: string, account: Account) {
-    return client.post(`/user/${userId}/accounts`, { account });
+    return client.post(`/accounts`, { account });
   };
   
   updateAccount (userId: string, account: Account) {
-    return client.put(`/user/${userId}/account/${account.id}`, { account });
+    return client.put(`/account/${account.id}`, { account });
   };
   
   deleteAccount (accountId: string) {

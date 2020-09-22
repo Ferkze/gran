@@ -16,7 +16,7 @@ router.get('/', indexController.index)
 
 router.post('/auth/login', authController.login)
 router.post('/auth/register', authController.register)
-router.post('/auth/current', authController.current)
+router.get('/auth/current', authController.current)
 
 // Dados do usuário, precisa estar autenticado para acesser os dados de usuários
 // router.get('/users', userController.index)

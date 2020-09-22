@@ -3,7 +3,7 @@ import client, { setAuthToken } from './ApiService'
 import AuthTokenPersistanceService from '../auth/token.persistance'
 import AuthUserPersistanceService from '../auth/user.persistance'
 import { User } from '@/models'
-import { AuthResponse, LoginData, RegisterData, Token } from '@/models/auth'
+import { AuthResponse, LoginData, RegisterData } from '@/models/auth'
 
 class AuthService {
 
@@ -21,7 +21,16 @@ class AuthService {
 	}
 
 	async silentLogin(): Promise<User | null> {
-		const user = await this.fetchUser()
+		const userToken = AuthTokenPersistanceService.getToken()
+		if (!userToken) {
+			return null
+		}
+		setAuthToken(userToken)
+		let user = AuthUserPersistanceService.getUser()
+		if (user) {
+			return user
+		}
+		user = await this.fetchUser()
 		if (user) {
 			AuthUserPersistanceService.saveUser(user)
 		} else {
@@ -47,8 +56,12 @@ class AuthService {
 		if (!client.defaults.headers.common['Authorization']) {
 			return null
 		}
-		const response = await client.get<User>('/auth/current')
-		return response.data
+		const response = await client.get('/auth/current')
+		if (response.data.error) {
+			alert(response.data.error)
+			return null
+		}
+		return response.data.user
 	}
 
 	private _currentUser(): User | null {

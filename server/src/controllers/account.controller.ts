@@ -10,7 +10,7 @@ class AccountController {
 	public async index(req: Request, res: Response): Promise<Response> {
 		try {
 			const accounts = await usecases.account.listAccountsByUser(req.user['id'])
-			return res.status(200).json(accounts)
+			return res.status(200).json({ accounts })
 		} catch (error) {
 			return res.status(500).json({ error: error.message })
 		}

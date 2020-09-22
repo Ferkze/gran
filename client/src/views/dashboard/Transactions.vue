@@ -10,7 +10,7 @@
         </v-col>
         <v-col cols="6">
           <div class="text-right">
-            <v-btn class="primary" text to="/transacao/criar">Nova transação</v-btn>
+            <v-btn class="primary" text to="/transacoes/criar">Nova transação</v-btn>
           </div>
         </v-col>
       </v-row>

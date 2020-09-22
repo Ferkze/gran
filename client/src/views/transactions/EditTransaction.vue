@@ -37,7 +37,7 @@
               </base-form-field>
               <base-form-field
                 v-if="transaction.type == 'transference'"
-                v-model="transaction.creditAccount"
+                v-model="transaction.account"
                 field-type="select"
                 :items="accounts"
                 form-label="Tranferir da conta"
@@ -48,7 +48,7 @@
               />
               <base-form-field
                 v-if="transaction.type == 'transference'"
-                v-model="transaction.debitAccount"
+                v-model="transferenceTo"
                 field-type="select"
                 :items="accounts"
                 form-label="Para a conta"
@@ -59,7 +59,7 @@
               />
               <base-form-field
                 v-if="transaction.type == 'credit'"
-                v-model="transaction.creditAccount"
+                v-model="transaction.account"
                 field-type="select"
                 :items="accounts"
                 form-label="Conta creditada"
@@ -70,7 +70,7 @@
               />
               <base-form-field
                 v-if="transaction.type == 'debit'"
-                v-model="transaction.debitAccount"
+                v-model="transaction.account"
                 field-type="select"
                 :items="accounts"
                 form-label="Conta debitada"
@@ -145,6 +145,8 @@ export default class EditDebitAccount extends Vue {
     { value: TransactionType.TRANSFERENCE, text: "Transferência" },
   ];
 
+  transferenceTo: Account['id'] = ''
+
   get user(): User | null {
     return auth.user;
   }
@@ -211,7 +213,7 @@ export default class EditDebitAccount extends Vue {
 
   async getTransaction(transactionId: string) {
     this.loading = true;
-    const { data: tt } = await TransactionService.getTransaction(transactionId);
+    const tt = await TransactionService.getTransaction(transactionId);
     if (!tt) {
       this.loading = false;
       return;

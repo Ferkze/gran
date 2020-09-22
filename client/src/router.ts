@@ -8,114 +8,111 @@ Vue.use(VueRouter)
 
 const routes: RouteConfig[] = [
 	{
-		path: '/',
 		name: 'Home',
+		path: '/',
 		component: Home
 	},
 	{
-		path: '/entrar',
 		name: 'Login',
+		path: '/entrar',
 		component: Login
 	},
 	{
-		path: '/cadastrar',
 		name: 'Cadastro',
+		path: '/cadastrar',
 		component: Register
 	},
 	{
+		name: 'Dashboard',
 		path: '/dashboard',
-		name: 'DashboardRoot',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/Dashboard.vue'),
-		children: [
-			{
-				name: 'Dashboard',
-				path: '/',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Overview.vue')
-			},
-			{
-				name: 'Contas – Visão Geral',
-				path: 'contas',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Accounts.vue')
-			},
-			{
-				name: 'Bills Dashboard',
-				path: 'bills',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Bills.vue')
-			},
-			{
-				name: 'Budgets Dashboard',
-				path: 'budgets',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Budgets.vue')
-			},
-			{
-				name: 'Transações',
-				path: 'transactions',
-				component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Transactions.vue')
-			}
-		],
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Overview.vue'),
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{
-		path: '/contas',
+		name: 'Transações',
+		path: '/transacoes',
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Transactions.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
 		name: 'Contas',
-		component: () => import(/* webpackChunkName: "accounts" */ './views/dashboard/Accounts.vue'),
+		path: '/contas',
+		component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/AccountsView.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
-		path: '/contas/criar',
 		name: 'Criar Conta',
+		path: '/contas/criar',
 		component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/CreateDebitAccount.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
+		name: 'Editar Conta',
 		path: '/contas/:accountId',
-		name: 'Criar Conta',
 		component: () => import(/* webpackChunkName: "accounts" */ './views/accounts/EditDebitAccount.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
+		name: 'Transações',
 		path: '/transacoes',
-		name: 'Transactions',
 		component: () => import(/* webpackChunkName: "dashboard" */ './views/Transactions.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
-		path: '/transacao/criar',
 		name: 'Criar Transação',
+		path: '/transacoes/criar',
 		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/CreateTransaction.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
-		path: '/transacao/:transactionId/edicao',
 		name: 'Editar Transação',
+		path: '/transacoes/:transactionId/edicao',
 		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/EditTransaction.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
-		path: '/admin',
+		name: 'Projeções',
+		path: '/projecoes',
+		component: () => import(/* webpackChunkName: "projections" */ './views/projections/ProjectionsView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
+		name: 'Grupos',
+		path: '/grupos',
+		component: () => import(/* webpackChunkName: "groups" */ './views/groups/GroupsView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
 		name: 'Admin',
+		path: '/admin',
 		component: () => import(/* webpackChunkName: "admin" */ './views/admin/Admin.vue'),
 		meta: {
 			requiresAuth: true
 		}
 	},
 	{
-		path: '/admin/usuarios',
 		name: 'Admin-users',
+		path: '/admin/usuarios',
 		component: () => import(/* webpackChunkName: "admin" */ './views/admin/Users.vue'),
 		meta: {
 			requiresAuth: true

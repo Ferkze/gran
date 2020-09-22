@@ -19,6 +19,10 @@ export interface AuthResponse {
 	user: User
 }
 
+export interface CurrentAuthResponse {
+	user: User
+}
+
 export interface ErrorResponse {
 	error: string
 }

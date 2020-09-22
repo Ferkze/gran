@@ -30,7 +30,7 @@
     <v-card-text>
       <p>
         Saldo
-        <span class="font-weight-black float-right">{{ account.startingBalance | formatCurrency }}</span>
+        <span class="font-weight-black float-right">R$ {{ account.startingBalance | formatCurrency }}</span>
       </p>
       <p>
         Instituição
@@ -42,22 +42,28 @@
         </span>
         <span v-else class="font-weight-black float-right">Não registrado</span>
       </p>
-      <p>Criado em {{ account.createdAt }}</p>
+      <p>
+        Criado em
+        <span class="font-weight-black float-right">{{ creationDate }}</span>
+      </p>
     </v-card-text>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
+import { Account } from "../models";
 
-@Component({
-  name: "AccountCard",
-})
+@Component
 export default class AccountCard extends Vue {
   @Prop({ required: true, type: Object })
   account!: Account;
 
   menuItems = [{ title: "Editar", action: "edit" }];
+
+  get creationDate() {
+    return this.account.createdAt.substr(0, 10).split("-").reverse().join("/");
+  }
 
   onAccountMenuClicked(accountId: string, action: string) {
     switch (action) {

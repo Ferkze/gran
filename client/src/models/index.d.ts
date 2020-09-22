@@ -26,7 +26,7 @@ export interface Account {
     secondary: string;
   };
   main: boolean;
-  institution?: Institution | Institution["id"];
+  institution?: Institution;
   unregisteredInstitution?: string;
   type: AccountTypes;
   subtype?: AccountSubtypes;
@@ -52,19 +52,18 @@ export interface Category {
 export interface Transaction {
   id?: string;
   amount?: number;
-  date?: Date | string;
+  date?: string;
   description?: string;
-  debitAccount?: Account;
-  creditAccount?: Account;
+  account?: Account;
   categories: Category[];
   type: TransactionType;
   creator?: User | User["id"];
-  budgetGroup?: BudgetGroup | BudgetGroup["id"];
+  budgetGroup?: Group | Group["id"];
   createdAt?: string;
   updatedAt?: string;
 }
 
-export interface BudgetGroup {
+export interface Group {
   id: string;
   name: string;
   description?: string;

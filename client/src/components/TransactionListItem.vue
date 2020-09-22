@@ -55,26 +55,7 @@ export default class TransactionListItem extends Vue {
   ];
 
   get account(): Account | undefined {
-    let account: any;
-    switch (this.transaction.type) {
-      case TransactionType.DEBIT: {
-        account = this.transaction.debitAccount;
-      }
-      case TransactionType.CREDIT: {
-        account = this.transaction.creditAccount;
-      }
-      case TransactionType.TRANSFERENCE: {
-        if (!this.transaction.creditAccount) {
-          account = this.transaction.debitAccount;
-        } else {
-          account = this.transaction.creditAccount;
-        }
-      }
-    }
-    if (typeof account == "string") {
-      return finances.accounts.find((a) => a.id == account);
-    }
-    return account;
+    return this.transaction.account;
   }
   get typeColor(): string {
     switch (this.transaction.type) {
@@ -96,7 +77,7 @@ export default class TransactionListItem extends Vue {
   async onMenuItemSelected(action: string) {
     switch (action) {
       case "edit":
-        this.$router.push(`/transacao/${this.transaction.id}/edicao`);
+        this.$router.push(`/transacoes/${this.transaction.id}/edicao`);
         break;
       case "delete":
         try {

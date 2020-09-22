@@ -16,15 +16,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import AppBar from '@/components/AppBar.vue'
-import Component from 'vue-class-component'
+import { Component, Vue } from "vue-property-decorator";
 import auth from './store/modules/auth'
-import finances from './store/modules/finances'
+// import finances from './store/modules/finances'
 
 @Component({
 	components: {
-		AppBar,
+		AppBar: () => import('@/components/AppBar.vue'),
 		AppSnackbar: () => import('@/components/AppSnackbar.vue'),
 		SideBar: () => import('@/components/SideBar.vue')
 	},
@@ -35,14 +33,8 @@ export default class App extends Vue {
 
 	async mounted() {
 		this.loading = true
-		auth.silentLogin()
+		await auth.silentLogin()
 
-		await Promise.all([
-			finances.fetchCategories(),
-			finances.fetchInstitutions(),
-			finances.fetchAccounts(),
-			finances.fetchTransactions()
-		])
 		this.loading = false
 	}
 }

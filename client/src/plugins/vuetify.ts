@@ -8,5 +8,8 @@ const dark = window.localStorage.getItem('theme.dark')
 export default new Vuetify({
 	theme: {
 		dark: dark ? JSON.parse(dark) : false
+	},
+	lang: {
+		current: 'pt-BR'
 	}
 })

@@ -33,9 +33,25 @@ const routes: RouteConfig[] = [
 	{
 		name: 'Transações',
 		path: '/transacoes',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Transactions.vue'),
+		component: () => import(/* webpackChunkName: "transactions" */ './views/transactions/TransactionsView.vue'),
 		meta: {
 			requiresAuth: true,
+		}
+	},
+	{
+		name: 'Criar Transação',
+		path: '/transacoes/criar',
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/CreateTransaction.vue'),
+		meta: {
+			requiresAuth: true
+		}
+	},
+	{
+		name: 'Editar Transação',
+		path: '/transacoes/:transactionId/edicao',
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/EditTransaction.vue'),
+		meta: {
+			requiresAuth: true
 		}
 	},
 	{
@@ -63,33 +79,17 @@ const routes: RouteConfig[] = [
 		}
 	},
 	{
-		name: 'Transações',
-		path: '/transacoes',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/Transactions.vue'),
-		meta: {
-			requiresAuth: true
-		}
-	},
-	{
-		name: 'Criar Transação',
-		path: '/transacoes/criar',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/CreateTransaction.vue'),
-		meta: {
-			requiresAuth: true
-		}
-	},
-	{
-		name: 'Editar Transação',
-		path: '/transacoes/:transactionId/edicao',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/EditTransaction.vue'),
-		meta: {
-			requiresAuth: true
-		}
-	},
-	{
 		name: 'Projeções',
 		path: '/projecoes',
 		component: () => import(/* webpackChunkName: "projections" */ './views/projections/ProjectionsView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
+		name: 'Criar novo orçamento',
+		path: '/projecoes/orcamentos/criar',
+		component: () => import(/* webpackChunkName: "projections" */ './views/projections/budgets/CreateBudgetView.vue'),
 		meta: {
 			requiresAuth: true,
 		}

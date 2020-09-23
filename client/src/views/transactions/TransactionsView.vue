@@ -34,10 +34,9 @@ import status from "../../store/modules/status";
   components: {
     AppTransactionItem: () =>
       import("../../components/TransactionListItem.vue"),
-  },
-  name: "TransactionsView",
+  }
 })
-export default class Transactions extends Vue {
+export default class TransactionsView extends Vue {
   get transactions() {
     return finances.transactions;
   }

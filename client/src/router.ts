@@ -87,6 +87,14 @@ const routes: RouteConfig[] = [
 		}
 	},
 	{
+		name: 'Estratégia',
+		path: '/projecoes/estrategia',
+		component: () => import(/* webpackChunkName: "projections" */ './views/projections/budgets/StrategyView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
 		name: 'Criar novo orçamento',
 		path: '/projecoes/orcamentos/criar',
 		component: () => import(/* webpackChunkName: "projections" */ './views/projections/budgets/CreateBudgetView.vue'),

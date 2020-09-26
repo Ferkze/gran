@@ -22,6 +22,14 @@ class AccountService {
     return client.delete(`/accounts/${accountId}`);
   };
 
+  async getAccountBalance(accountId: Account['id']) {
+    const response = await client.get(`/account/${accountId}/balance`)
+    if (response.data.error) {
+      throw new Error(response.data.error)
+    }
+    return response.data.balance
+  }
+
 }
 
 export default  new AccountService()

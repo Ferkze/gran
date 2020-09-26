@@ -21,10 +21,6 @@ export interface User {
 export interface Account {
   id?: string;
   name: string;
-  color?: {
-    primary: string;
-    secondary: string;
-  };
   main: boolean;
   institution?: Institution;
   unregisteredInstitution?: string;
@@ -34,31 +30,28 @@ export interface Account {
   owner?: string;
   createdAt?: string;
   updatedAt?: string;
+
+  balance?: number
 }
 
 export interface Category {
   id: string;
-  name?: string;
-  type?: CategoryType;
-  colors?: {
-    primary?: string;
-    secondary?: string;
-  };
-  creator?: User | User["id"];
-  createdAt?: string;
-  updatedAt?: string;
+  name: string;
+  type: CategoryType;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Transaction {
   id?: string;
-  amount?: number;
-  date?: string;
-  description?: string;
-  account?: Account;
-  categories: Category[];
+  amount: number;
+  date: string;
+  description: string;
+  account: Account['id'];
+  category: Category['id'];
   type: TransactionType;
-  creator?: User | User["id"];
-  budgetGroup?: Group | Group["id"];
+  user: User | User["id"];
+  // budgetGroup?: Group | Group["id"];
   createdAt?: string;
   updatedAt?: string;
 }

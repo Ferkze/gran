@@ -7,9 +7,9 @@
       </v-col>
       <v-col xs="6" sm="4" md="2">
         <div class="caption secondary--text">Valor</div>
-        <div :class="`${typeColor}--text`">R$ {{ transaction.amount }}</div>
+        <div :class="`${typeColor}--text`">R$ {{ transaction.amount | formatCurrency }}</div>
       </v-col>
-      <v-col xs="6" sm="4" md="2">
+      <v-col xs="6" sm="4" md="2" v-if="account">
         <div class="caption secondary--text">Conta</div>
         <div>{{ account.name }}</div>
       </v-col>
@@ -42,6 +42,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { Transaction, Account } from "../models";
 import { TransactionType } from "../models/enums";
+import accounts from "../store/modules/accounts";
 import finances from "../store/modules/finances";
 import status from "../store/modules/status";
 
@@ -55,7 +56,7 @@ export default class TransactionListItem extends Vue {
   ];
 
   get account(): Account | undefined {
-    return this.transaction.account;
+    return accounts.accounts.find(acc => acc.id == this.transaction.account);
   }
   get typeColor(): string {
     switch (this.transaction.type) {

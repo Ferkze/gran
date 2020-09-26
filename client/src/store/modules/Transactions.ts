@@ -32,7 +32,7 @@ class TransactionsModule extends VuexModule {
     if (!auth.user || !auth.user.id) {
       return null;
     }
-    transaction.creator = auth.user.id;
+    transaction.user = auth.user.id;
     return (await TransactionService.createTransaction(transaction)).data;
   }
 

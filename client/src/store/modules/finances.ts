@@ -1,10 +1,8 @@
 import store from '..'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
-import AccountService from '@/service/api/AccountService'
 import auth from './auth'
 import { CategoryType, InstitutionType } from '@/models/enums'
-
-import { Account, Transaction, Category, Institution } from '@/models'
+import { Transaction, Category, Institution } from '@/models'
 import TransactionService from '@/service/api/TransactionService'
 import InstitutionService from '@/service/api/InstitutionService'
 import CategoryService from '@/service/api/CategoryService'
@@ -16,14 +14,9 @@ import CategoryService from '@/service/api/CategoryService'
 	name: 'finances'
 })
 class FinancesModule extends VuexModule {
-	accounts: Account[] = []
 	transactions: Transaction[] = []
 	categories: Category[] = []
 	institutions: Institution[] = []
-
-	get accountIds() {
-		return this.accounts.map(a => a.id)
-	}
 
 	get bankInstitutions() {
 		return this.institutions.filter(i => i.type == InstitutionType.BANK)
@@ -45,8 +38,17 @@ class FinancesModule extends VuexModule {
 		return this.categories.filter(c => c.type == CategoryType.INCOME)
 	}
 
+	@Action
+	async load() {
+		await Promise.all([
+			this.fetchCategories(),
+			this.fetchInstitutions()
+		])
+		return
+	}
+
 	@Action({ commit: 'setInstitutions', rawError: true })
-	async fetchInstitutions(): Promise<Institution[] | null> {
+	async fetchInstitutions(): Promise<Institution[]> {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
@@ -54,48 +56,15 @@ class FinancesModule extends VuexModule {
 	}
 
 	@Action({ commit: 'setCategories', rawError: true })
-	async fetchCategories(): Promise<Category[] | null> {
+	async fetchCategories(): Promise<Category[]> {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
 		return await CategoryService.getCategories()
 	}
 
-	@Action({ commit: 'setAccounts', rawError: true })
-	async fetchAccounts(): Promise<Account[] | null> {
-		if (!auth.user || !auth.user.id) {
-			return []
-		}
-		return await AccountService.getAccounts()
-	}
-
-	@Action({ commit: 'addAccount', rawError: true })
-	async newAccount(account: Account): Promise<Account | null> {
-		if (!auth.user || !auth.user.id) {
-			return null
-		}
-		account.owner = auth.user.id
-		return (await AccountService.createAccount(auth.user.id, account)).data
-	}
-
-	@Action({ commit: 'replaceAccount', rawError: true })
-	async changeAccount(account: Account): Promise<Account | null> {
-		if (!auth.user || !auth.user.id) {
-			return null
-		}
-		return (await AccountService.updateAccount(auth.user.id, account)).data
-	}
-
-	@Action({ commit: 'removeAccount', rawError: true })
-	async deleteAccount(account: Account): Promise<Account | null> {
-		if (!auth.user || !auth.user.id || !account.id) {
-			return null
-		}
-		return (await AccountService.deleteAccount(account.id)).data
-	}
-
 	@Action({ commit: 'setTransactions', rawError: true })
-	async fetchTransactions(): Promise<Transaction[] | null> {
+	async fetchTransactions(): Promise<Transaction[]> {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
@@ -107,8 +76,10 @@ class FinancesModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return null
 		}
-		transaction.creator = auth.user.id
-		return (await TransactionService.createTransaction(transaction)).data
+		transaction.user = auth.user.id
+		transaction = await TransactionService.createTransaction(transaction)
+		console.log(`Transação de id ${transaction.id} criada com sucesso`)
+		return transaction
 	}
 
 	@Action({ commit: 'replaceTransaction', rawError: true })
@@ -136,28 +107,6 @@ class FinancesModule extends VuexModule {
 	@Mutation
 	setCategories(categories: Category[]) {
 		this.categories = categories
-	}
-
-	@Mutation
-	setAccounts(accounts: Account[]) {
-		this.accounts = accounts
-	}
-
-	@Mutation
-	addAccount(account: Account) {
-		this.accounts.push(account)
-	}
-
-	@Mutation
-	replaceAccount(account: Account) {
-		const index = this.accounts.findIndex(a => a.id == account.id)
-		this.accounts.splice(index, 1, account)
-	}
-
-	@Mutation
-	removeAccount(account: Account) {
-		const index = this.accounts.findIndex(a => a.id == account.id)
-		this.accounts.splice(index, 1)
 	}
 
 	@Mutation

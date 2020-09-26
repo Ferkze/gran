@@ -38,7 +38,7 @@ router.get('/accounts', authenticationMiddleware.userRequired, accountController
 router.post('/accounts', authenticationMiddleware.userRequired, accountController.create)
 router.put('/account/:accountId', authenticationMiddleware.userRequired, accountController.update)
 router.delete('/accounts/:accountId', authenticationMiddleware.userRequired, accountController.delete)
-// router.get('/account/:accountId/balance', authenticationMiddleware.userRequired, accountController.balance)
+router.get('/account/:accountId/balance', authenticationMiddleware.userRequired, accountController.balance)
 // router.get('/accounts/:accountId/transactions', authenticationMiddleware.userRequired, transactionController.findByAccount)
 
 // Não precisam de autenticação, essas instituições são genéricas para o app
@@ -50,7 +50,7 @@ router.get('/institutions', institutionController.index)
 // router.delete('/institutions', institutionController.deleteMany)
 
 // Não precisam de autenticação, uma vez que o usuário utiliza as categorias padrões
-router.get('/categories', authenticationMiddleware.userRequired, categoryController.readByUser)
+router.get('/categories', authenticationMiddleware.userRequired, categoryController.read)
 // router.get('/category/:categoryId', authenticationMiddleware.userRequired, categoryController.find)
 router.post('/categories', authenticationMiddleware.userRequired, categoryController.create)
 router.put('/categories/:categoryId', authenticationMiddleware.userRequired, categoryController.update)

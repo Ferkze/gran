@@ -120,6 +120,7 @@ import TransactionService from "../../service/api/TransactionService";
 
 import BaseDatePicker from "@/components/base/DatePicker.vue";
 import BaseFormField from "@/components/base/FormField.vue";
+import accounts from "../../store/modules/accounts";
 
 @Component({
   components: {
@@ -138,7 +139,6 @@ export default class EditDebitAccount extends Vue {
     { text: "Transação Corrente", value: AccountSubtypes.CURRENT },
     { text: "Transação em Corretora", value: AccountSubtypes.BROKER },
   ];
-
   types = [
     { value: TransactionType.CREDIT, text: "Despesa" },
     { value: TransactionType.DEBIT, text: "Receita" },
@@ -151,7 +151,7 @@ export default class EditDebitAccount extends Vue {
     return auth.user;
   }
   get accounts() {
-    return finances.accounts;
+    return accounts.accounts;
   }
 
   get amount(): string {
@@ -191,8 +191,8 @@ export default class EditDebitAccount extends Vue {
     if (!finances.transactions.length) {
       await this.getTransaction(this.$route.params.transactionId);
     }
-    if (!finances.accounts.length) {
-      const accs = await finances.fetchAccounts();
+    if (!accounts.accounts.length) {
+      const accs = await accounts.fetchAccounts();
       if (!accs || !accs.length) {
         this.$router.go(-1);
       }

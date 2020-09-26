@@ -121,6 +121,7 @@ import status from '../../store/modules/status'
 
 import BaseTextField from '@/components/base/TextField.vue'
 import BaseSelect from '@/components/base/Select.vue'
+import accounts from '../../store/modules/accounts'
 
 @Component({
 	components: {
@@ -183,12 +184,12 @@ export default class Settings extends Vue {
 	async createAccount() {
 		this.loading = true
 		try {
-			await finances.newAccount(this.account)
+			await accounts.createAccount(this.account)
 			status.setStatus({
 				type: 'success',
 				message: 'Conta criada com sucesso'
 			})
-			this.$router.push('/dashboard/contas')
+			this.$router.push('/contas')
 		} catch (error) {
 			status.setStatus({
 				type: 'error',

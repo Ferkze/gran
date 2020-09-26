@@ -21,11 +21,7 @@ class TransactionService {
     return (await client.get<TransactionResponse>(`/transaction/${transactionId}`)).data.transaction;
   }
 
-  async createTransaction(data: Transaction) {
-    const transaction = {
-      ...data,
-      categories: data.categories.map(c => c.id)
-    }
+  async createTransaction(transaction: Transaction) {
     return (await client.post("/transactions", { transaction })).data.transaction;
   }
 
@@ -34,7 +30,7 @@ class TransactionService {
   }
 
   deleteTransaction(transactionId: string) {
-    return client.delete(`/transaction/${transactionId}`);
+    return client.delete(`/transactions/${transactionId}`);
   }
 }
 

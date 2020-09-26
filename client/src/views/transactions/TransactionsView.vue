@@ -33,7 +33,7 @@ import status from "../../store/modules/status";
 @Component({
   components: {
     AppTransactionItem: () =>
-      import("../../components/TransactionListItem.vue"),
+      import("@/components/TransactionListItem.vue"),
   },
   name: "TransactionsView",
 })
@@ -43,7 +43,7 @@ export default class Transactions extends Vue {
   }
 
   mounted() {
-    if (this.transactions.length <= 1) {
+    if (this.transactions.length == 0) {
       finances.fetchTransactions();
     }
   }

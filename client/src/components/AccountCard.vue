@@ -28,41 +28,72 @@
       </v-row>
     </v-card-title>
     <v-card-text>
-      <p>
-        Saldo
-        <span class="font-weight-black float-right">R$ {{ account.startingBalance | formatCurrency }}</span>
+      <v-skeleton-loader
+        v-if="loadingBalance"
+        class="mt-1 mb-4"
+        type="text"
+      />
+      <p v-else-if="balance">
+        Saldo atual
+        <span class="font-weight-black float-right">R$ {{ balance | formatCurrency }}</span>
       </p>
       <p>
         Instituição
-        <span v-if="account.institution" class="font-weight-black float-right">{{ account.institution.name }}</span>
-        <span v-else-if="account.unregisteredInstitution" class="font-weight-black float-right">
-          {{
-          account.unregisteredInstitution
-          }}
-        </span>
-        <span v-else class="font-weight-black float-right">Não registrado</span>
+        <span class="font-weight-black float-right">{{ accountInstitution }}</span>
       </p>
       <p>
         Criado em
         <span class="font-weight-black float-right">{{ creationDate }}</span>
       </p>
     </v-card-text>
+    <v-divider />
+    <v-card-actions>
+      <v-spacer />
+      <v-btn text small>
+        Transações
+        <v-icon small right>mdi-chevron-right</v-icon>
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { Account } from "../models";
+import accounts from "../store/modules/accounts";
+import finances from "../store/modules/finances";
 
 @Component
 export default class AccountCard extends Vue {
   @Prop({ required: true, type: Object })
   account!: Account;
 
+  loadingBalance = false
+
   menuItems = [{ title: "Editar", action: "edit" }];
 
+  async mounted() {
+    if (!this.balance) {
+      this.loadingBalance = true
+      await accounts.getAccountBalance(this.account.id)
+      this.loadingBalance = false
+    }
+  }
+
   get creationDate() {
+    if (!this.account) return "";
     return this.account.createdAt.substr(0, 10).split("-").reverse().join("/");
+  }
+
+  get accountInstitution() {
+    if (!this.account) {
+      return 'Não registrado'
+    }
+    return this.account.name
+  }
+
+  get balance() {
+    return this.account.balance
   }
 
   onAccountMenuClicked(accountId: string, action: string) {

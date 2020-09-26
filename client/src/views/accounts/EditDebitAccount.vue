@@ -27,7 +27,7 @@
                   <v-select :items="accountTypes" solo hide-details label="Tipo de conta" v-model="account.subtype" />
                 </v-col>
               </v-row>
-              <v-row v-if="account.subtype != 'currency' && account.subtype != ''">
+              <v-row v-if="account.subtype != 'currency' && account.subtype">
                 <v-col cols="12">Instituição</v-col>
                 <v-col cols="12">
                   <v-select
@@ -107,6 +107,7 @@ import { User, Account, Institution } from "../../models";
 import { AccountSubtypes } from "../../models/enums";
 import finances from "../../store/modules/finances";
 import status from "../../store/modules/status";
+import accounts from "../../store/modules/accounts";
 
 @Component({
   name: "EditDebitAccountView",
@@ -165,7 +166,7 @@ export default class EditDebitAccount extends Vue {
   }
 
   get account(): Account | undefined {
-    const acc = finances.accounts.find(
+    const acc = accounts.accounts.find(
       (a) => a.id == this.$route.params.accountId
     );
     if (!acc) {
@@ -176,7 +177,7 @@ export default class EditDebitAccount extends Vue {
   }
   set account(acc: Account | undefined) {
     if (!acc) return;
-    finances.replaceAccount(acc);
+    accounts.replaceAccount(acc);
   }
 
   get institution(): Institution | null {
@@ -220,7 +221,7 @@ export default class EditDebitAccount extends Vue {
     }
     this.loadingEdition = true;
     try {
-      await finances.changeAccount(this.account);
+      await accounts.changeAccount(this.account);
       status.setStatus({
         type: "success",
         message: "Conta atualizada com sucesso",
@@ -243,7 +244,7 @@ export default class EditDebitAccount extends Vue {
     }
     this.loadingDeletion = true;
     try {
-      await finances.deleteAccount(this.account);
+      await accounts.deleteAccount(this.account);
       status.setStatus({
         type: "success",
         message: "Conta deletada com sucesso",

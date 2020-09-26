@@ -6,17 +6,21 @@
         <section>
           <v-card>
             <v-card-title>
-              <h2 class="title font-weight-medium my-2">Dados principais</h2>
+              <h2 class="title font-weight-medium">Dados da transação</h2>
             </v-card-title>
             <v-card-text>
-              <base-form-field
-                v-model="transaction.type"
-                :items="types"
-                field-type="select"
-                form-label="Tipo"
-                hide-details
-                label="Tipo de transação"
-              />
+              <div>
+                <v-subheader>Tipo de transação</v-subheader>
+                <v-chip-group v-model="transaction.type" active-class="darken-2 white--text">
+                  <v-chip
+                    v-for="item in types"
+                    :key="item.value"
+                    :value="item.value"
+                    :class="`${item.color} lighten-4`"
+                    v-text="item.text"
+                  />
+                </v-chip-group>
+              </div>
               <base-form-field
                 v-model="transaction.description"
                 field-type="text-field"
@@ -42,7 +46,7 @@
                 :items="accounts"
                 form-label="Tranferir da conta"
                 item-text="name"
-                return-object
+                item-value="id"
                 hide-details
                 label="Conta creditada"
               />
@@ -53,7 +57,7 @@
                 :items="accounts"
                 form-label="Para a conta"
                 item-text="name"
-                return-object
+                item-value="id"
                 hide-details
                 label="Conta debitada"
               />
@@ -64,7 +68,7 @@
                 :items="accounts"
                 form-label="Conta creditada"
                 item-text="name"
-                return-object
+                item-value="id"
                 hide-details
                 label="Conta creditada"
               />
@@ -75,7 +79,7 @@
                 :items="accounts"
                 form-label="Conta debitada"
                 item-text="name"
-                return-object
+                item-value="id"
                 hide-details
                 label="Conta debitada"
               />
@@ -87,50 +91,24 @@
         <section>
           <v-card>
             <v-card-title>
-              <h2 class="title font-weight-medium my-2">Informações adicionais</h2>
+              <h2 class="title font-weight-medium">Categoria</h2>
             </v-card-title>
             <v-card-text>
-              <base-form-field
-                v-model="transaction.categories"
-                form-label="Categorias"
-                hide-details
-                label="Categorias da transação"
-              >
-                <v-combobox
-                  v-model="transaction.categories"
-                  :items="categories"
-                  background-color="grey lighten-3"
-                  chips
-                  clearable
-                  flat
-                  item-text="name"
-                  return-object
-                  hide-selected
-                  label="Categorias dessa transação"
-                  multiple
-                  prepend-icon="mdi-label"
-                  solo
+              <div>
+                <v-subheader>Categoria</v-subheader>
+                <v-chip-group
+                  v-model="transaction.category"
+                  column
+                  active-class="primary--text"
                 >
-                  <template v-slot:selection="{ attrs, item, select, selected }">
-                    <v-chip
-                      v-bind="attrs"
-                      :input-value="selected"
-                      :color="item.colors ? item.colors.primary : 'primary'"
-                      class="white--text"
-                      close
-                      @click="select"
-                      @click:close="remove(item)"
-                    >
-                      <span class="font-weight-regular">{{ item.name }}</span>
-                    </v-chip>
-                  </template>
-                </v-combobox>
-              </base-form-field>
-              <!-- <v-row>
-                <v-col cols="12">
-                  
-                </v-col>
-              </v-row>-->
+                  <v-chip
+                    v-for="chip in categories"
+                    :key="chip.id"
+                    :value="chip.id"
+                    v-text="chip.name"
+                  />
+                </v-chip-group>
+              </div>
             </v-card-text>
           </v-card>
           <div class="mt-4">
@@ -153,7 +131,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import auth from "../../store/modules/auth";
 import { User, Transaction, Category } from "../../models";
-import { AccountSubtypes, TransactionType } from "../../models/enums";
+import { AccountSubtypes, CategoryType, TransactionType } from "../../models/enums";
+import accounts from "../../store/modules/accounts";
 import finances from "../../store/modules/finances";
 import status from "../../store/modules/status";
 
@@ -168,28 +147,23 @@ import BaseSelect from "@/components/base/Select.vue";
     BaseFormField,
     BaseDatePicker,
     BaseSelect,
-  },
-  name: "CreateTransactionView",
+  }
 })
 export default class CreateTransactionView extends Vue {
   transferenceTo: Account['id'] = ''
 
-  remove(item: Category) {
-    const index = this.transaction.categories.findIndex((c) => c.id == item.id);
-    this.transaction.categories.splice(index, 1);
-  }
-
   types = [
-    { value: TransactionType.CREDIT, text: "Despesa" },
-    { value: TransactionType.DEBIT, text: "Receita" },
-    { value: TransactionType.TRANSFERENCE, text: "Transferência" },
+    { value: TransactionType.CREDIT, text: "Despesa", color: 'red' },
+    { value: TransactionType.DEBIT, text: "Receita", color: 'green' },
+    { value: TransactionType.TRANSFERENCE, text: "Transferência", color: 'blue' },
   ];
-
   transaction: Transaction = {
+    account: '',
+    user: auth.user.id,
     type: TransactionType.DEBIT,
     amount: 0,
     description: "",
-    categories: [],
+    category: null,
     date: new Date().toISOString().substr(0, 10),
   };
   loading = false;
@@ -204,21 +178,34 @@ export default class CreateTransactionView extends Vue {
     return auth.user;
   }
   get accounts() {
-    return finances.accounts;
+    return accounts.accounts;
   }
   get categories() {
-    return finances.categories;
+    return finances.categories.filter(cat => {
+      switch (this.transaction.type) {
+        case TransactionType.DEBIT:
+          return cat.type == CategoryType.INCOME
+          break;
+        case TransactionType.CREDIT:
+          return cat.type == CategoryType.EXPENSE
+          break;
+      
+        default:
+          return true
+          break;
+      }
+    });
   }
 
 	async created() {
-		if (!finances.accounts.length) {
-			const accs = await finances.fetchAccounts()
+		if (!accounts.accounts.length) {
+			const accs = await accounts.fetchAccounts()
 			if (!accs || !accs.length) {
 				status.setStatus({
 					type: 'error',
 					message: `Adicione uma conta para começar a registrar transações`
 				})
-				this.$router.push('/dashboard/contas')
+				this.$router.push('/contas')
 				return
 			}
 		}
@@ -248,7 +235,7 @@ export default class CreateTransactionView extends Vue {
         type: "success",
         message: "Transação criada com sucesso",
       });
-      this.$router.push("/dashboard/transactions");
+      this.$router.push("/transacoes");
     } catch (error) {
       status.setStatus({
         type: "error",

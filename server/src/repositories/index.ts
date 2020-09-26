@@ -15,6 +15,7 @@ export interface AccountRepository {
 	saveAccount(account: Account): Promise<Account>
 	updateAccount(account: Account): Promise<Account>
 	deleteAccount(accountId: Account['id']): Promise<void>
+	accountExists(accountId: Account['id']): Promise<boolean>
 }
 
 export interface BudgetRepository {
@@ -28,7 +29,6 @@ export interface BudgetRepository {
 
 export interface CategoryRepository {
 	getAllCategories(): Promise<Category[]>
-	getAllUserCategories(userId: User['id']): Promise<Category[]>
 	findCategoryById(id: string): Promise<Category | null>
 	saveCategory(category: Category): Promise<Category>
 	updateCategory(categoryId: Category['id'], category: Category): Promise<Category>

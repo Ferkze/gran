@@ -6,10 +6,6 @@ export const ACCOUNT = 'Account'
 
 export interface IAccount extends Document {
   name: string
-  colors?: {
-    primary?: string,
-    secondary?: string
-  },
   main: boolean
   institution?: string
   unregisteredInstitution?: string
@@ -26,10 +22,6 @@ export const AccountSchema = new Schema<IAccount>({
 	name: {
 		type: Schema.Types.String,
 		required: true
-	},
-	colors: {
-		primary: Schema.Types.String,
-		secondary: Schema.Types.String
 	},
 	startingBalance: {
 		type: Schema.Types.Number,

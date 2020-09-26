@@ -57,27 +57,14 @@ class AccountController {
 	}
 
 	public async balance(req: Request, res: Response): Promise<Response> {
-		// const { accountId } = req.params
-		// const transactions = await Transaction.find().byAccount(accountId)
-		// const balance = transactions.reduce((total, cur) => {
-		// 	switch (cur.type) {
-		// 	case TransactionType.CREDIT:
-		// 		total -= cur.amount
-		// 		break
-		// 	case TransactionType.DEBIT:
-		// 		total += cur.amount
-		// 		break
-		// 	case TransactionType.TRANSFERENCE:
-		// 		if (cur.debitAccount == accountId)
-		// 			total += cur.amount
-		// 		break
-		// 	default:
-		// 		log('Transaction without type:', cur)
-		// 	}
-		// 	return total
-		// }, 0)
-		// return res.json(balance)
-		return res.json(null)
+		const { accountId } = req.params
+		try {
+			const balance = await usecases.account.getAccountBalance(accountId)
+			return res.status(200).json({ balance })
+		} catch (error) {
+			log(`Erro ao calcular saldo da conta ${accountId}`, error)
+			return res.status(500).json({ error: error.message })
+		}
 	}
 
 }

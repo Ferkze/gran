@@ -1,16 +1,14 @@
 import { TransactionRepository } from '..'
 import { Transaction } from '../../models/entities/Transaction'
-import { MongooseAccountRepository } from './account.repository'
-import { MongooseCategoryRepository } from './category.repository'
 import TransactionModel, { ITransaction } from './models/TransactionModel'
 
 class MongooseTransactionRepository implements TransactionRepository {
 	async getAllTransactions(): Promise<Transaction[]> {
-		const docs = await TransactionModel.find().populate('account categories')
+		const docs = await TransactionModel.find()
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async getAllUserTransactions(userId: string): Promise<Transaction[]> {
-		const docs = await TransactionModel.find({ creator: userId }).populate('account categories')
+		const docs = await TransactionModel.find({ user: userId })
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async getAllAccountTransactions(accountId: string): Promise<Transaction[]> {
@@ -18,7 +16,7 @@ class MongooseTransactionRepository implements TransactionRepository {
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async findTransactionById(id: string): Promise<Transaction> {
-		const doc = await TransactionModel.findById(id).populate('account categories')
+		const doc = await TransactionModel.findById(id)
 		return MongooseTransactionRepository.deserializeTransaction(doc)
 	}
 	async saveTransaction(transaction: Transaction): Promise<Transaction> {
@@ -38,12 +36,13 @@ class MongooseTransactionRepository implements TransactionRepository {
 			id: transaction.id,
 			amount: transaction.amount,
 			date: transaction.date,
+			paid: transaction.paid,
 			description: transaction.description,
-			account: MongooseAccountRepository.deserializeAccount(transaction.account),
-			categories: MongooseCategoryRepository.deserializeCategories(transaction.categories),
+			account: transaction.account,
+			category: transaction.category,
 			type: transaction.type,
-			creator: transaction.creator,
-			group: transaction.group,
+			user: transaction.user,
+			// group: transaction.group,
 			createdAt: transaction.createdAt,
 			updatedAt: transaction.updatedAt,
 		}

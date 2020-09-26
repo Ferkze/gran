@@ -14,11 +14,12 @@ export interface Transaction {
   amount: number
   date: Date
   description: string
-  account: Account
-  categories: Category[]
+  paid: boolean
   type: TransactionType
-  creator: User
-  group: Group
+  account: Account['id']
+  category: Category['id']
+  user: User['id']
+  // group: Group['id']
   createdAt: Date
   updatedAt: Date
 }

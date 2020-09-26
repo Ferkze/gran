@@ -16,10 +16,6 @@ export enum AccountSubtypes {
 export interface Account {
   id: string
   name: string
-  colors: {
-    primary: string,
-    secondary: string
-  },
   main: boolean
   institution: string
   unregisteredInstitution: string

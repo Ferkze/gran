@@ -21,12 +21,12 @@ export interface Usecases {
 }
 
 export interface AccountUsecases {
-	showBalance(): void
 	listAccountsByUser(userId: User['id']): Promise<Account[]>
 	findAccountById(id: Account['id']): Promise<Account | null>
 	deleteAccount(id: Account['id']):  Promise<void>
 	editAccount(account: Account): Promise<Account>
 	registerAccount(account: Account): Promise<Account>
+	getAccountBalance(accountId: Account['id']): Promise<number>
 }
 
 export interface AuthUsecases {
@@ -45,7 +45,7 @@ export interface BudgetUsecases {
 
 export interface CategoryUsecases {
 	editCategory(id:Category['id'], data: Category): Promise<Category>
-	listCategories(userId: User['id']): Promise<Category[]>
+	listCategories(): Promise<Category[]>
 	registerCategory(category: Category): Promise<Category>
 }
 

@@ -1,50 +1,53 @@
 import { Document, Schema, Model, model, DocumentQuery } from 'mongoose'
+import { TransactionType } from '../../../models/entities/Transaction'
 import { IAccount } from './AccountModel'
 import { ICategory } from './CategoryModel'
 import { IUser } from './UserModel'
-import { GROUP, IGroup } from './Group'
+// import { GROUP, IGroup } from './Group'
 
 export const TRANSACTION: string = 'Transaction'
-
-export enum TransactionType {
-  DEBIT = 'debit',
-  CREDIT = 'credit',
-  TRANSFERENCE = 'transference',
-}
 
 export interface ITransaction extends Document {
   amount: number
   date: Date
   description: string
-  account?: IAccount['_id'] | IAccount
-  categories: [ICategory]
+  paid: boolean
   type: TransactionType
-  creator: IUser['_id'] | IUser
-  group?: IGroup['id'] | IGroup
+  account: IAccount['id']
+  category?: ICategory['id']
+  user: IUser['id']
+  // group?: IGroup['id'] | IGroup
   createdAt: Date
   updatedAt: Date
 }
 
 export interface ITransactionModel extends Model<ITransaction, typeof transactionQueryHelpers> {
-  byAccount(accountId: string)
+  byAccount(account: string)
+  byCategory(category: string)
 }
 
 const SchemaTransaction = new Schema<ITransaction>({
   amount: { type: Number, required: true },
+  date: { type: Schema.Types.Date, required: false, default: Date.now },
   description: { type: Schema.Types.String, required: false },
-  date: { type: Schema.Types.Date, default: Date.now },
-  account: { type: Schema.Types.ObjectId, ref: 'Account', required: false, },
-  categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-  type: { type: Schema.Types.String, required: true, enum: [ TransactionType.CREDIT, TransactionType.DEBIT, TransactionType.TRANSFERENCE ] },
-  creator: { type: Schema.Types.ObjectId, ref: 'User', required: true, },
-  group: { type: Schema.Types.ObjectId, ref: GROUP, required: false }
+  paid: { type: Schema.Types.Boolean, required: false, default: true },
+  type: { type: Schema.Types.String, required: true,
+    enum: [ TransactionType.CREDIT, TransactionType.DEBIT, TransactionType.TRANSFERENCE ]
+  },
+  account: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
+  category: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: false }
+  // group: { type: Schema.Types.ObjectId, ref: 'Group', required: false }
 }, {
   timestamps: true
 })
 
 let transactionQueryHelpers = {
-  byAccount(this: DocumentQuery<ITransaction[], ITransaction>, accountId: string) {
-    return this.where({ account: accountId }).populate('account');
+  byAccount(this: DocumentQuery<ITransaction[], ITransaction>, account: string) {
+    return this.where({ account });
+  },
+  byCategory(this: DocumentQuery<ITransaction[], ITransaction>, category: string) {
+    return this.where({ category });
   }
 }
 

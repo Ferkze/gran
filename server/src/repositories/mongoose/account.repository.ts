@@ -5,17 +5,17 @@ import AccountModel, { IAccount } from './models/AccountModel'
 export class MongooseAccountRepository implements AccountRepository {
 	
 	async getAllAccounts(): Promise<Account[]> {
-		const accounts = await AccountModel.find().populate('institution')
+		const accounts = await AccountModel.find()
 		return accounts.map(a => MongooseAccountRepository.deserializeAccount(a))
 	}
 	
 	async getAllUserAccounts(userId: string): Promise<Account[]> {
-		const accounts = await AccountModel.find({ owner: userId }).populate('institution')
+		const accounts = await AccountModel.find({ owner: userId })
 		return accounts.map(a => MongooseAccountRepository.deserializeAccount(a))
 	}
 	
 	async findAccountById(id: string): Promise<Account> {
-		const account = await AccountModel.findOne({ _id: id }).populate('institution')
+		const account = await AccountModel.findOne({ _id: id })
 		return MongooseAccountRepository.deserializeAccount(account)
 	}
 	
@@ -34,6 +34,11 @@ export class MongooseAccountRepository implements AccountRepository {
 		await AccountModel.deleteOne({ _id: accountId })
 	}
 
+	async accountExists(accountId: Account['id']): Promise<boolean> {
+		const count = await AccountModel.count({ _id: accountId })
+		return count > 0
+	}
+
 	static deserializeAccount(accountModel: IAccount): Account {
 		if (!accountModel) {
 			return null
@@ -42,10 +47,6 @@ export class MongooseAccountRepository implements AccountRepository {
 		return {
 			id: accountModel._id,
 			name: accountModel.name,
-			colors: {
-				primary: accountModel.colors.primary,
-				secondary: accountModel.colors.secondary,
-			},
 			main: accountModel.main,
 			institution: accountModel.institution,
 			unregisteredInstitution: accountModel.unregisteredInstitution,

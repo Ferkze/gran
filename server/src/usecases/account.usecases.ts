@@ -13,6 +13,7 @@ export class AccountUsecasesImpl implements AccountUsecases {
 		if (!exists) {
 			throw new ValidationError('Conta não existe')
 		}
+		const account = await this.repo.account.findAccountById(accountId)
 		const transactions = await this.repo.transaction.getAllAccountTransactions(accountId)
 		const balance = transactions.reduce((acc, cur) => {
 			if (cur.type == TransactionType.DEBIT || cur.type == TransactionType.TRANSFERENCE) {
@@ -20,7 +21,7 @@ export class AccountUsecasesImpl implements AccountUsecases {
 			}
 			return acc - cur.amount
 		}, 0)
-		return balance
+		return balance + account.startingBalance
 	}
 
 	async listAccountsByUser(userId: string): Promise<Account[]> {

@@ -9,11 +9,6 @@ export class MongooseCategoryRepository implements CategoryRepository {
 		return MongooseCategoryRepository.deserializeCategories(docs)
 	}
 	
-	async getAllUserCategories(userId: string): Promise<Category[]> {
-		const docs = await CategoryModel.find({ creator: userId })
-		return MongooseCategoryRepository.deserializeCategories(docs)
-	}
-	
 	async findCategoryById(id: string): Promise<Category> {
 		const doc = await CategoryModel.findById(id)
 		return MongooseCategoryRepository.deserializeCategory(doc)
@@ -37,12 +32,7 @@ export class MongooseCategoryRepository implements CategoryRepository {
 		return {
 			id: category._id,
 			name: category.name,
-			creator: category.creator,
 			type: category.type,
-			colors: {
-				primary: category.colors.primary,
-				secondary: category.colors.secondary,
-			},
 			createdAt: category.createdAt,
 			updatedAt: category.updatedAt,
 		}

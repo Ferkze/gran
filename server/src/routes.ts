@@ -9,6 +9,7 @@ import institutionController from './controllers/institution.controller'
 import transactionController from './controllers/transaction.controller'
 import userController from './controllers/user.controller'
 import authenticationMiddleware from './middlewares/authentication.middleware'
+import balanceController from './usecases/balance.controller'
 
 const router = Router()
 
@@ -32,6 +33,9 @@ router.post('/transactions', authenticationMiddleware.userRequired, transactionC
 router.put('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.update)
 // router.post('/transaction', authenticationMiddleware.userRequired, transactionController.store)
 // router.delete('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.remove)
+// Precisam de autenticação, para que as transações do usuário sejam encontradas
+
+router.get('/balance', authenticationMiddleware.userRequired, balanceController.index)
 
 // Precisam de autenticação, para que as contas do usuário sejam encontradas
 router.get('/accounts', authenticationMiddleware.userRequired, accountController.index)

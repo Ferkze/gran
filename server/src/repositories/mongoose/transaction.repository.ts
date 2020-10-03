@@ -12,7 +12,7 @@ class MongooseTransactionRepository implements TransactionRepository {
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async getAllAccountTransactions(accountId: string): Promise<Transaction[]> {
-		const docs = await TransactionModel.byAccount(accountId)
+		const docs = await TransactionModel.find({ account: accountId }).exec()
 		return MongooseTransactionRepository.deserializeTransactions(docs)
 	}
 	async findTransactionById(id: string): Promise<Transaction> {

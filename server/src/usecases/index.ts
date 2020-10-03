@@ -8,6 +8,7 @@ import { Category } from '../models/entities/Category'
 import { Budget } from '../models/entities/Budget'
 import { Group } from '../models/entities/Group'
 import { Transaction } from '../models/entities/Transaction'
+import { Balance } from '../models/entities/Balance'
 
 export interface Usecases {
 	auth: AuthUsecases
@@ -64,6 +65,7 @@ export interface TransactionUsecases {
 	editTransaction(id:Transaction['id'], data: Transaction): Promise<Transaction>
 	listTransactionsByUser(userId: User['id']): Promise<Transaction[]>
 	registerTransaction(data: Transaction): Promise<Transaction>
+	getBalance(userId: User['id']): Promise<Balance>
 }
 
 export interface UserUsecases {

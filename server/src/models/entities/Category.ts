@@ -1,19 +1,12 @@
-import { User } from './User'
-
-enum CategoryType {
-  INCOME = 'income',
-  EXPENSE = 'expense'
+export enum CategoryType {
+  INCOME = 'renda',
+  EXPENSE = 'gasto'
 }
 
 export interface Category {
 	id: string
   name: string
-  creator: User
   type: CategoryType
-  colors: {
-    primary: string
-    secondary: string
-  }
   createdAt: Date
   updatedAt: Date
 }

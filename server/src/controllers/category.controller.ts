@@ -18,9 +18,9 @@ class CategoryController {
 		}
 	}
 
-	async readByUser(req: Request, res: Response): Promise<Response> {
+	async read(req: Request, res: Response): Promise<Response> {
 		try {
-			const categories = await usecases.category.listCategories(req.user['id'])
+			const categories = await usecases.category.listCategories()
 			return res.status(200).json({ categories })
 		} catch (error) {
 			log('Erro ao listar categorias de transações do usuário', error)

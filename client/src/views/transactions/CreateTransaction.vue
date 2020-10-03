@@ -96,17 +96,8 @@
             <v-card-text>
               <div>
                 <v-subheader>Categoria</v-subheader>
-                <v-chip-group
-                  v-model="transaction.category"
-                  column
-                  active-class="primary--text"
-                >
-                  <v-chip
-                    v-for="chip in categories"
-                    :key="chip.id"
-                    :value="chip.id"
-                    v-text="chip.name"
-                  />
+                <v-chip-group v-model="transaction.category" column active-class="primary--text">
+                  <v-chip v-for="chip in categories" :key="chip.id" :value="chip.id" v-text="chip.name" />
                 </v-chip-group>
               </div>
             </v-card-text>
@@ -131,7 +122,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import auth from "../../store/modules/auth";
 import { User, Transaction, Category } from "../../models";
-import { AccountSubtypes, CategoryType, TransactionType } from "../../models/enums";
+import {
+  AccountSubtypes,
+  CategoryType,
+  TransactionType,
+} from "../../models/enums";
 import accounts from "../../store/modules/accounts";
 import finances from "../../store/modules/finances";
 import status from "../../store/modules/status";
@@ -147,23 +142,27 @@ import BaseSelect from "@/components/base/Select.vue";
     BaseFormField,
     BaseDatePicker,
     BaseSelect,
-  }
+  },
 })
 export default class CreateTransactionView extends Vue {
-  transferenceTo: Account['id'] = ''
+  transferenceTo: Account["id"] = "";
 
   types = [
-    { value: TransactionType.CREDIT, text: "Despesa", color: 'red' },
-    { value: TransactionType.DEBIT, text: "Receita", color: 'green' },
-    { value: TransactionType.TRANSFERENCE, text: "Transferência", color: 'blue' },
+    { value: TransactionType.CREDIT, text: "Despesa", color: "red" },
+    { value: TransactionType.DEBIT, text: "Receita", color: "green" },
+    {
+      value: TransactionType.TRANSFERENCE,
+      text: "Transferência",
+      color: "blue",
+    },
   ];
   transaction: Transaction = {
-    account: '',
-    user: auth.user.id,
+    account: "",
+    user: auth.user?.id || "",
     type: TransactionType.DEBIT,
     amount: 0,
     description: "",
-    category: null,
+    category: "",
     date: new Date().toISOString().substr(0, 10),
   };
   loading = false;
@@ -181,38 +180,38 @@ export default class CreateTransactionView extends Vue {
     return accounts.accounts;
   }
   get categories() {
-    return finances.categories.filter(cat => {
+    return finances.categories.filter((cat) => {
       switch (this.transaction.type) {
         case TransactionType.DEBIT:
-          return cat.type == CategoryType.INCOME
+          return cat.type == CategoryType.INCOME;
           break;
         case TransactionType.CREDIT:
-          return cat.type == CategoryType.EXPENSE
+          return cat.type == CategoryType.EXPENSE;
           break;
-      
+
         default:
-          return true
+          return true;
           break;
       }
     });
   }
 
-	async created() {
-		if (!accounts.accounts.length) {
-			const accs = await accounts.fetchAccounts()
-			if (!accs || !accs.length) {
-				status.setStatus({
-					type: 'error',
-					message: `Adicione uma conta para começar a registrar transações`
-				})
-				this.$router.push('/contas')
-				return
-			}
-		}
-		if (!finances.categories.length) {
-			const cats = await finances.fetchCategories()
-		}
-	}
+  async created() {
+    if (!accounts.accounts.length) {
+      const accs = await accounts.fetchAccounts();
+      if (!accs || !accs.length) {
+        status.setStatus({
+          type: "error",
+          message: `Adicione uma conta para começar a registrar transações`,
+        });
+        this.$router.push("/contas");
+        return;
+      }
+    }
+    if (!finances.categories.length) {
+      const cats = await finances.fetchCategories();
+    }
+  }
 
   get amount(): string {
     const amount = this.transaction.amount || 0;

@@ -9,7 +9,25 @@ interface InstitutionsResponse {
 class InstitutionService {
 
 	async getInstitutions(): Promise<Institution[]> {
-		return await (await client.get<InstitutionsResponse>('/institutions')).data.institutions
+		const cachedInstitutions = this.getCachedInstitutions()
+		if (cachedInstitutions) return cachedInstitutions
+		
+		const response = await client.get<InstitutionsResponse>('/institutions')
+		const institutions = response.data.institutions
+		this.setCachedInstitutions(institutions)
+		return institutions
+	}
+
+	private getCachedInstitutions() {
+		const institutionsSessionCache = sessionStorage.getItem('gran.institutions')
+		if (institutionsSessionCache) {
+			return JSON.parse(institutionsSessionCache)
+		}
+		return null
+	}
+
+	private setCachedInstitutions(institutions: Institution[]) {
+		sessionStorage.setItem('gran.institutions', JSON.stringify(typeof institutions == 'object' ? institutions : [] ))
 	}
 }
 

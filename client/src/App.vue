@@ -19,6 +19,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import auth from './store/modules/auth'
 import finances from './store/modules/finances'
+import status from "./store/modules/status";
 
 @Component({
 	components: {
@@ -33,9 +34,18 @@ export default class App extends Vue {
 
 	async mounted() {
 		this.loading = true
-		await auth.silentLogin()
+		try {
+			await auth.silentLogin()
+		} catch (error) {
+			status.setStatus({
+				type: 'error',
+				message: 'Sessão expirada'
+			})
+			auth.logout()
+		} finally {
+			this.loading = false
+		}
 		await finances.load()
-		this.loading = false
 	}
 }
 </script>

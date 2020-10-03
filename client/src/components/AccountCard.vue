@@ -41,10 +41,6 @@
         Instituição
         <span class="font-weight-black float-right">{{ accountInstitution }}</span>
       </p>
-      <p>
-        Criado em
-        <span class="font-weight-black float-right">{{ creationDate }}</span>
-      </p>
     </v-card-text>
     <v-divider />
     <v-card-actions>
@@ -78,11 +74,6 @@ export default class AccountCard extends Vue {
       await accounts.getAccountBalance(this.account.id)
       this.loadingBalance = false
     }
-  }
-
-  get creationDate() {
-    if (!this.account) return "";
-    return this.account.createdAt.substr(0, 10).split("-").reverse().join("/");
   }
 
   get accountInstitution() {

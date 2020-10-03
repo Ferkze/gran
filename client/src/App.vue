@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import auth from './store/modules/auth'
-// import finances from './store/modules/finances'
+import finances from './store/modules/finances'
 
 @Component({
 	components: {
@@ -34,7 +34,7 @@ export default class App extends Vue {
 	async mounted() {
 		this.loading = true
 		await auth.silentLogin()
-
+		await finances.load()
 		this.loading = false
 	}
 }

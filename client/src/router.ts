@@ -25,15 +25,7 @@ const routes: RouteConfig[] = [
 	{
 		name: 'Dashboard',
 		path: '/dashboard',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Overview.vue'),
-		meta: {
-			requiresAuth: true,
-		}
-	},
-	{
-		name: 'Transações',
-		path: '/transacoes',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/Transactions.vue'),
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/dashboard/OverviewView.vue'),
 		meta: {
 			requiresAuth: true,
 		}
@@ -65,9 +57,9 @@ const routes: RouteConfig[] = [
 	{
 		name: 'Transações',
 		path: '/transacoes',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/Transactions.vue'),
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/TransactionsView.vue'),
 		meta: {
-			requiresAuth: true
+			requiresAuth: true,
 		}
 	},
 	{

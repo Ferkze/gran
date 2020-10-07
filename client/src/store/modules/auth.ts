@@ -1,4 +1,5 @@
 import store from '..'
+import status from './status'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
 import { User } from '@/models'
 import { LoginData, RegisterData } from '@/models/auth'
@@ -26,7 +27,16 @@ class AuthModule extends VuexModule {
 	
 	@Action({ commit: 'setUser', rawError: true })
 	async silentLogin(): Promise<User | null> {
-		return await AuthService.silentLogin()
+		try {
+			return await AuthService.silentLogin()
+		} catch (error) {
+			status.setStatus({
+				type: 'error',
+				message: 'Sessão expirada'
+			})
+			this.logout()
+			return null
+		}
 	}
 
 	@Action({ commit: 'setUser', rawError: true })

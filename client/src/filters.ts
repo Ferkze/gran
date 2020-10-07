@@ -6,3 +6,10 @@ Vue.filter('formatCurrency', (value: any): string => {
 		.toString()
 		.replace('.', ',')
 })
+
+
+Vue.filter('formatCash', (value: any): string => {
+	return parseFloat(value)
+		.toFixed(0)
+		.toString()
+})

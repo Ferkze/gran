@@ -11,7 +11,7 @@
 		<v-spacer />
 
 		<v-toolbar-items class="mr-16">
-			<v-btn text to="/contas" active-class="primary">
+			<v-btn text to="/contas" class="px-8" active-class="primary">
 				<span class="subtitle-1 text-capitalize font-weight-light">
 					Contas
 				</span>
@@ -21,7 +21,7 @@
 					Transações
 				</span>
 			</v-btn>
-			<v-btn text to="/dashboard" active-class="primary">
+			<v-btn text to="/dashboard" class="px-10" active-class="primary">
 				<span class="subtitle-1 text-capitalize font-weight-light">
 					Início
 				</span>
@@ -31,7 +31,7 @@
 					Planejamento
 				</span>
 			</v-btn>
-			<v-btn text to="/grupos" active-class="primary">
+			<v-btn text to="/grupos" class="px-8" active-class="primary">
 				<span class="subtitle-1 text-capitalize font-weight-light">
 					Grupos
 				</span>

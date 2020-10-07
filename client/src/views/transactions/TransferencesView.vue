@@ -1,4 +1,5 @@
 <template>
+	
   <v-container>
     <v-row no-gutters>
       <v-col>
@@ -8,50 +9,26 @@
               <v-list-item>
                 <v-list-item-icon>
                   <v-avatar color="primary">
-                    <v-icon color="white">mdi-plus</v-icon>
+                    <v-icon large color="white">mdi-plus</v-icon>
                   </v-avatar>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>Registrar</v-list-item-title>
+                  <v-list-item-subtitle>Registrar</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
+						<v-spacer></v-spacer>
+            
             <v-col cols="3">
               <v-list-item>
                 <v-list-item-icon>
-                  <v-avatar color="success">
-                    <v-icon color="white">mdi-cash</v-icon>
+                  <v-avatar color="info">
+                    <v-icon right large color="white">mdi-bank-transfer</v-icon>
                   </v-avatar>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>Receitas</v-list-item-title>
-                  <v-list-item-subtitle>R$ 823213</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="3">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-avatar color="error">
-                    <v-icon color="white">mdi-cart</v-icon>
-                  </v-avatar>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Despesas</v-list-item-title>
-                  <v-list-item-subtitle>R$ 723213</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="3">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-avatar color="warning">
-                    <v-icon color="white">mdi-scale-balance</v-icon>
-                  </v-avatar>
-                </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>Saldo</v-list-item-title>
-                  <v-list-item-subtitle>R$ 100000</v-list-item-subtitle>
+                  <v-list-item-subtitle>Total</v-list-item-subtitle>
+                  <v-list-item-title>R$ 24000</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -82,16 +59,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+	import { Component, Vue } from 'vue-property-decorator';
 import finances from "@/store/modules/finances";
 
-@Component
-export default class TransactionsView extends Vue {
-  get transactions() {
+	@Component
+	export default class TransferencesView extends Vue {
+		get transactions() {
     return finances.transactions;
   }
-}
+	}
 </script>
 
 <style scoped>
+
 </style>

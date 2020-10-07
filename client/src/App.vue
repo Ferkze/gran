@@ -3,7 +3,7 @@
 		<app-bar />
 		<app-snackbar />
 
-		<v-content v-if="!loading">
+		<v-content v-if="!loading" class="grey lighten-3">
 			<v-slide-x-reverse-transition mode="out-in">
 				<router-view />
 			</v-slide-x-reverse-transition>

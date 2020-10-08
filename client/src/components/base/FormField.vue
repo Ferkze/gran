@@ -1,11 +1,9 @@
 <template>
 	<v-row no-gutters>
 		<v-col cols="12">
-			<v-subheader>
+			<v-subheader class="px-0 font-weight-light">
 				<slot name="label">{{ formLabel }}</slot>
 			</v-subheader>
-		</v-col>
-		<v-col cols="12">
 			<slot name="default">
 				<component :is="`base-${fieldType}`" v-bind="$attrs" v-on="$listeners" />
 			</slot>

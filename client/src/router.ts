@@ -57,15 +57,37 @@ const routes: RouteConfig[] = [
 	{
 		name: 'Transações',
 		path: '/transacoes',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/TransactionsView.vue'),
+		component: () => import(/* webpackChunkName: "transactions" */ './views/transactions/TransactionsRouterView.vue'),
 		meta: {
 			requiresAuth: true,
-		}
+		},
+		children: [
+			{
+				path: '',
+				name: 'Transações gerais',
+				component: () => import(/* webpackChunkName: "transactions" */ './views/transactions/TransactionsView.vue')
+			},
+			{
+				path: 'receitas',
+				name: 'Transações de receitas',
+				component: () => import(/* webpackChunkName: "transactions" */ './views/transactions/IncomesView.vue')
+			},
+			{
+				path: 'despesas',
+				name: 'Transações de despesas',
+				component: () => import(/* webpackChunkName: "transactions" */ './views/transactions/ExpensesView.vue')
+			},
+			{
+				path: 'transferencias',
+				name: 'Transações de transferências',
+				component: () => import(/* webpackChunkName: "transactions" */ './views/transactions/TransferencesView.vue')
+			}
+		]
 	},
 	{
 		name: 'Criar Transação',
 		path: '/transacoes/criar',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/CreateTransaction.vue'),
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/CreateTransactionView.vue'),
 		meta: {
 			requiresAuth: true
 		}
@@ -73,7 +95,7 @@ const routes: RouteConfig[] = [
 	{
 		name: 'Editar Transação',
 		path: '/transacoes/:transactionId/edicao',
-		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/EditTransaction.vue'),
+		component: () => import(/* webpackChunkName: "dashboard" */ './views/transactions/EditTransactionView.vue'),
 		meta: {
 			requiresAuth: true
 		}

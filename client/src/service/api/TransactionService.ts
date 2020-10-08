@@ -29,8 +29,8 @@ class TransactionService {
     return (await client.put(`/transaction/${transaction.id}`, { transaction })).data.transaction;
   }
 
-  deleteTransaction(transactionId: string) {
-    return client.delete(`/transactions/${transactionId}`);
+  async deleteTransaction(transactionId: string) {
+    return await client.delete(`/transactions/${transactionId}`);
   }
 }
 

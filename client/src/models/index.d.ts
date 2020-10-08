@@ -51,7 +51,7 @@ export interface Transaction {
   category: Category['id'];
   type: TransactionType;
   user: User | User["id"];
-  // budgetGroup?: Group | Group["id"];
+  group?: Group["id"];
   createdAt?: string;
   updatedAt?: string;
 }

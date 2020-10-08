@@ -6,6 +6,7 @@ import { Transaction, Category, Institution } from '@/models'
 import TransactionService from '@/service/api/TransactionService'
 import InstitutionService from '@/service/api/InstitutionService'
 import CategoryService from '@/service/api/CategoryService'
+import status from './status'
 
 @Module({
 	store,
@@ -40,10 +41,14 @@ class FinancesModule extends VuexModule {
 
 	@Action
 	async load() {
-		await Promise.all([
-			this.fetchCategories(),
-			this.fetchInstitutions()
-		])
+		try {
+			await Promise.all([
+				this.fetchCategories(),
+				this.fetchInstitutions()
+			])
+		} catch (error) {
+			console.error('Erro no carregamento de dados financeiros', error)
+		}
 		return
 	}
 
@@ -92,11 +97,19 @@ class FinancesModule extends VuexModule {
 
 	@Action({ commit: 'removeTransaction', rawError: true })
 	async deleteTransaction(transaction: Transaction): Promise<Transaction | null> {
-		if (!auth.user || !auth.user.id || !transaction.id) {
+		try {
+			if (!auth.user || !auth.user.id || !transaction.id) {
+				return null
+			}
+			await TransactionService.deleteTransaction(transaction.id)
+			return transaction
+		} catch (error) {
+			status.setStatus({
+				message: 'Erro ao excluir a transação',
+				type: 'error'
+			})
 			return null
 		}
-		await TransactionService.deleteTransaction(transaction.id)
-		return transaction
 	}
 
 	@Mutation

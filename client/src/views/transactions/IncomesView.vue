@@ -1,12 +1,11 @@
 <template>
-	
   <v-container>
     <v-row no-gutters>
       <v-col>
         <v-card width="100%" flat>
           <v-row no-gutters>
             <v-col cols="3">
-              <v-list-item>
+              <v-list-item to="/transacoes/criar">
                 <v-list-item-icon>
                   <v-avatar color="primary">
                     <v-icon color="white">mdi-plus</v-icon>
@@ -83,18 +82,22 @@
 </template>
 
 <script lang="ts">
-import finances from '@/store/modules/finances';
-	import { Component, Vue } from 'vue-property-decorator';
+import { TransactionType } from '@/models/enums';
+import finances from "@/store/modules/finances";
+import { Component, Vue } from "vue-property-decorator";
 
-	@Component
-	export default class IncomesView extends Vue {
-		
+@Component({
+  components: {
+    AppTransactionItem: () =>
+      import("@/components/transaction/TransactionListItem.vue"),
+  },
+})
+export default class IncomesView extends Vue {
   get transactions() {
-    return finances.transactions;
+    return finances.transactions.filter(t => t.type == TransactionType.DEBIT);
   }
-	}
+}
 </script>
 
 <style scoped>
-
 </style>

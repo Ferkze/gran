@@ -68,26 +68,18 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import finances from "../../store/modules/finances";
-import status from "../../store/modules/status";
 
-@Component({
-  components: {
-    AppTransactionItem: () => import("@/components/TransactionListItem.vue"),
-  }
-})
+@Component
 export default class TransactionsRouterView extends Vue {
   get transactions() {
     return finances.transactions;
   }
 
   mounted() {
-    if (this.transactions.length == 0) {
+    if (this.transactions.length < 2) {
       finances.fetchTransactions();
     }
   }
 
-  click() {
-
-  }
 }
 </script>

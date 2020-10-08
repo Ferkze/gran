@@ -5,7 +5,7 @@
         <v-card width="100%" flat>
           <v-row no-gutters>
             <v-col cols="3">
-              <v-list-item>
+              <v-list-item to="/transacoes/criar">
                 <v-list-item-icon>
                   <v-avatar color="primary">
                     <v-icon color="white">mdi-plus</v-icon>
@@ -84,11 +84,16 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import finances from "@/store/modules/finances";
+import { TransactionType } from '@/models/enums';
 
-@Component
+@Component({
+  components: {
+    AppTransactionItem: () => import("@/components/transaction/TransactionListItem.vue"),
+  }
+})
 export default class ExpensesView extends Vue {
   get transactions() {
-    return finances.transactions;
+    return finances.transactions.filter(t => t.type == TransactionType.CREDIT);
   }
 }
 </script>

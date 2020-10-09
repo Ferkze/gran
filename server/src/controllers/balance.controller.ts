@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import debug from 'debug'
 import usecases from '../usecases'
+import BaseController from './base.controller'
 
 const log = debug('app:balance:controller')
 
-class BalanceController {
+export default class BalanceController extends BaseController {
 
 	async index(req: Request, res: Response): Promise<Response> {
 		try {
@@ -16,5 +17,3 @@ class BalanceController {
 		}
 	}
 }
-
-export default new BalanceController()

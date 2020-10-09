@@ -1,15 +1,17 @@
 import { Router } from 'express'
-import accountController from './controllers/account.controller'
-import authController from './controllers/auth.controller'
-import budgetController from './controllers/budget.controller'
-import categoryController from './controllers/category.controller'
-import groupController from './controllers/group.controller'
-import indexController from './controllers/index.controller'
-import institutionController from './controllers/institution.controller'
-import transactionController from './controllers/transaction.controller'
-import userController from './controllers/user.controller'
+import {
+	accountController,
+	authController,
+	balanceController,
+	budgetController,
+	categoryController,
+	groupController,
+	indexController,
+	institutionController,
+	transactionController,
+	userController
+} from './controllers'
 import authenticationMiddleware from './middlewares/authentication.middleware'
-import balanceController from './usecases/balance.controller'
 
 const router = Router()
 

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import debug from 'debug'
 import usecases from '../usecases'
+import BaseController from './base.controller'
 
 const log = debug('app:transaction:controller')
 
-class TransactionController {
+export default class TransactionController extends BaseController {
 	public async readByUser(req: Request, res: Response): Promise<Response> {
 		const transactions = await usecases.transaction.listTransactionsByUser(req.user['id'])
 		return res.status(200).json({ transactions })
@@ -58,5 +59,3 @@ class TransactionController {
 		}
 	}
 }
-
-export default new TransactionController()

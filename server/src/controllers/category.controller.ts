@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { Category } from '../models/entities/Category'
 import usecases from '../usecases'
 import debug from 'debug'
+import BaseController from './base.controller'
 
 const log = debug('app:category:controller')
 
-class CategoryController {
+export default class CategoryController extends BaseController {
 
 	async update(req: Request, res: Response): Promise<Response> {
 		const data = req.body
@@ -40,5 +40,3 @@ class CategoryController {
 	}
 
 }
-
-export default new CategoryController()

@@ -18,7 +18,7 @@ export interface Account {
   name: string
   main: boolean
   institution: string
-  unregisteredInstitution: string
+  unregisteredInstitution?: string
   type: AccountTypes
   subtype: AccountSubtypes
   startingBalance: number

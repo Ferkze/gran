@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import usecases from '../usecases'
+import BaseController from './base.controller'
 
-class BudgetController {
+export default class BudgetController extends BaseController {
 
 	public async readByUser(req: Request, res: Response): Promise<Response> {usecases.budget.listBudgetsByUser(req.user['id'])
 		try {
@@ -33,5 +34,3 @@ class BudgetController {
 	}
 	
 }
-
-export default new BudgetController()

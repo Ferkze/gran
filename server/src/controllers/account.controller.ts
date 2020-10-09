@@ -2,10 +2,11 @@ import { Request, Response } from 'express'
 import { Account } from '../models/entities/Account'
 import usecases from '../usecases'
 import debug from 'debug'
+import BaseController from './base.controller'
 
 const log = debug('app:account:controller')
 
-class AccountController {
+export default class AccountController extends BaseController {
 
 	public async index(req: Request, res: Response): Promise<Response> {
 		try {
@@ -68,5 +69,3 @@ class AccountController {
 	}
 
 }
-
-export default new AccountController()

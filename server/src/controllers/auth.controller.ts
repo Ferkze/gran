@@ -2,8 +2,9 @@ import { Request, Response } from 'express'
 import { LoginData, RegisterData } from '../models/entities/Auth'
 import usecases from '../usecases'
 import { ValidationError } from '../models/errors/ValidationError'
+import BaseController from './base.controller'
 
-class AuthController {
+export default class AuthController extends BaseController {
 	async login(req: Request, res: Response): Promise<Response> {
 		try {
 			const user = await usecases.auth.login(req.body as LoginData)
@@ -52,5 +53,3 @@ class AuthController {
 		return res.status(200).json({ user })
 	}
 }
-
-export default new AuthController()

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express'
 import usecases from '../usecases'
 import debug from 'debug'
+import BaseController from './base.controller'
 
 const log = debug('app:group:controller')
 
-class GroupController {
+export default class GroupController extends BaseController {
 
 	async update(req: Request, res: Response): Promise<Response> {
 		const data = req.body
@@ -49,5 +50,3 @@ class GroupController {
 	}
 
 }
-
-export default new GroupController()

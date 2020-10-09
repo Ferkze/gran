@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { User } from '../models/entities/User'
 import usecases from '../usecases'
+import BaseController from './base.controller'
 
-class UserController {
+export default class UserController extends BaseController {
 	// public async index(req: Request, res: Response): Promise<Response> {
 	// 	const users = await usecases.listUsers()
 	// 	return res.json(users)
@@ -26,5 +27,3 @@ class UserController {
 	// 	return res.json(deletedUserDoc)
 	// }
 }
-
-export default new UserController()

@@ -1,67 +1,65 @@
 <template>
   <v-container class>
-    <section>
-      <v-card>
-        <v-row no-gutters>
-          <v-col cols="3" class="pa-3">
-            <v-btn
-              to="/transacoes/"
-              exact
-              active-class="primary"
-              block
-              color="grey"
-              class="white--text"
-              depressed
-              small
-            >
-              <span class="text-lowercase">transações</span>
-            </v-btn>
-          </v-col>
-          <v-col cols="3" class="pa-3">
-            <v-btn
-              to="/transacoes/receitas"
-              active-class="success"
-              block
-              color="grey"
-              class="white--text"
-              depressed
-              small
-            >
-              <span class="text-lowercase">receitas</span>
-            </v-btn>
-          </v-col>
-          <v-col cols="3" class="pa-3">
-            <v-btn
-              to="/transacoes/despesas"
-              active-class="error"
-              block
-              color="grey"
-              class="white--text"
-              depressed
-              small
-            >
-              <span class="text-lowercase">despesas</span>
-            </v-btn>
-          </v-col>
-          <v-col cols="3" class="pa-3">
-            <v-btn
-              to="/transacoes/transferencias"
-              active-class="info"
-              block
-              color="grey"
-              class="white--text"
-              depressed
-              small
-            >
-              <span class="text-lowercase">transferências</span>
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-slide-x-reverse-transition mode="out-in">
-          <router-view />
-        </v-slide-x-reverse-transition>
-      </v-card>
-    </section>
+    <v-card>
+      <v-row no-gutters>
+        <v-col cols="3" class="pa-3">
+          <v-btn
+            to="/transacoes/"
+            exact
+            active-class="primary"
+            block
+            color="grey"
+            class="white--text"
+            depressed
+            small
+          >
+            <span class="text-lowercase">transações</span>
+          </v-btn>
+        </v-col>
+        <v-col cols="3" class="pa-3">
+          <v-btn
+            to="/transacoes/receitas"
+            active-class="success"
+            block
+            color="grey"
+            class="white--text"
+            depressed
+            small
+          >
+            <span class="text-lowercase">receitas</span>
+          </v-btn>
+        </v-col>
+        <v-col cols="3" class="pa-3">
+          <v-btn
+            to="/transacoes/despesas"
+            active-class="error"
+            block
+            color="grey"
+            class="white--text"
+            depressed
+            small
+          >
+            <span class="text-lowercase">despesas</span>
+          </v-btn>
+        </v-col>
+        <v-col cols="3" class="pa-3">
+          <v-btn
+            to="/transacoes/transferencias"
+            active-class="info"
+            block
+            color="grey"
+            class="white--text"
+            depressed
+            small
+          >
+            <span class="text-lowercase">transferências</span>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-slide-x-reverse-transition mode="out-in">
+        <router-view />
+      </v-slide-x-reverse-transition>
+    </v-card>
   </v-container>
 </template>
 

@@ -1,72 +1,57 @@
 <template>
   <v-container>
-    <h1 class="display-1 mb-3">{{ $route.name }}</h1>
-    <h2 class="font-weight-light">Minhas contas</h2>
-    <v-divider />
-    <v-row>
-      <v-col cols="12" sm="6" md="4" lg="3" v-for="acc in debitAccounts" :key="acc.id">
-        <account-card :account="acc" />
-      </v-col>
-      <v-col cols="12" sm="6" md="4" lg="3">
-        <v-hover v-slot:default="{ hover }">
-          <v-btn height="100%" min-height="198" block color="primary" :outlined="!hover" @click="createAccount">
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-icon large left>mdi-bank-plus</v-icon>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12">Adicionar conta</v-col>
-              </v-row>
-            </v-container>
+    <v-card height="100%">
+      <v-row no-gutters align="center">
+        <v-col>
+          <v-card-title>
+            <h2 class="title font-weight-medium">Contas</h2>
+          </v-card-title>
+        </v-col>
+        <v-col class="text-right px-4">
+          <v-btn class="primary px-6" depressed to="/contas/criar">
+            <span class="text-lowercase">adicionar conta</span>
           </v-btn>
-        </v-hover>
-      </v-col>
-    </v-row>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-list width="100%">
+          <account-list-item v-for="acc in debitAccounts" :key="acc.id" :account="acc" />
+        </v-list>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { AccountTypes } from "../../models/enums";
-import accounts from "../../store/modules/accounts";
+import { AccountTypes } from "@/models/enums";
+import accounts from "@/store/modules/accounts";
 
 @Component({
   name: "AccountsView",
   components: {
-    AccountCard: () => import("../../components/AccountCard.vue"),
+    AccountListItem: () => import("@/components/account/AccountListItem.vue"),
   },
 })
 export default class Accounts extends Vue {
   menuItems = [{ title: "Editar", action: "edit" }];
 
+  loading = false
   mounted() {
     if (accounts.accounts.length == 0) {
-      accounts.fetchAccounts();
+      this.loadAccounts()
     }
   }
 
   get debitAccounts() {
     return accounts.accounts.filter((a) => a.type == AccountTypes.DEBIT);
   }
-  get creditAccounts() {
-    return accounts.accounts.filter((a) => a.type == AccountTypes.CREDIT);
+
+  async loadAccounts() {
+    this.loading = false
+    await accounts.fetchAccounts();
+    this.loading = true
   }
 
-  createAccount() {
-    this.$router.push("/contas/criar");
-  }
-  createCreditCard() {
-    alert("ok");
-  }
-
-  onAccountMenuClicked(accountId: string, action: string) {
-    switch (action) {
-      case "edit":
-        this.$router.push(`/contas/${accountId}`);
-        break;
-    }
-  }
 }
 </script>

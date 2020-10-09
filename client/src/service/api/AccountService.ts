@@ -11,7 +11,11 @@ class AccountService {
   };
   
   createAccount (userId: string, account: Account) {
-    return client.post(`/accounts`, { account });
+    console.log('userId', userId)
+    console.log('account', account)
+    account.id = '123123123'
+    return account
+    return // client.post(`/accounts`, { account });
   };
   
   updateAccount (userId: string, account: Account) {

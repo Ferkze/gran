@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="updateTransaction">
+  <v-form @submit.prevent="submitTransaction">
     <base-form-field
       v-model="transaction.type"
       :items="types"
@@ -88,7 +88,7 @@
         :disabled="loading"
         :loading="loading"
         large
-        @submit.prevent="updateTransaction"
+        @submit.prevent="submitTransaction"
       >Salvar</v-btn>
     </div>
     <!-- <v-btn block color="error" class="mt-5" outlined :disabled="loadingDeletion" :loading="loadingDeletion" large @click="deleteTransaction">Deletar Transação</v-btn>-->
@@ -167,6 +167,6 @@ export default class TransactionForm extends Vue {
   }
 
   @Emit("submit")
-  async updateTransaction() {}
+  async submitTransaction() {}
 }
 </script>

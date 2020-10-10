@@ -9,7 +9,7 @@ interface GroupsResponse {
 	groups: Group[]
 }
 
-class GroupService {
+class GroupsService {
 	async getGroups(): Promise<Group[]> {
 		const response = await client.get<GroupsResponse>('/api/groups')
 		const groups = response.data.groups
@@ -35,4 +35,4 @@ class GroupService {
 	}
 }
 
-export default new GroupService()
+export default new GroupsService()

@@ -100,7 +100,7 @@ import { Transaction } from "@/models";
 import { AccountSubtypes, CategoryType, TransactionType } from "@/models/enums";
 import accounts from "@/store/modules/accounts";
 import finances from '@/store/modules/finances';
-import groups from "@/store/modules/groups";
+import groupsModule from "@/store/modules/groupsModule";
 import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 
 @Component({
@@ -112,9 +112,6 @@ import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 export default class TransactionForm extends Vue {
   @PropSync("data", { required: true })
   transaction!: Transaction;
-
-  @Prop({ type: String, default: 'create' })
-  submitType!: string
 
   loading = false;
 
@@ -131,7 +128,7 @@ export default class TransactionForm extends Vue {
   }
 
   get groups() {
-    return groups.groups
+    return groupsModule.groups
   }
   
   get categories() {

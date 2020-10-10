@@ -80,12 +80,10 @@ export interface Transaction {
 }
 
 export interface Group {
-  id: string;
+  id?: string;
   name: string;
-  description?: string;
-  creator?: User | User["id"];
-  members?: User[] | User["id"];
-
+  creator: User | User["id"];
+  members: User[] | User["id"][];
   createdAt?: Date;
   updatedAt?: Date;
 }

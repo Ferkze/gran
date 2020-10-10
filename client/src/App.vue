@@ -3,11 +3,11 @@
 		<app-bar />
 		<app-snackbar />
 
-		<v-content v-if="!loading" class="grey lighten-3">
+		<v-main v-if="!loading" class="grey lighten-3">
 			<v-slide-x-reverse-transition mode="out-in">
 				<router-view />
 			</v-slide-x-reverse-transition>
-		</v-content>
+		</v-main>
 		<v-overlay v-else>
 			<v-progress-circular indeterminate size="64" />
 		</v-overlay>

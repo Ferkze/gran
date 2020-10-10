@@ -37,11 +37,11 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class BudgetCard extends Vue {
   budgets = [
-    { id: 0, icon: 'mdi-ticket', category: 'Lazer', current: 100, max: 300 },
-    { id: 1, icon: 'mdi-train-car', category: 'Transporte', current: 100, max: 250 },
-    { id: 2, icon: 'mdi-heart-pulse', category: 'Saúde', current: 150, max: 250 },
-    { id: 3, icon: 'mdi-cart', category: 'Mercado', current: 450, max: 500 },
-    { id: 4, icon: 'mdi-cellphone-wireless', category: 'Telefonia e Internet', current: 120, max: 120 }
+    { id: '0', icon: 'mdi-ticket', category: 'Lazer', current: 100, max: 300 },
+    { id: '1', icon: 'mdi-train-car', category: 'Transporte', current: 100, max: 250 },
+    { id: '2', icon: 'mdi-heart-pulse', category: 'Saúde', current: 150, max: 250 },
+    { id: '3', icon: 'mdi-cart', category: 'Mercado', current: 450, max: 500 },
+    { id: '4', icon: 'mdi-cellphone-wireless', category: 'Telefonia e Internet', current: 120, max: 120 }
   ]
 
   progressColor(percent: number) {

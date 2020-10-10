@@ -84,7 +84,7 @@ import auth from '../store/modules/auth'
 
 @Component({
 	components: {
-		BaseGranLogo: () => import('../components/base/GranLogo.vue')
+		BaseGranLogo: () => import('@/components/base/GranLogo.vue')
 	},
 	inject: ['theme']
 })

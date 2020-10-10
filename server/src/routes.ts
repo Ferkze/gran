@@ -18,9 +18,9 @@ const router = Router()
 
 router.get('/', indexController.index)
 
-router.post('/auth/login', authController.login)
-router.post('/auth/register', authController.register)
-router.get('/auth/current', authController.current)
+router.post('/auth/login', authController.login) // OK
+router.post('/auth/register', authController.register) // OK
+router.get('/auth/current', authController.current) // OK
 
 // Dados do usuário, precisa estar autenticado para acesser os dados de usuários
 // router.get('/users', userController.index)
@@ -30,10 +30,10 @@ router.get('/user/:userId', userController.readById)
 router.put('/user', authenticationMiddleware.userRequired, userController.update)
 
 // Precisam de autenticação, para que as transações do usuário sejam encontradas
-router.get('/transactions', authenticationMiddleware.userRequired, transactionController.readByUser)
+router.get('/transactions', authenticationMiddleware.userRequired, transactionController.readByUser) // OK
 // router.get('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.find)
-router.post('/transactions', authenticationMiddleware.userRequired, transactionController.create)
-router.put('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.update)
+router.post('/transactions', authenticationMiddleware.userRequired, transactionController.create) // OK
+router.put('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.update) // OK
 // router.post('/transaction', authenticationMiddleware.userRequired, transactionController.store)
 // router.delete('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.remove)
 // Precisam de autenticação, para que as transações do usuário sejam encontradas
@@ -41,11 +41,11 @@ router.put('/transaction/:transactionId', authenticationMiddleware.userRequired,
 router.get('/balance', authenticationMiddleware.userRequired, balanceController.index)
 
 // Precisam de autenticação, para que as contas do usuário sejam encontradas
-router.get('/accounts', authenticationMiddleware.userRequired, errorHandlerMiddleware.handleErr, accountController.index)
-router.post('/accounts', authenticationMiddleware.userRequired, errorHandlerMiddleware.handleErr, accountController.create)
-router.put('/account/:accountId', authenticationMiddleware.userRequired, accountController.update)
-router.delete('/accounts/:accountId', authenticationMiddleware.userRequired, accountController.delete)
-router.get('/account/:accountId/balance', authenticationMiddleware.userRequired, accountController.balance)
+router.get('/accounts', authenticationMiddleware.userRequired, errorHandlerMiddleware.handleErr, accountController.index) // OK
+router.post('/accounts', authenticationMiddleware.userRequired, errorHandlerMiddleware.handleErr, accountController.create) // OK
+router.put('/accounts/:accountId', authenticationMiddleware.userRequired, accountController.update) // OK 
+router.delete('/accounts/:accountId', authenticationMiddleware.userRequired, accountController.delete) // OK
+router.get('/accounts/:accountId/balance', authenticationMiddleware.userRequired, accountController.balance) // OK
 // router.get('/accounts/:accountId/transactions', authenticationMiddleware.userRequired, transactionController.findByAccount)
 
 // Não precisam de autenticação, essas instituições são genéricas para o app

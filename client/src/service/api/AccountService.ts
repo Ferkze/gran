@@ -10,12 +10,12 @@ class AccountService {
     return await (await client.get<AccountsResponse>(`/accounts`)).data.accounts;
   };
   
-  createAccount (userId: string, account: Account) {
-    console.log('userId', userId)
-    console.log('account', account)
-    account.id = '123123123'
-    return account
-    return // client.post(`/accounts`, { account });
+  async createAccount (userId: string, account: Account) {
+    const response = await client.post(`/accounts`, { account })
+    if (response.data.error) {
+      throw new Error(response.data.error)
+    }
+    return response.data.account
   };
   
   updateAccount (userId: string, account: Account) {

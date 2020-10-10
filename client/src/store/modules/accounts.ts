@@ -32,7 +32,8 @@ class AccountModule extends VuexModule {
 			return null
 		}
 		account.owner = auth.user.id
-		return (await AccountService.createAccount(auth.user.id, account)).data
+		const savedAccount = await AccountService.createAccount(auth.user.id, account)
+		return savedAccount
 	}
 
 	@Action({ commit: 'replaceAccount', rawError: true })

@@ -34,6 +34,29 @@ export interface Account {
   balance?: number
 }
 
+export interface Planning {
+  id?: string;
+  month: number
+  year: number
+  budgets: Budget[]
+}
+
+export interface Budget {
+  id?: string;
+  type: string;
+  icon: string;
+  category: string;
+  current: number;
+  max: number;
+}
+
+export interface BudgetProgress {
+  incomesProgress: number
+  incomesTotal: number
+  expensesProgress: number
+  expensesTotal: number
+}
+
 export interface Category {
   id: string;
   name: string;

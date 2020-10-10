@@ -1,9 +1,10 @@
 export class ValidationError extends Error {
 	constructor(errors: {}) {
-		let message: string
+		const message = ''
 		for (const errorKey in errors) {
 			if (Object.prototype.hasOwnProperty.call(errors, errorKey)) {
-				message = errors[errorKey]
+				const errorMessage = errors[errorKey]
+				message.concat(errorMessage)
 			}
 		}
 		super(message)

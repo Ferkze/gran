@@ -8,7 +8,7 @@ interface CategoriesResponse {
 
 class CategoryService {
 	async getCategories(): Promise<Category[]> {
-		const response = await client.get<CategoriesResponse>('/categories')
+		const response = await client.get<CategoriesResponse>('/api/categories')
 		const categories = response.data.categories
 		return categories
 	}

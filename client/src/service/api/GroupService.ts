@@ -11,23 +11,23 @@ interface GroupsResponse {
 
 class GroupService {
 	async getGroups(): Promise<Group[]> {
-		const response = await client.get<GroupsResponse>('/groups')
+		const response = await client.get<GroupsResponse>('/api/groups')
 		const groups = response.data.groups
 		return groups
 	}
 
 	async createGroup(group: Group) {
-		const response = await client.post<GroupResponse>('/groups', { group })
+		const response = await client.post<GroupResponse>('/api/groups', { group })
 		return response.data.group
 	}
 
 	async updateGroup(group: Group) {
-		const response = await client.put<GroupResponse>(`/groups/${group.id}`, { group })
+		const response = await client.put<GroupResponse>(`/api/groups/${group.id}`, { group })
 		return response.data.group
 	}
 
 	async deleteGroup(groupId: Group['id']) {
-		const response = await client.delete(`/groups/${groupId}`)
+		const response = await client.delete(`/api/groups/${groupId}`)
 		if (response.data.error) {
 			throw new Error(response.data.error)
 		}

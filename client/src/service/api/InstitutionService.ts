@@ -12,7 +12,7 @@ class InstitutionService {
 		const cachedInstitutions = this.getCachedInstitutions()
 		if (cachedInstitutions) return cachedInstitutions
 		
-		const response = await client.get<InstitutionsResponse>('/institutions')
+		const response = await client.get<InstitutionsResponse>('/api/institutions')
 		const institutions = response.data.institutions
 		this.setCachedInstitutions(institutions)
 		return institutions

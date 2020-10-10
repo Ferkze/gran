@@ -14,7 +14,7 @@ class AuthService {
 		} else {
 			AuthTokenPersistanceService.removeToken()
 		}
-		const response = await client.post<AuthResponse>('/auth/login', payload)
+		const response = await client.post<AuthResponse>('/api/auth/login', payload)
 		setAuthToken(response.data.token)
 		AuthTokenPersistanceService.saveToken(response.data.token)
 		return response.data.user
@@ -40,7 +40,7 @@ class AuthService {
 	}
 
 	async register(payload: RegisterData): Promise<User> {
-		const response = await client.post<AuthResponse>('/auth/register', payload)
+		const response = await client.post<AuthResponse>('/api/auth/register', payload)
 		setAuthToken(response.data.token)
 		AuthTokenPersistanceService.saveToken(response.data.token)
 		return response.data.user
@@ -56,7 +56,7 @@ class AuthService {
 		if (!client.defaults.headers.common['Authorization']) {
 			return null
 		}
-		const response = await client.get('/auth/current')
+		const response = await client.get('/api/auth/current')
 		if (response.data.error) {
 			alert(response.data.error)
 			return null

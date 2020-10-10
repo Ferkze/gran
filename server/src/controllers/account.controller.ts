@@ -9,12 +9,8 @@ const log = debug('app:account:controller')
 export default class AccountController extends BaseController {
 
 	public async index(req: Request, res: Response): Promise<Response> {
-		try {
-			const accounts = await usecases.account.listAccountsByUser(req.user['id'])
-			return res.status(200).json({ accounts })
-		} catch (error) {
-			return res.status(500).json({ error: error.message })
-		}
+		const accounts = await usecases.account.listAccountsByUser(req.user['id'])
+		return res.status(200).json({ accounts })
 	}
 
 	public async findById(req: Request, res: Response): Promise<Response> {
@@ -28,13 +24,9 @@ export default class AccountController extends BaseController {
 	}
 
 	public async create(req: Request, res: Response): Promise<Response> {
-		try {
-			const account = await usecases.account.registerAccount(req.body as Account)
-			return res.status(200).json({ account })
-		} catch (error) {
-			log('Erro na gravação de conta', error)
-			return res.status(500).json({ error: error.message })
-		}
+		const data = req.body.account
+		const account = await usecases.account.registerAccount(data)
+		return res.status(200).json({ account })
 	}
 
 	public async update(req: Request, res: Response): Promise<Response> {

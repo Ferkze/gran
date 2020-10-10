@@ -12,6 +12,7 @@ import {
 	userController
 } from './controllers'
 import authenticationMiddleware from './middlewares/authentication.middleware'
+import errorHandlerMiddleware from './middlewares/errorHandler.middleware'
 
 const router = Router()
 
@@ -40,8 +41,8 @@ router.put('/transaction/:transactionId', authenticationMiddleware.userRequired,
 router.get('/balance', authenticationMiddleware.userRequired, balanceController.index)
 
 // Precisam de autenticação, para que as contas do usuário sejam encontradas
-router.get('/accounts', authenticationMiddleware.userRequired, accountController.index)
-router.post('/accounts', authenticationMiddleware.userRequired, accountController.create)
+router.get('/accounts', authenticationMiddleware.userRequired, errorHandlerMiddleware.handleErr, accountController.index)
+router.post('/accounts', authenticationMiddleware.userRequired, errorHandlerMiddleware.handleErr, accountController.create)
 router.put('/account/:accountId', authenticationMiddleware.userRequired, accountController.update)
 router.delete('/accounts/:accountId', authenticationMiddleware.userRequired, accountController.delete)
 router.get('/account/:accountId/balance', authenticationMiddleware.userRequired, accountController.balance)

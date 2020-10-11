@@ -12,7 +12,7 @@
           <v-card-text>
             <v-row justify="center">
               <v-col cols="8" xs="12">
-                <transaction-form :data.sync="transaction" @submit="updateTransaction" />
+                <transaction-form :data.sync="transaction" :loading="loading" @submit="updateTransaction" />
               </v-col>
             </v-row>
           </v-card-text>
@@ -40,8 +40,6 @@ import TransactionService from "@/service/api/TransactionService";
 })
 export default class EditDebitAccount extends Vue {
   loading = false;
-  loadingEdition = false;
-  loadingDeletion = false;
 
   get transaction(): Transaction | undefined {
     const transactionId = this.$route.params.transactionId;
@@ -55,28 +53,6 @@ export default class EditDebitAccount extends Vue {
   set transaction(transaction: Transaction | undefined) {
     if (!transaction) return;
     finances.replaceTransaction(transaction);
-  }
-
-  async created() {
-    if (!this.$route.params.transactionId) {
-      this.$router.go(-1);
-      return;
-    }
-    if (!finances.transactions.length) {
-      await this.getTransaction(this.$route.params.transactionId);
-    }
-    if (!accounts.accounts.length) {
-      const accs = await accounts.fetchAccounts();
-      if (!accs || !accs.length) {
-        this.$router.go(-1);
-      }
-    }
-    if (!finances.categories.length) {
-      const cats = await finances.fetchCategories();
-      if (!cats || !cats.length) {
-        this.$router.go(-1);
-      }
-    }
   }
 
   beforeDestroy() {
@@ -98,7 +74,7 @@ export default class EditDebitAccount extends Vue {
 
   async updateTransaction() {
     if (!this.transaction) return;
-    this.loadingEdition = true;
+    this.loading = true;
     try {
       await finances.changeTransaction(this.transaction);
       status.setStatus({
@@ -113,7 +89,7 @@ export default class EditDebitAccount extends Vue {
       });
       status.setError(error);
     } finally {
-      this.loadingEdition = true;
+      this.loading = true;
     }
   }
 

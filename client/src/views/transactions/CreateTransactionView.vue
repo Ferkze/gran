@@ -12,7 +12,7 @@
           <v-card-text>
             <v-row justify="center">
               <v-col cols="8" xs="12">
-                <transaction-form :data.sync="transaction" @submit="createTransaction" />
+                <transaction-form :data.sync="transaction" :loading="loading" @submit="createTransaction" />
               </v-col>
             </v-row>  
           </v-card-text>
@@ -50,23 +50,6 @@ export default class CreateTransactionView extends Vue {
     date: new Date().toISOString().substr(0, 10),
   };
   loading = false
-
-  async created() {
-    if (!accounts.accounts.length) {
-      const accs = await accounts.fetchAccounts();
-      if (!accs || !accs.length) {
-        status.setStatus({
-          type: "error",
-          message: `Adicione uma conta para começar a registrar transações`,
-        });
-        this.$router.push("/contas");
-        return;
-      }
-    }
-    if (!finances.categories.length) {
-      const cats = await finances.fetchCategories();
-    }
-  }
 
   async createTransaction() {
     this.loading = true;

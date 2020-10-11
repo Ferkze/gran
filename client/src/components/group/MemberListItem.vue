@@ -18,13 +18,13 @@
 </template>
 
 <script lang="ts">
-import { Group } from "@/models";
+import { Group, User } from "@/models";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class MemberListItem extends Vue {
   @Prop({ required: true, type: Object })
-	member!: User;
+	member!: User
 	
 	get color() {
 		return '#'+(Math.random()*0xFFFFFF<<0).toString(16);

@@ -1,5 +1,5 @@
 import client from './ApiService'
-import { Group } from '@/models'
+import { Group, User } from '@/models'
 
 interface GroupResponse {
 	group: Group
@@ -49,6 +49,23 @@ class GroupsService {
 		}
 		return
 	}
+
+	async findUserByEmail(email: string) {
+		const response = await client.get('/api/users/findByEmail', { params: { email } })
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.user
+	}
+
+	async saveGroupMembers(groupId: Group['id'], userIds: User['id'][]) {
+		const response = await client.post(`/api/groups/${groupId}/members`, { userIds })
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.members
+	}
+	
 }
 
 export default new GroupsService()

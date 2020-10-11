@@ -129,6 +129,15 @@ class GroupModule extends VuexModule {
 		const members = await GroupsService.getGroupMembers(this.selectedGroup.id)
 		return members
 	}
+
+	@Action({ commit: 'setSelectedGroupMembers', rawError: true })
+	async saveGroupMembers(userIds: User['id'][]): Promise<User[]> {
+		if (!this.selectedGroup) {
+			return []
+		}
+		const members = await GroupsService.saveGroupMembers(this.selectedGroup.id, userIds)
+		return members
+	}
 	
 	@Mutation
 	setGroups(groups: Group[]) {

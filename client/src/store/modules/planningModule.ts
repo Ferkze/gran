@@ -3,7 +3,7 @@ import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-dec
 import PlanningService from '@/service/api/PlanningService'
 import auth from './auth'
 
-import { Budget, Planning } from '@/models'
+import { Budget, Planning, PlanningFilter } from '@/models'
 
 @Module({
 	store,
@@ -44,11 +44,11 @@ class PlanningModule extends VuexModule {
 	]
 
 	@Action({ commit: 'mutatePlannings', rawError: true })
-	async fetchPlannings(): Promise<Planning[]> {
+	async fetchPlannings(filter: PlanningFilter): Promise<Planning[]> {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return await PlanningService.getPlannings()
+		return await PlanningService.getPlannings(filter)
 	}
 
 	@Action({ commit: 'mutatePlanning', rawError: true })

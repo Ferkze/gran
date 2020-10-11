@@ -11,7 +11,7 @@
 						</v-col>
 						<v-col class="text-right px-4">
 							<v-btn class="primary px-6" depressed small>
-								<span class="text-lowercase">adicionar membro</span>
+								<span class="text-lowercase" @click="dialog = true">adicionar membro</span>
 							</v-btn>
 						</v-col>
 					</v-row>
@@ -29,6 +29,7 @@
         </v-card>
       </v-col>
     </v-row>
+		<group-members-dialog :dialog.sync="dialog" :group-id="$route.params.groupId" />
 	</v-container>
 </template>
 
@@ -39,10 +40,13 @@ import groupsModule from '@/store/modules/groupsModule'
 
 @Component({
 	components: {
+		GroupMembersDialog: () => import('@/components/group/GroupMembersDialog.vue'),
 		MemberListItem: () => import('@/components/group/MemberListItem.vue'),
 	}
 })
 export default class GroupMembersView extends Vue {
+	dialog = false
+
 	get members(): User[] {
 		return groupsModule.selectedGroupMembers
 	}

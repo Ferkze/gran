@@ -63,7 +63,7 @@
       <v-spacer />
       <v-col cols="4" class="text-center">
         <v-icon>mdi-chevron-left</v-icon>
-        <span class="text-body-1 font-weight-bold">Outubro/20</span>
+        <span class="text-body-1 font-weight-bold">{{ month | monthName }} de {{ year }}</span>
         <v-icon>mdi-chevron-right</v-icon>
       </v-col>
       <v-col cols="4" class="text-right">

@@ -62,9 +62,15 @@
     <v-row>
       <v-spacer />
       <v-col cols="4" class="text-center">
-        <v-icon>mdi-chevron-left</v-icon>
-        <span class="text-body-1 font-weight-bold">Outubro/20</span>
-        <v-icon>mdi-chevron-right</v-icon>
+        <div class="text-center">
+          <v-btn icon class="px-5" @click="prevMonth">
+            <v-icon size="20">mdi-chevron-left</v-icon>
+          </v-btn>
+          <span class="font-weight-light text-body-1 grey--text text--darken-3">{{ month | monthName }} de {{ year }}</span>
+          <v-btn icon class="px-5" @click="nextMonth">
+            <v-icon size="20">mdi-chevron-right</v-icon>
+          </v-btn>
+        </div>
       </v-col>
       <v-col cols="4" class="text-right">
         <v-btn text>
@@ -95,6 +101,26 @@ export default class ExpensesView extends Vue {
   get transactions() {
     return finances.transactions.filter(t => t.type == TransactionType.CREDIT);
   }
+	year = 2020
+	month = 10
+
+	nextMonth() {
+		if (this.month == 12) {
+			this.month = 1
+			this.year++
+		} else {
+			this.month++
+		}
+	}
+
+	prevMonth() {
+		if (this.month == 1) {
+			this.month = 12
+			this.year--
+		} else {
+			this.month--
+		}
+	}
 }
 </script>
 

@@ -19,7 +19,7 @@ class PlanningModule extends VuexModule {
 			year: 2020,
 			budgets: [
 				{ id: '0', type: 'income', icon: 'mdi-cash', category: 'Salário', current: 1200, max: 1200 },
-				{ id: '1', type: 'income', icon: 'mdi-cash', category: 'Transporte', current: 150, max: 150 },
+				{ id: '1', type: 'income', icon: 'mdi-cash', category: 'Juros de aplicação', current: 150, max: 150 },
 				{ id: '2', type: 'expense', icon: 'mdi-ticket', category: 'Lazer', current: 120, max: 300 },
 				{ id: '3', type: 'expense', icon: 'mdi-train-car', category: 'Transporte', current: 250, max: 250 },
 				{ id: '4', type: 'expense', icon: 'mdi-heart-pulse', category: 'Saúde', current: 200, max: 250 },
@@ -33,7 +33,7 @@ class PlanningModule extends VuexModule {
 			year: 2020,
 			budgets: [
 				{ id: '7', type: 'income', icon: 'mdi-cash', category: 'Salário', current: 1200, max: 1200 },
-				{ id: '8', type: 'income', icon: 'mdi-cash', category: 'Transporte', current: 100, max: 200 },
+				{ id: '8', type: 'income', icon: 'mdi-cash', category: 'Juros de aplicação', current: 100, max: 200 },
 				{ id: '9', type: 'expense', icon: 'mdi-ticket', category: 'Lazer', current: 100, max: 300 },
 				{ id: '10', type: 'expense', icon: 'mdi-train-car', category: 'Transporte', current: 100, max: 250 },
 				{ id: '11', type: 'expense', icon: 'mdi-heart-pulse', category: 'Saúde', current: 150, max: 250 },

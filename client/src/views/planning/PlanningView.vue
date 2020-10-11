@@ -6,7 +6,7 @@
 					<v-row no-gutters align="center">
 						<v-col>
 							<v-card-title>
-								<h2 class="title font-weight-medium">Planejamento Financeiro</h2>
+								<h2 class="title font-weight-medium">Planejamento financeiro</h2>
 							</v-card-title>
 						</v-col>
 						<!-- <v-col class="text-right px-4" v->
@@ -24,7 +24,7 @@
 						<v-btn icon class="px-5" @click="prevMonth">
 							<v-icon size="20">mdi-chevron-left</v-icon>
 						</v-btn>
-						<span class="font-weight-light text-body-1 grey--text text--darken-3">Outubro de 2020</span>
+						<span class="font-weight-light text-body-1 grey--text text--darken-3">{{ month | monthName }} de {{ year }}</span>
 						<v-btn icon class="px-5" @click="nextMonth">
 							<v-icon size="20">mdi-chevron-right</v-icon>
 						</v-btn>

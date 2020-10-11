@@ -1,4 +1,4 @@
-import { Budget, Planning } from '@/models';
+import { Budget, Planning, PlanningFilter } from '@/models';
 import ApiService from "./ApiService";
 
 interface PlanningsResponse {
@@ -13,8 +13,8 @@ interface PlanningResponse {
 
 class PlanningService {
 
-  async getPlannings()  {
-		const response = await ApiService.get<PlanningsResponse>('/api/plannings')
+  async getPlannings(filter: PlanningFilter)  {
+		const response = await ApiService.get<PlanningsResponse>('/api/plannings', { params: filter })
 		if (response.data.error) {
 			throw new Error(response.data.error)
 		}

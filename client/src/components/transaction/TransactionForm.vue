@@ -7,6 +7,7 @@
       form-label="Tipo de transação"
       hide-details
       label="Tipo de transação"
+      :disabled="loading"
     />
     <base-form-field
       v-model="transaction.description"
@@ -14,9 +15,10 @@
       form-label="Descrição"
       hide-details
       label="Descrição da transação"
+      :disabled="loading"
     />
     <base-form-field form-label="Data" hide-details label="Data da transação">
-      <base-date-picker v-model="transaction.date" hide-details />
+      <base-date-picker v-model="transaction.date" hide-details :disabled="loading" />
     </base-form-field>
     <base-form-field
       v-if="transaction.type == 'transference'"
@@ -28,6 +30,7 @@
       item-value="id"
       hide-details
       label="Conta creditada"
+      :disabled="loading"
     />
     <base-form-field
       v-if="transaction.type == 'transference'"
@@ -39,6 +42,7 @@
       item-value="id"
       hide-details
       label="Conta que recebeu a tranferência"
+      :disabled="loading"
     />
     <base-form-field
       v-model="transaction.account"
@@ -49,6 +53,7 @@
       item-value="id"
       hide-details
       label="Conta"
+      :disabled="loading"
     />
     <base-form-field
       v-model="transaction.category"
@@ -59,6 +64,7 @@
       item-value="id"
       hide-details
       label="Selecione uma categoria"
+      :disabled="loading"
     />
     <base-form-field
       v-if="groups.length > 0"
@@ -71,6 +77,7 @@
       item-value="id"
       hide-details
       label="Grupo"
+      :disabled="!groupFormEnabled || loading"
     />
     <div class="font-weight-light text-center mt-4">Valor da transação</div>
     <v-text-field
@@ -78,6 +85,7 @@
       class="mt-0"
       prefix="R$ "
       type="number"
+      :disabled="loading"
     />
     <div class="text-center">
       <v-btn
@@ -101,6 +109,7 @@ import { AccountSubtypes, CategoryType, TransactionType } from "@/models/enums";
 import accounts from "@/store/modules/accounts";
 import finances from '@/store/modules/finances';
 import groupsModule from "@/store/modules/groupsModule";
+import status from '@/store/modules/status';
 import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 
 @Component({
@@ -113,7 +122,8 @@ export default class TransactionForm extends Vue {
   @PropSync("data", { required: true })
   transaction!: Transaction;
 
-  loading = false;
+  @Prop({ type: Boolean, default: false })
+  loading!: boolean;
 
   types = [
     { value: TransactionType.CREDIT, text: "Despesa", color: 'error' },
@@ -122,6 +132,32 @@ export default class TransactionForm extends Vue {
   ];
 
   transferenceTo: Account["id"] = "";
+
+  groupFormEnabled = true
+
+  async created() {
+    if (!accounts.accounts.length) {
+      const accs = await accounts.fetchAccounts();
+      if (!accs || !accs.length) {
+        status.setStatus({
+          type: "error",
+          message: `Adicione uma conta para começar a registrar transações`,
+        });
+        this.$router.push("/contas");
+        return;
+      }
+    }
+    if (!finances.categories.length) {
+      const cats = await finances.fetchCategories();
+    }
+  }
+  
+  mounted() {
+    if (this.$route.params.groupId) {
+      this.groupFormEnabled = false
+      this.transaction.group = this.$route.params.groupId
+    }
+  }
 
   get accounts() {
     return accounts.accounts;

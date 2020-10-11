@@ -13,3 +13,21 @@ Vue.filter('formatCash', (value: any): string => {
 		.toFixed(0)
 		.toString()
 })
+
+const months = [
+	'Janeiro',
+	'Fevereiro',
+	'Março',
+	'Abril',
+	'Maio',
+	'Junho',
+	'Julho',
+	'Agosto',
+	'Setembro',
+	'Outubro',
+	'Novembro',
+	'Dezembro',
+]
+Vue.filter('monthName', (value: number): string => {
+	return months[value-1]
+})

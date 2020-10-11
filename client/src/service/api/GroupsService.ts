@@ -16,6 +16,22 @@ class GroupsService {
 		return groups
 	}
 
+	async getGroupMembers(groupId: Group['id']) {
+		const response = await client.get(`/api/groups/${groupId}/members`)
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.members
+	}
+
+	async getGroupPlannings(groupId: Group['id']) {
+		const response = await client.get(`/api/groups/${groupId}/plannings`)
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.plannings
+	}
+
 	async createGroup(group: Group) {
 		const response = await client.post<GroupResponse>('/api/groups', { group })
 		return response.data.group

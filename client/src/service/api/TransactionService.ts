@@ -1,9 +1,13 @@
 import client from "./ApiService";
-import { Transaction, Account, User } from "@/models";
-import { AxiosResponse } from "axios";
+import { Transaction, Account, Group, TransactionFilter } from "@/models";
 
 interface TransactionResponse {
   transaction: Transaction
+}
+
+interface TransactionsResponse {
+  transactions: Transaction[]
+  error?: string
 }
 
 class TransactionService {
@@ -17,8 +21,24 @@ class TransactionService {
     return await (await client.get(`/api/transactions`)).data.transactions;
   }
 
+  async getTransactions(filter: TransactionFilter) {
+    const response = await client.get<TransactionsResponse>('/api/transactions', { params: filter })
+    if (response.data.error) {
+      throw new Error(response.data.error)
+    }
+    return response.data.transactions
+  }
+
   async getTransaction(transactionId: string) {
     return (await client.get<TransactionResponse>(`/api/transaction/${transactionId}`)).data.transaction;
+  }
+
+  async getTransactionsByGroup(groupId: Group['id']) {
+    const response = await client.get<TransactionsResponse>('/api/transactions', { params: { group: groupId } })
+    if (response.data.error) {
+      throw new Error(response.data.error)
+    }
+    return response.data.transactions
   }
 
   async createTransaction(transaction: Transaction) {

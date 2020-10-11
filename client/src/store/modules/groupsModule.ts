@@ -3,7 +3,10 @@ import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-dec
 import GroupsService from '@/service/api/GroupsService'
 import auth from './auth'
 
-import { Group } from '@/models'
+import { Group, Planning, PlanningFilter, Transaction, TransactionFilter, User } from '@/models'
+import TransactionService from '@/service/api/TransactionService'
+import status from './status'
+import PlanningService from '@/service/api/PlanningService'
 
 @Module({
 	store,
@@ -38,6 +41,11 @@ class GroupModule extends VuexModule {
 			updatedAt: new Date(),
 		}
 	]
+
+	selectedGroup: Group | null = null
+	selectedGroupTransactions: Transaction[] = []
+	selectedGroupPlannings: Planning[] = []
+	selectedGroupMembers: User[] = []
 
 	get groupIds() {
 		return this.groups.map(a => a.id)
@@ -76,7 +84,52 @@ class GroupModule extends VuexModule {
 		return group
 	}
 
+	@Action
+	async selectGroup(groupId: Group['id']) {
+		if (this.groups.length == 0) {
+			status.setStatus({
+				message: 'Grupos não localizados, tente novemente',
+				type: 'warning'
+			})
+			return
+		}
+		const group = this.groups.find(g => g.id == groupId)
+		if (!group) {
+			this.setSelectedGroup(null)
+			return
+		}
+		this.setSelectedGroup(group)
+	}
 
+	@Action({ commit: 'setSelectedGroupTransactions', rawError: true })
+	async getSelectGroupTransactions(filter: TransactionFilter): Promise<Transaction[]> {
+		if (!this.selectedGroup) {
+			return []
+		}
+		filter.group = this.selectedGroup.id
+		const transactions = await TransactionService.getTransactions(filter)
+		return transactions
+	}
+
+	@Action({ commit: 'setSelectedGroupPlannings', rawError: true })
+	async getSelectGroupPlannings(filter: PlanningFilter): Promise<Planning[]> {
+		if (!this.selectedGroup) {
+			return []
+		}
+		filter.group = this.selectedGroup.id
+		const plannings = await PlanningService.getPlannings(filter)
+		return plannings
+	}
+
+	@Action({ commit: 'setSelectedGroupMembers', rawError: true })
+	async getSelectGroupMembers(): Promise<User[]> {
+		if (!this.selectedGroup) {
+			return []
+		}
+		const members = await GroupsService.getGroupMembers(this.selectedGroup.id)
+		return members
+	}
+	
 	@Mutation
 	setGroups(groups: Group[]) {
 		this.groups = groups
@@ -97,6 +150,23 @@ class GroupModule extends VuexModule {
 	removeGroup(group: Group) {
 		const index = this.groups.findIndex(a => a.id == group.id)
 		this.groups.splice(index, 1)
+	}
+
+	@Mutation
+	setSelectedGroup(group: Group | null) {
+		this.selectedGroup = group
+	}
+	@Mutation
+	setSelectedGroupTransactions(transactions: Transaction[]) {
+		this.selectedGroupTransactions = transactions
+	}
+	@Mutation
+	setSelectedGroupMembers(members: User[]) {
+		this.selectedGroupMembers = members
+	}
+	@Mutation
+	setSelectedGroupPlannings(plannings: Planning[]) {
+		this.selectedGroupPlannings = plannings
 	}
 
 }

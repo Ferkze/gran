@@ -41,6 +41,12 @@ export interface Planning {
   budgets: Budget[]
 }
 
+export interface PlanningFilter {
+  group?: Group['id']
+  month?: number
+  year?: number
+}
+
 export interface Budget {
   id?: string;
   type: string;
@@ -77,6 +83,12 @@ export interface Transaction {
   group?: Group["id"];
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface TransactionFilter {
+  group?: Group['id']
+  month?: number
+  year?: number
 }
 
 export interface Group {

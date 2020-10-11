@@ -117,6 +117,47 @@ const routes: RouteConfig[] = [
 		}
 	},
 	{
+		name: 'Criar grupo',
+		path: '/grupos/criar',
+		component: () => import(/* webpackChunkName: "groups" */ './views/groups/CreateGroupView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
+		name: 'Dashboard grupo',
+		path: '/grupos/:groupId',
+		component: () => import(/* webpackChunkName: "groups" */ './views/groups/GroupRouterView.vue'),
+		meta: {
+			requiresAuth: true,
+		},
+		children: [
+			{
+				name: 'Transações do grupo',
+				path: 'transacoes',
+				component: () => import(/* webpackChunkName: "groups" */ '@/views/groups/GroupTransactionsView.vue')
+			},
+			{
+				name: 'Planejamento do grupo',
+				path: 'planejamento',
+				component: () => import(/* webpackChunkName: "groups" */ '@/views/groups/GroupPlanningView.vue')
+			},
+			{
+				name: 'Membros do grupo',
+				path: 'membros',
+				component: () => import(/* webpackChunkName: "groups" */ '@/views/groups/GroupMembersView.vue')
+			},
+		]
+	},
+	{
+		name: 'Editar grupo',
+		path: '/grupos/:groupId/editar',
+		component: () => import(/* webpackChunkName: "groups" */ './views/groups/EditGroupView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
 		name: 'Admin',
 		path: '/admin',
 		component: () => import(/* webpackChunkName: "admin" */ './views/admin/Admin.vue'),

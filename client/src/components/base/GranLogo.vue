@@ -7,15 +7,15 @@
 		title="Gran Home Page"
 	>
 		<v-img
-      :src="require('../../assets/gran-logo.svg')"
+      :src="require('@/assets/gran-logo.svg')"
       alt="Vuetify Logo"
       class="shrink mr-2"
       contain
       transition="scale-transition"
       width="40"
     />
-		<v-sheet class="display-1 hidden-sm-and-down font-weight-medium mr-0 mr-md-4" color="transparent">
-			granFinance
+		<v-sheet class="display-1 hidden-sm-and-down mr-0 mr-md-4" color="transparent">
+			<span class="font-weight-light text-h5">gran</span><span class="font-weight-regular text-h5">Finance</span>
 		</v-sheet>
 	</router-link>
 </template>

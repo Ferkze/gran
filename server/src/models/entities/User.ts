@@ -1,15 +1,15 @@
-import { Budget } from './Budget'
 import { Account } from './Account'
+import { Planning } from './Planning'
 
 export interface User {
-  id: string
+  id?: any
   username: string
   email: string
   password: string
   firstName: string
   lastName: string
   accounts: Account[]
-  budgets: Budget[]
-  createdAt: number
-  updatedAt: number
+  plannings: Planning[]
+  createdAt: Date
+  updatedAt: Date
 }

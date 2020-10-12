@@ -1,11 +1,12 @@
+import { Planning } from './Planning';
 import { User } from './User'
 
 export interface Group {
-	id: string
+  id?: any
   name: string
-  description: string
   creator: User
   members: User[]
-  createdAt: Date
-  updatedAt: Date
+  plannings: Planning[]
+  createdAt?: Date
+  updatedAt?: Date
 }

@@ -14,7 +14,7 @@ export enum AccountSubtypes {
 }
 
 export interface Account {
-  id?: string
+  id?: any
   name: string
   main: boolean
   institution: string

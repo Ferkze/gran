@@ -10,7 +10,7 @@ export enum TransactionType {
 }
 
 export interface Transaction {
-	id: string
+  id?: any
   amount: number
   date: Date
   description: string
@@ -19,7 +19,7 @@ export interface Transaction {
   account: Account['id']
   category: Category['id']
   user: User['id']
-  // group: Group['id']
+  group: Group['id']
   createdAt: Date
   updatedAt: Date
 }

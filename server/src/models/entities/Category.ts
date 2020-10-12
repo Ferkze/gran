@@ -1,12 +1,14 @@
 export enum CategoryType {
-  INCOME = 'renda',
-  EXPENSE = 'gasto'
+  INCOME = 'income',
+  EXPENSE = 'expense',
+  TRANSFERENCE = 'transference'
 }
 
 export interface Category {
-	id: string
+  id?: any
+  icon: string
   name: string
   type: CategoryType
-  createdAt: Date
-  updatedAt: Date
+  createdAt?: Date
+  updatedAt?: Date
 }

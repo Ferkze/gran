@@ -5,7 +5,7 @@ export enum InstitutionType {
 }
 
 export interface Institution {
-	id: string
+  id?: any
   name: string
   description: string
   type: InstitutionType

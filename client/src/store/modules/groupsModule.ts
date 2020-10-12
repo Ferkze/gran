@@ -138,6 +138,15 @@ class GroupModule extends VuexModule {
 		const members = await GroupsService.saveGroupMembers(this.selectedGroup.id, userIds)
 		return members
 	}
+
+	@Action({ commit: 'addToSelectedGroupPlannings', rawError: true })
+	async saveGroupPlanning(data: Planning) {
+		if (!this.selectedGroup) {
+			return null
+		}
+		const planning = await GroupsService.saveGroupPlanning(this.selectedGroup.id, data)
+		return planning
+	}
 	
 	@Mutation
 	setGroups(groups: Group[]) {
@@ -176,6 +185,10 @@ class GroupModule extends VuexModule {
 	@Mutation
 	setSelectedGroupPlannings(plannings: Planning[]) {
 		this.selectedGroupPlannings = plannings
+	}
+	@Mutation
+	addToSelectedGroupPlannings(planning: Planning) {
+		this.selectedGroupPlannings.push(planning)
 	}
 
 }

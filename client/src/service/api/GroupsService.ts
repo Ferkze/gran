@@ -1,5 +1,5 @@
 import client from './ApiService'
-import { Group, User } from '@/models'
+import { Group, Planning, User } from '@/models'
 
 interface GroupResponse {
 	group: Group
@@ -66,6 +66,13 @@ class GroupsService {
 		return response.data.members
 	}
 	
+	async saveGroupPlanning(groupId: Group['id'], planning: Planning) {
+		const response = await client.post(`/api/groups/${groupId}/planning`, { planning })
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.planning
+	}
 }
 
 export default new GroupsService()

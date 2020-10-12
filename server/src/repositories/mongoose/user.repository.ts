@@ -1,4 +1,4 @@
-import UserModel, { IUser } from './models/UserModel'
+import UserModel, { UserDocument } from './models/UserModel'
 import { UserRepository } from '..'
 import { User } from '../../models/entities/User'
 
@@ -10,7 +10,7 @@ export class MongooseUserRepository implements UserRepository {
 	}
 	
 	async findUserById(id: string): Promise<User | null> {
-		const user = await UserModel.findById(id, '-accounts')
+		const user = await UserModel.findById(id)
 		if (user) {
 			return MongooseUserRepository.deserializeUser(user)
 		}
@@ -30,27 +30,25 @@ export class MongooseUserRepository implements UserRepository {
 		return MongooseUserRepository.deserializeUser(userDoc)
 	}
 
-	async updateUser(_id: User['id'], user: User): Promise<User> {
-		// Faço isso para não correr o risco de sobscrever o id do usuário, recomendo fazer nos outros modelos
-		delete user.id
-		await UserModel.update({ _id }, user)
-		return user
+	async updateUser(userId: User['id'], user: User): Promise<User> {
+		const userDoc = await UserModel.findByIdAndUpdate(userId, user)
+		return MongooseUserRepository.deserializeUser(userDoc)
 	}
 
 	async deleteUser(userId: string): Promise<void> {
 		await UserModel.deleteOne({ _id: userId })
 	}
 
-	static deserializeUser(user: IUser): User {
+	static deserializeUser(user: UserDocument): User {
 		return {
-			id: user._id as string,
+			id: user._id,
 			username: user.username,
 			email: user.email,
 			password: user.password,
 			firstName: user.firstName,
-			lastName: user.lastName,
-			accounts: user.accounts || [],
-			budgets: user.budgets || [],
+			lastName: user.lastName,		
+			accounts: user.accounts,
+			budgets: user.budgets,
 			createdAt: user.createdAt,
 			updatedAt: user.updatedAt,
 		}

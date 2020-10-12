@@ -5,6 +5,8 @@ export const ACCOUNT = 'Account'
 
 export interface IAccount extends Types.Subdocument, Account { 
 	id: string
+
+	getAccount(): Account
 }
 
 export const AccountSchema = new Schema<IAccount>({
@@ -46,3 +48,19 @@ export const AccountSchema = new Schema<IAccount>({
 }, {
 	timestamps: true
 })
+
+AccountSchema.methods.getAccount = function(): Account {
+	return {
+		id: this._id,
+		name: this.name,
+		main: this.main,
+		institution: this.institution,
+		unregisteredInstitution: this.unregisteredInstitution,
+		type: this.type,
+		subtype: this.subtype,
+		startingBalance: this.startingBalance,
+		owner: this.owner,
+		createdAt: new Date(this.createdAt),
+		updatedAt: new Date(this.updatedAt),
+	}
+}

@@ -1,24 +1,10 @@
 import { Document, Schema, Model, model, DocumentQuery } from 'mongoose'
-import { TransactionType } from '../../../models/entities/Transaction'
-import { IAccount } from './AccountModel'
-import { ICategory } from './CategoryModel'
-import { IUser } from './UserModel'
+import { Transaction, TransactionType } from '../../../models/entities/Transaction'
 // import { GROUP, IGroup } from './Group'
 
 export const TRANSACTION: string = 'Transaction'
 
-export interface ITransaction extends Document {
-  amount: number
-  date: Date
-  description: string
-  paid: boolean
-  type: TransactionType
-  account: IAccount['id']
-  category?: ICategory['id']
-  user: IUser['id']
-  // group?: IGroup['id'] | IGroup
-  createdAt: Date
-  updatedAt: Date
+export interface ITransaction extends Transaction, Document {
 }
 
 export interface ITransactionModel extends Model<ITransaction, typeof transactionQueryHelpers> {
@@ -36,8 +22,8 @@ const SchemaTransaction = new Schema<ITransaction>({
   },
   account: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: false },
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: false }
-  // group: { type: Schema.Types.ObjectId, ref: 'Group', required: false }
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: false },
+  group: { type: Schema.Types.ObjectId, ref: 'Group', required: false }
 }, {
   timestamps: true
 })

@@ -72,12 +72,13 @@
 import { BudgetProgress } from '@/models'
 import { Component, Vue } from 'vue-property-decorator'
 import planningModule from '@/store/modules/planningModule'
+import { CategoryType } from '@/models/enums'
 
 @Component({
 	components: {
-		BudgetProgressBar: () => import('@/components/budget/BudgetsProgressBar.vue'),
-		IncomeListItem: () => import('@/components/budget/IncomeListItem.vue'),
-		ExpenseListItem: () => import('@/components/budget/ExpenseListItem.vue'),
+		BudgetProgressBar: () => import('@/components/planning/BudgetsProgressBar.vue'),
+		IncomeListItem: () => import('@/components/planning/IncomeListItem.vue'),
+		ExpenseListItem: () => import('@/components/planning/ExpenseListItem.vue'),
 	}
 })
 export default class PlanningView extends Vue {
@@ -118,14 +119,14 @@ export default class PlanningView extends Vue {
 
 	get incomes() {
 		if (this.currentPlanning) {
-			return this.currentPlanning.budgets.filter(budget => budget.type == 'income')
+			return this.currentPlanning.budgets.filter(budget => budget.type == CategoryType.INCOME)
 		}
 		return []
 	}
 
 	get expenses() {
 		if (this.currentPlanning) {
-			return this.currentPlanning.budgets.filter(budget => budget.type == 'expense')
+			return this.currentPlanning.budgets.filter(budget => budget.type == CategoryType.EXPENSE)
 		}
 		return []
 	}
@@ -142,7 +143,7 @@ export default class PlanningView extends Vue {
 	get incomesProgress() {
 		const incomeCurrentTotal = this.incomes.reduce((acc, cur) => {
 			acc[0] += cur.current
-			acc[1] += cur.max
+			acc[1] += cur.value
 			return acc
 		}, [0, 0])
 		return (incomeCurrentTotal[0] * 100 / incomeCurrentTotal[1])
@@ -155,7 +156,7 @@ export default class PlanningView extends Vue {
 	get expensesProgress() {
 		const expenseCurrentTotal = this.expenses.reduce((acc, cur) => {
 			acc[0] += cur.current
-			acc[1] += cur.max
+			acc[1] += cur.value
 			return acc
 		}, [0, 0])
 		return (expenseCurrentTotal[0] * 100 / expenseCurrentTotal[1])

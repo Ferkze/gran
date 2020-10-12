@@ -8,13 +8,13 @@
         <span>{{ budget.category }}</span>
         <span class="float-right">
           <span class="font-weight-light">R$ {{ budget.current | formatCash }} de</span>
-          <span class="font-weight-bold"> R$ {{ budget.max | formatCash }}</span>
+          <span class="font-weight-bold"> R$ {{ budget.value | formatCash }}</span>
         </span>
       </v-list-item-title>
       <v-list-item-subtitle class="mt-2">
         <v-progress-linear
-          :color="progressColor(budget.current/budget.max)"
-          :value="100*(budget.current/budget.max)"
+          :color="progressColor(budget.current/budget.value)"
+          :value="100*(budget.current/budget.value)"
           height="8"
           background-color="grey lighten-2"
         />

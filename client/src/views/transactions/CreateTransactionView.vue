@@ -67,7 +67,7 @@ export default class CreateTransactionView extends Vue {
       });
       status.setError(error);
     } finally {
-      this.loading = true;
+      this.loading = false;
     }
   }
 }

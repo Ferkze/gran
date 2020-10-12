@@ -17,11 +17,13 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import BaseDatePicker from './DatePicker.vue'
 import BaseSelect from './Select.vue'
 import BaseTextField from './TextField.vue'
+import BaseCurrencyField from './CurrencyField.vue'
 
 @Component({
 	components: {
 		BaseDatePicker,
 		BaseSelect,
+		BaseCurrencyField,
 		BaseTextField
 	},
 	name: 'BaseFormField',

@@ -62,7 +62,7 @@ import { Component, Vue } from "vue-property-decorator";
   },
 })
 export default class GroupTransactionsView extends Vue {
-  dialog = true
+  dialog = false
   
   year = 2020;
   month = 10;

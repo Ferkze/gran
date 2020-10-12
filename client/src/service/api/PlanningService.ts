@@ -36,6 +36,14 @@ class PlanningService {
 		}
 		return response.data.planning
 	}
+
+	async updatePlanningBudgets(planningId: Planning['id'], budgets: Budget[]) {
+		const response = await ApiService.put<PlanningResponse>(`/api/plannings/${planningId}/budgets`, { budgets })
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.planning
+	}
 }
 
 export default new PlanningService()

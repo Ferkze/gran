@@ -68,6 +68,14 @@ class PlanningModule extends VuexModule {
 		return await PlanningService.saveBudget(planningId, data)
 	}
 
+	@Action({ commit: 'mutatePlanning', rawError: true })
+	async updatePlanningBudgets({ planningId, budgets }: { planningId: Planning['id'], budgets: Budget[] }) {
+		if (!auth.user || !auth.user.id) {
+			return null
+		}
+		return await PlanningService.updatePlanningBudgets(planningId, budgets)
+	}
+
 	@Mutation
 	mutatePlannings(plannings: Planning[]) {
 		this.plannings = plannings

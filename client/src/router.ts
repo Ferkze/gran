@@ -103,7 +103,15 @@ const routes: RouteConfig[] = [
 	{
 		name: 'Planejamento',
 		path: '/planejamento',
-		component: () => import(/* webpackChunkName: "projections" */ './views/planning/PlanningView.vue'),
+		component: () => import(/* webpackChunkName: "planning" */ './views/planning/PlanningView.vue'),
+		meta: {
+			requiresAuth: true,
+		}
+	},
+	{
+		name: 'Criar planejamento',
+		path: '/planejamento/criar',
+		component: () => import(/* webpackChunkName: "planning" */ './views/planning/CreatePlanningView.vue'),
 		meta: {
 			requiresAuth: true,
 		}

@@ -6,25 +6,31 @@ import { Institution } from '../models/entities/Institution'
 import { Transaction } from '../models/entities/Transaction'
 import { Group } from '../models/entities/Group'
 import { Budget } from '../models/entities/Budget'
+import { Planning } from '../models/entities/Planning'
 
 
 export interface AccountRepository {
-	getAllAccounts(): Promise<Account[]>
 	getAllUserAccounts(userId: User['id']): Promise<Account[]>
-	findAccountById(id: string): Promise<Account | null>
-	saveAccount(account: Account): Promise<Account>
-	updateAccount(account: Account): Promise<Account>
-	deleteAccount(accountId: Account['id']): Promise<void>
-	accountExists(accountId: Account['id']): Promise<boolean>
+	findAccountById(userId: User['id'], accountId: Account['id']): Promise<Account | null>
+	saveAccount(userId: User['id'], account: Account): Promise<Account>
+	updateAccount(userId: User['id'], accountId: Account['id'], data: Account): Promise<Account>
+	deleteAccount(userId: User['id'], accountId: Account['id']): Promise<void>
+	accountExists(userId: User['id'], accountId: Account['id']): Promise<boolean>
 }
 
-export interface BudgetRepository {
-	getAllBudgets(): Promise<Budget[]>
-	getAllUserBudgets(userId: User['id']): Promise<Budget[]>
-	findBudgetById(id: string): Promise<Budget | null>
-	saveBudget(budget: Budget): Promise<Budget>
-	updateBudget(budgetId: Budget['id'], budget: Budget): Promise<Budget>
-	deleteBudget(budgetId: Budget['id']): Promise<void>
+export interface PlanningRepository {
+	getUserPlannings(userId: User['id']): Promise<Planning[]>
+	findUserPlanningById(userId: User['id'], planningId: Planning['id']): Promise<Planning | null>
+	saveUserPlanning(userId: User['id'], planning: Planning): Promise<Planning>
+	updateUserPlanning(userId: User['id'], planningId: Planning['id'], data: Planning): Promise<Planning>
+	deleteUserPlanning(userId: User['id'], planningId: Planning['id']): Promise<void>
+	planningExists(userId: User['id'], planningId: Account['id']): Promise<boolean>
+
+	getGroupPlannings(groupId: Group['id']): Promise<Planning[]>
+	findGroupPlanningById(groupId: Group['id'], planningId: Planning['id']): Promise<Planning | null>
+	saveGroupPlanning(groupId: Group['id'], planning: Planning): Promise<Planning>
+	updateGroupPlanning(groupId: Group['id'], planningId: Planning['id'], data: Planning): Promise<Planning>
+	deleteGroupPlanning(groupId: Group['id'], planningId: Planning['id']): Promise<void>
 }
 
 export interface CategoryRepository {
@@ -73,7 +79,7 @@ export interface UserRepository {
 
 export interface Repositories {
 	account: AccountRepository
-	budget: BudgetRepository
+	planning: PlanningRepository
 	group: GroupRepository
 	category: CategoryRepository
 	institution: InstitutionRepository

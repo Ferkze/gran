@@ -50,10 +50,10 @@ export interface PlanningFilter {
 export interface Budget {
   id?: string;
   type: string;
-  icon: string;
+  icon?: string;
   category: string;
   current: number;
-  max: number;
+  value: number;
 }
 
 export interface BudgetProgress {

@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import './filters'
+import './plugins/v-currency-field'
 
 Vue.config.productionTip = false
 

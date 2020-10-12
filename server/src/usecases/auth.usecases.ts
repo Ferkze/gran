@@ -8,6 +8,9 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { opts } from '../config/passport'
 import { User } from '../models/entities/User'
+import debug from 'debug'
+
+const log = debug('app:auth:usecases')
 
 interface UserDataPayload {
 	id: User['id']
@@ -69,8 +72,8 @@ export class AuthUsecasesImpl implements AuthUsecases {
 			password: data.password,
 			accounts: [],
 			budgets: [],
-			createdAt: Date.now(),
-			updatedAt: Date.now()
+			createdAt: new Date(),
+			updatedAt: new Date()
 		})
 		return new Promise((resolve, reject) => {
 			bcrypt.genSalt(10, (err, salt) => {

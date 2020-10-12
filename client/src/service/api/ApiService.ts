@@ -7,6 +7,8 @@ if (!baseURL) {
 }
 const ApiSerivce = Axios.create({ baseURL })
 
+export const debug = () => process.env.VUE_APP_DEBUG == 'true'
+
 export const setAuthToken = (token: Token) => {
 	if (token) {
 		ApiSerivce.defaults.headers.common['Authorization'] = token

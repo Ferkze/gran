@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>Orçamento de gastos do mês</v-card-title>
     <v-card-text>
-      <v-list two-line>
+      <v-list two-line v-if="!loading">
         <v-list-item v-for="budget in budgets" :key="budget.id">
           <v-list-item-icon>
             <v-icon>{{ budget.icon }}</v-icon>
@@ -20,6 +20,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <v-skeleton-loader v-else type="list-item@4" />
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -32,17 +33,33 @@
 </template>
 
 <script lang="ts">
+import { Budget } from '@/models';
+import { CategoryType } from '@/models/enums';
+import planningModule from '@/store/modules/planningModule';
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class BudgetCard extends Vue {
-  budgets = [
-    { id: '0', icon: 'mdi-ticket', category: 'Lazer', current: 100, value: 300 },
-    { id: '1', icon: 'mdi-train-car', category: 'Transporte', current: 100, value: 250 },
-    { id: '2', icon: 'mdi-heart-pulse', category: 'Saúde', current: 150, value: 250 },
-    { id: '3', icon: 'mdi-cart', category: 'Mercado', current: 450, value: 500 },
-    { id: '4', icon: 'mdi-cellphone-wireless', category: 'Telefonia e Internet', current: 120, value: 120 }
-  ]
+  loading = false
+  
+  get budgets () {
+    const today = new Date()
+    const planning = planningModule.plannings.find(p => p.month == today.getMonth()+1 && p.year == today.getFullYear())
+    if (!planning) {
+      return []
+    }
+    return planning.budgets.filter(b => b.type == CategoryType.EXPENSE)
+  }
+
+  mounted() {
+    this.fetchData()
+  }
+
+  async fetchData() {
+    this.loading = true
+    await planningModule.fetchPlannings({})
+    this.loading = false
+  }
 
   progressColor(percent: number) {
     if (percent > 0.7) {

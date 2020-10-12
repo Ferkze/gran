@@ -3,12 +3,14 @@ module.exports = {
   env: {
     es6: true,
     node: true,
+    "jest/globals": true
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "jest"],
   extends: [
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "eslint:recommended",
+    "plugin:jest/recommended"
   ],
   globals: {
     Atomics: "readonly",
@@ -25,4 +27,12 @@ module.exports = {
     semi: ["warn", "never"],
     '@typescript-eslint/interface-name-prefix': 'off'
   },
+  overrides: {
+    files: [
+      "**/*.test.ts"
+    ],
+    env: {
+      jest: true
+    }
+  }
 };

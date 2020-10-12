@@ -14,7 +14,7 @@ export enum AccountSubtypes {
 }
 
 export interface Account {
-  id: string
+  id?: string
   name: string
   main: boolean
   institution: string
@@ -23,6 +23,6 @@ export interface Account {
   subtype: AccountSubtypes
   startingBalance: number
   owner: User['id']
-  createdAt: string
-  updatedAt: string
+  createdAt?: Date
+  updatedAt?: Date
 }

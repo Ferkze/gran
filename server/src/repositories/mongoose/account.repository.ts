@@ -1,49 +1,56 @@
 import { AccountRepository } from '..'
 import { Account } from '../../models/entities/Account'
-import AccountModel, { IAccount } from './models/AccountModel'
+import { User } from '../../models/entities/User'
+import DatabaseError from '../../models/errors/DatabaseError'
+import { IAccount } from './models/AccountSchema'
+import UserModel from './models/UserModel'
 
 export class MongooseAccountRepository implements AccountRepository {
 	
-	async getAllAccounts(): Promise<Account[]> {
-		const accounts = await AccountModel.find()
-		return accounts.map(a => MongooseAccountRepository.deserializeAccount(a))
-	}
-	
 	async getAllUserAccounts(userId: string): Promise<Account[]> {
-		const accounts = await AccountModel.find({ owner: userId })
-		return accounts.map(a => MongooseAccountRepository.deserializeAccount(a))
+		const userDoc = await UserModel.findOne({ _id: userId }, 'accounts')
+		return userDoc.accounts.map(MongooseAccountRepository.deserializeAccount)
 	}
 	
-	async findAccountById(id: string): Promise<Account> {
-		const account = await AccountModel.findOne({ _id: id })
-		return MongooseAccountRepository.deserializeAccount(account)
+	async findAccountById(userId: User['id'], accountId: Account['id']): Promise<Account> {
+		const userDoc = await UserModel.findById(userId)
+		return MongooseAccountRepository.deserializeAccount(userDoc.accounts.id(accountId))
 	}
 	
-	async saveAccount(account: Account): Promise<Account> {
-		const doc = await AccountModel.create(account)
-		return MongooseAccountRepository.deserializeAccount(doc)
+	async saveAccount(userId: User['id'], account: Account): Promise<Account> {
+		const userDoc = await UserModel.findById(userId)
+		userDoc.accounts.push(account)
+		await userDoc.save()
+		return MongooseAccountRepository.deserializeAccount(userDoc.accounts[userDoc.accounts.length-1])
 	}
 	
-	async updateAccount(account: Account): Promise<Account> {
-		const { id, ...data} = account
-		const doc = await AccountModel.findByIdAndUpdate(id, data, { new: true })
-		return MongooseAccountRepository.deserializeAccount(doc)
+	async updateAccount(userId: User['id'], accountId: Account['id'], data: Account): Promise<Account> {
+		const userDoc = await UserModel.findById(userId)
+		const accountDoc = userDoc.accounts.id(accountId)
+		for (const key in data) {
+			accountDoc[key] = data[key]
+		}
+		await userDoc.save()
+		return MongooseAccountRepository.deserializeAccount(accountDoc)
 	}
 	
-	async deleteAccount(accountId: string): Promise<void> {
-		await AccountModel.deleteOne({ _id: accountId })
+	async deleteAccount(userId: User['id'], accountId: string): Promise<void> {
+		const userDoc = await UserModel.findById(userId)
+		userDoc.accounts.id(accountId).remove()
+		await userDoc.save()
 	}
 
-	async accountExists(accountId: Account['id']): Promise<boolean> {
-		const count = await AccountModel.count({ _id: accountId })
-		return count > 0
+	async accountExists(userId: User['id'], accountId: Account['id']): Promise<boolean> {
+		try {
+			const userDoc = await UserModel.findById(userId)
+			return userDoc.accounts.some(acc => acc.id == accountId)
+		} catch (error) {
+			throw new DatabaseError(error)
+		}
 	}
 
 	static deserializeAccount(accountModel: IAccount): Account {
-		if (!accountModel) {
-			return null
-		}
-		
+		if (accountModel == null) return null
 		return {
 			id: accountModel._id,
 			name: accountModel.name,

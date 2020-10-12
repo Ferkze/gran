@@ -9,7 +9,8 @@ export default async (): Promise<void> => {
 		await mongoose.connect(process.env.MONGODB_CONNECTION, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
-			useFindAndModify: true
+			useFindAndModify: true,
+			useCreateIndex: true
 		})
 		log('Sucesso ao se conectar com o MongoDB')
 	} catch (error) {

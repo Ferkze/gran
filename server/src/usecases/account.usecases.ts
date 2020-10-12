@@ -3,17 +3,19 @@ import { AccountUsecases } from '.'
 import { Account } from '../models/entities/Account'
 import { TransactionType } from '../models/entities/Transaction'
 import { ValidationError } from '../models/errors/ValidationError'
+import { UsecaseError } from '../models/errors/UsecaseError'
+import { User } from '../models/entities/User'
 
 export class AccountUsecasesImpl implements AccountUsecases {
 	
 	constructor(private repo: Repositories) { }
 	
-	async getAccountBalance(accountId: Account['id']): Promise<number> {
-		const exists = await this.repo.account.accountExists(accountId)
+	async getAccountBalance(userId: User['id'], accountId: Account['id']): Promise<number> {
+		const exists = await this.repo.account.accountExists(userId, accountId)
 		if (!exists) {
 			throw new ValidationError('Conta não existe')
 		}
-		const account = await this.repo.account.findAccountById(accountId)
+		const account = await this.repo.account.findAccountById(userId, accountId)
 		const transactions = await this.repo.transaction.getAllAccountTransactions(accountId)
 		const balance = transactions.reduce((acc, cur) => {
 			if (cur.type == TransactionType.DEBIT || cur.type == TransactionType.TRANSFERENCE) {
@@ -28,21 +30,23 @@ export class AccountUsecasesImpl implements AccountUsecases {
 		return this.repo.account.getAllUserAccounts(userId)
 	}
 
-	async findAccountById(id: Account['id']): Promise<Account | null> {
-		return this.repo.account.findAccountById(id)
+	async findAccountById(userId: User['id'], accountId: Account['id']): Promise<Account | null> {
+		return this.repo.account.findAccountById(userId, accountId)
 	}
 
-	async deleteAccount(id: Account['id']):  Promise<void> {
-		return await this.repo.account.deleteAccount(id)
+	async deleteAccount(userId: User['id'], accountId: Account['id']):  Promise<void> {
+		if (!this.repo.account.accountExists(userId, accountId)) {
+			throw new UsecaseError('Conta não existe')
+		}
+		return await this.repo.account.deleteAccount(userId, accountId)
 	}
 
-	async editAccount(account: Account): Promise<Account> {
-		return await this.repo.account.updateAccount(account)
+	async editAccount(userId: User['id'], accountId: Account['id'], data: Account): Promise<Account> {
+		return await this.repo.account.updateAccount(userId, accountId, data)
 	}
 
-	async registerAccount(account: Account): Promise<Account> {
-		return await this.repo.account.saveAccount(account)
+	async registerAccount(userId: User['id'], account: Account): Promise<Account> {
+		return await this.repo.account.saveAccount(userId, account)
 	}
 
-	
 }

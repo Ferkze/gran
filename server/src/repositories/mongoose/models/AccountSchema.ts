@@ -1,21 +1,10 @@
-import { Document, Schema, Model, model } from 'mongoose'
-import { IUser } from './UserModel'
-import { AccountTypes, AccountSubtypes } from '../../../models/entities/Account'
+import { Types, Schema, Model, model } from 'mongoose'
+import { AccountTypes, AccountSubtypes, Account } from '../../../models/entities/Account'
 
 export const ACCOUNT = 'Account'
 
-export interface IAccount extends Document {
-  name: string
-  main: boolean
-  institution?: string
-  unregisteredInstitution?: string
-  type?: AccountTypes
-  subtype?: AccountSubtypes
-  startingBalance: number
-  owner?: IUser['_id'] | IUser
-  createdAt?: string
-  updatedAt?: string
-
+export interface IAccount extends Types.Subdocument, Account { 
+	id: string
 }
 
 export const AccountSchema = new Schema<IAccount>({
@@ -57,15 +46,3 @@ export const AccountSchema = new Schema<IAccount>({
 }, {
 	timestamps: true
 })
-
-const accountQueryHelpers = {}
-
-export interface IAccountExtended extends Model<IAccount, typeof accountQueryHelpers> {
-  calculateBalance()
-}
-
-// AccountSchema.methods.calculateBalance = async function() {
-//   return Transaction.find().byAccount(this._id)
-// }
-
-export default model<IAccount>(ACCOUNT, AccountSchema)

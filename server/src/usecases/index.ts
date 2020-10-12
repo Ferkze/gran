@@ -23,11 +23,11 @@ export interface Usecases {
 
 export interface AccountUsecases {
 	listAccountsByUser(userId: User['id']): Promise<Account[]>
-	findAccountById(id: Account['id']): Promise<Account | null>
-	deleteAccount(id: Account['id']):  Promise<void>
-	editAccount(account: Account): Promise<Account>
-	registerAccount(account: Account): Promise<Account>
-	getAccountBalance(accountId: Account['id']): Promise<number>
+	findAccountById(userId: User['id'], accountId: Account['id']): Promise<Account | null>
+	deleteAccount(userId: User['id'], accountId: Account['id']):  Promise<void>
+	editAccount(userId: User['id'], accountId: Account['id'], data: Account): Promise<Account>
+	registerAccount(userId: User['id'], account: Account): Promise<Account>
+	getAccountBalance(userId: User['id'], accountId: Account['id']): Promise<number>
 }
 
 export interface AuthUsecases {

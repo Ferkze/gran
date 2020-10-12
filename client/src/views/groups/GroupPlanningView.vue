@@ -10,7 +10,7 @@
               </v-card-title>
             </v-col>
             <v-col class="text-right px-4" v-if="!currentPlanning">
-              <v-btn class="primary px-6" depressed small :to="`/planejamento/criar?mes=${month}&ano=${year}`">
+              <v-btn class="primary px-6" depressed small @click="planningDialog = true">
                 <span class="text-lowercase">criar planejamento</span>
               </v-btn>
             </v-col>
@@ -60,6 +60,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <group-planning-dialog :dialog.sync="planningDialog" :group-id="$route.params.groupId" />
   </v-container>
 </template>
 
@@ -74,9 +75,12 @@ import groupsModule from "@/store/modules/groupsModule";
     BudgetProgressBar: () => import("@/components/planning/BudgetsProgressBar.vue"),
     IncomeListItem: () => import("@/components/planning/IncomeListItem.vue"),
     ExpenseListItem: () => import("@/components/planning/ExpenseListItem.vue"),
+    GroupPlanningDialog: () => import("@/components/group/GroupPlanningDialog.vue"),
   },
 })
 export default class GroupPlanningView extends Vue {
+  planningDialog = false
+  
   year = 2020;
   month = 10;
 

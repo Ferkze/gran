@@ -1,4 +1,4 @@
-import { Document, Schema, model, Types, Model, DocumentQuery } from 'mongoose'
+import { Document, Schema, model, Types, Model, DocumentQuery, MongooseFilterQuery } from 'mongoose'
 import { Group } from '../../../models/entities/Group'
 import { IPlanning, PlanningSchema } from './PlanningSchema'
 
@@ -22,6 +22,7 @@ export interface GroupDocumentModel extends GroupDocument {
 }
 
 export interface GroupModel extends Model<GroupDocument> {
+  findOne(conditions: MongooseFilterQuery<Pick<GroupDocument, "_id" | "plannings" | "getGroup" | "name" | "creator">>, projection: any): DocumentQuery<GroupDocumentModel, GroupDocumentModel>
   findById(id: string): DocumentQuery<GroupDocumentModel, GroupDocumentModel>
 }
 

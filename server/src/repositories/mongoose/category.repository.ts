@@ -6,40 +6,26 @@ export class MongooseCategoryRepository implements CategoryRepository {
 
 	async getAllCategories(): Promise<Category[]> {
 		const docs = await CategoryModel.find()
-		return MongooseCategoryRepository.deserializeCategories(docs)
+		return docs.map(doc => doc.getCategory())
 	}
 	
 	async findCategoryById(id: string): Promise<Category> {
 		const doc = await CategoryModel.findById(id)
-		return MongooseCategoryRepository.deserializeCategory(doc)
+		return doc.getCategory()
 	}
 	
 	async saveCategory(category: Category): Promise<Category> {
 		const doc = await CategoryModel.create(category)
-		return MongooseCategoryRepository.deserializeCategory(doc)
+		return doc.getCategory()
 	}
 	
 	async updateCategory(categoryId: Category['id'], category: Category): Promise<Category> {
 		const doc = await CategoryModel.update({ _id: categoryId }, category)
-		return MongooseCategoryRepository.deserializeCategory(doc)
+		return doc.getCategory()
 	}
 	
 	async deleteCategory(categoryId: string): Promise<void> {
 		await CategoryModel.deleteOne({ _id: categoryId})
-	}
-	
-	static deserializeCategory(category: ICategory): Category {
-		return {
-			id: category._id,
-			name: category.name,
-			type: category.type,
-			createdAt: category.createdAt,
-			updatedAt: category.updatedAt,
-		}
-	}
-	
-	static deserializeCategories(categories: ICategory[]): Category[] {
-		return categories.map(d => MongooseCategoryRepository.deserializeCategory(d))
 	}
 
 }

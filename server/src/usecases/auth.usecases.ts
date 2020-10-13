@@ -71,7 +71,7 @@ export class AuthUsecasesImpl implements AuthUsecases {
 			email: data.email,
 			password: data.password,
 			accounts: [],
-			budgets: [],
+			plannings: [],
 			createdAt: new Date(),
 			updatedAt: new Date()
 		})

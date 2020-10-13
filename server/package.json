@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "DEBUG=app:* nodemon src/index.ts",
+    "dev": "nodemon src/index.ts",
     "start": "node dist/index.js",
-    "test": "DEBUG=app:* jest --watch --runInBand --detectOpenHandles",
+    "test": "jest --watch --runInBand --detectOpenHandles",
     "seed": "sucrase-node src/seed/index.ts"
   },
   "repository": {

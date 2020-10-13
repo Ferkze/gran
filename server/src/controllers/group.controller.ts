@@ -19,8 +19,9 @@ export default class GroupController extends BaseController {
 	}
 
 	async readByUser(req: Request, res: Response): Promise<Response> {
+		const userId = req.user['id']
 		try {
-			const groups = await usecases.group.listGroups(req.user['id'])
+			const groups = await usecases.group.listGroups(userId)
 			return res.status(200).json({ groups })
 		} catch (error) {
 			log('Erro ao obter orçamentos de grupo', error)
@@ -30,8 +31,9 @@ export default class GroupController extends BaseController {
 
 	async create(req: Request, res: Response): Promise<Response> {
 		const data = req.body
+		const userId = req.user['id']
 		try {
-			const group = await usecases.group.registerGroup(data)
+			const group = await usecases.group.registerGroup(userId, data)
 			return res.status(200).json({ group })
 		} catch (error) {
 			log('Erro ao criar um orçamento de grupo', error)

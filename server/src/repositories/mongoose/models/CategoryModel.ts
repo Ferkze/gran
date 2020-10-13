@@ -1,16 +1,12 @@
 import { Document, Schema, model } from 'mongoose'
-import { CategoryType } from '../../../models/entities/Category'
+import { Category, CategoryType } from '../../../models/entities/Category'
 
-export const CATEGORY = 'Category'
-
-export interface ICategory extends Document {
-  name: string
-  type: CategoryType
-  createdAt: Date
-  updatedAt: Date
+export interface ICategory extends Document, Category {
+  getCategory(): Category
 }
 
 const SchemaCategory = new Schema({
+  icon: { type: Schema.Types.String, required: false },
   name: { type: Schema.Types.String, required: true },
   type: { type: Schema.Types.String, required: true,
     enum: [ CategoryType.EXPENSE, CategoryType.INCOME ]
@@ -19,4 +15,15 @@ const SchemaCategory = new Schema({
   timestamps: true
 })
 
-export default model<ICategory>(CATEGORY, SchemaCategory)
+SchemaCategory.methods.getCategory = function() {
+  return {
+    id: this._id,
+    icon: this.icon,
+    name: this.name,
+    type: this.type,
+    createdAt: new Date(this.createdAt),
+    updatedAt: new Date(this.updatedAt),
+  }
+}
+
+export default model<ICategory>('Category', SchemaCategory)

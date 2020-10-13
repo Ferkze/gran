@@ -1,4 +1,5 @@
 import { Document, Schema, model } from 'mongoose'
+import { Institution } from '../../../models/entities/Institution'
 
 export const INSTITUTION: string = 'Institution'
 
@@ -8,17 +9,8 @@ export enum InstitutionType {
   PAYMENT_INSTITUTION = 'payment-institution',
 }
 
-export interface IInstitution extends Document {
-  name: string
-  description: string
-  type: InstitutionType
-  colors: {
-    primary: string
-    secondary: string
-  },
-  logoUrl: string
-  createdAt: Date
-  updatedAt: Date
+export interface IInstitution extends Document, Institution {
+  getInstitution(): Institution
 }
 
 const SchemaInstitution = new Schema<IInstitution>({
@@ -33,5 +25,18 @@ const SchemaInstitution = new Schema<IInstitution>({
 }, {
   timestamps: true
 })
+
+SchemaInstitution.methods.getInstitution = function () {
+  return {
+    id: this._id,
+    name: this.name,
+    description: this.description,
+    colors: this.colors,
+    logoUrl: this.logoUrl,
+    type: this.type,
+    createdAt: this.createdAt,
+    updatedAt: this.updatedAt
+  }
+}
 
 export default model<IInstitution>(INSTITUTION, SchemaInstitution)

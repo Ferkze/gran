@@ -3,7 +3,7 @@ import { CategoryType } from '@/models/enums';
 import ApiService, { debug } from "./ApiService";
 
 interface PlanningsResponse {
-	plannigns: Planning[]
+	plannings: Planning[]
 	error?: string
 }
 
@@ -19,7 +19,7 @@ class PlanningService {
 		if (response.data.error) {
 			throw new Error(response.data.error)
 		}
-		return response.data.plannigns
+		return response.data.plannings
 	}
 	
 	async savePlanning(planning: Planning) {

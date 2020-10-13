@@ -39,7 +39,14 @@ import { Budget, Planning } from "@/models";
 import { CategoryType } from "@/models/enums";
 import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {
+    PlanningForm: () => import('@/components/planning/PlanningForm.vue'),
+    IncomeBudgetForm: () => import('@/components/planning/IncomeBudgetForm.vue'),
+    PlanningBudgetList: () => import('@/components/planning/PlanningBudgetList.vue'),
+    ExpenseBudgetForm: () => import('@/components/planning/ExpenseBudgetForm.vue')
+  },
+})
 export default class PlanningStepperForm extends Vue {
 	@PropSync('data', { type: Object, required: true })
 	planning!: Planning

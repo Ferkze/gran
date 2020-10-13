@@ -3,11 +3,11 @@
 		<section>
 			<v-row>
 				<v-col cols="12" sm="6">
-					<balance-card></balance-card>
-					<accounts-card class="mt-6"></accounts-card>
+					<balance-card />
+					<accounts-card class="mt-6" />
 				</v-col>
 				<v-col cols="12" sm="6">
-					<budget-card></budget-card>
+					<budget-card />
 				</v-col>
 			</v-row>
 		</section>

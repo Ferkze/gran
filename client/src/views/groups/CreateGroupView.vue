@@ -12,7 +12,7 @@
           <v-card-text>
             <v-row justify="center">
               <v-col cols="8" xs="12">
-                <group-form :data.sync="group" @submit="createGroup" />
+                <group-form :data.sync="group" @submit="createGroup" :loading="loading" />
               </v-col>
             </v-row>  
           </v-card-text>
@@ -34,18 +34,23 @@ import { Group } from '@/models';
   }
 })
 export default class CreateGroupView extends Vue {
+  loading = false
   group: Group = {
     name: '',
     creator: this.currentUserId,
-    members: [ this.currentUserId ]
+    members: [ this.currentUserId ],
+    plannings: []
   }
 
   get currentUserId() {
     return auth.user ? auth.user.id : ''
   }
   
-  createGroup() {
-    
+  async createGroup() {
+    this.loading = true
+    await groupsModule.createGroup(this.group)
+    this.$router.push('/grupos')
+    this.loading = false
   }
 }
 </script>

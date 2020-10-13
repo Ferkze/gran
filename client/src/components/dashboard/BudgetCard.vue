@@ -2,30 +2,19 @@
   <v-card>
     <v-card-title>Orçamento de gastos do mês</v-card-title>
     <v-card-text>
-      <v-list two-line v-if="!loading">
-        <v-list-item v-for="budget in budgets" :key="budget.id">
-          <v-list-item-icon>
-            <v-icon>{{ budget.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>
-              <span>{{ budget.category }}</span>
-              <span class="float-right">
-                <span class="font-weight-light">R$ {{ budget.current | formatCash }} de</span>
-                <span class="font-weight-bold"> R$ {{ budget.value | formatCash }}</span></span>
-            </v-list-item-title>
-            <v-list-item-subtitle class="mt-2">
-              <v-progress-linear :color="progressColor(budget.current/budget.value)" :value="100*(budget.current/budget.value)" height="8" background-color="grey lighten-2"/>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+      <v-list two-line v-if="!loading && budgets.length > 0">
+        <expense-list-item v-for="budget in budgets" :key="budget.id" :budget="budget" />
       </v-list>
-      <v-skeleton-loader v-else type="list-item@4" />
+      <v-skeleton-loader v-else-if="loading" type="list-item@4" />
+      <div v-else>
+        <p>Começe a planejar seus gastos para acompanhar seu dinheiro</p>
+        <p>Clique no link abaixo para começar</p>
+      </div>
     </v-card-text>
-    <v-divider></v-divider>
+    <v-divider />
     <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn text>
+      <v-spacer />
+      <v-btn text to="/planejamento">
         <span class="text-capitalize">Mais detalhes</span>
       </v-btn>
     </v-card-actions>
@@ -38,7 +27,11 @@ import { CategoryType } from '@/models/enums';
 import planningModule from '@/store/modules/planningModule';
 import { Component, Vue } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {
+    ExpenseListItem: () => import('@/components/planning/ExpenseListItem.vue')
+  }
+})
 export default class BudgetCard extends Vue {
   loading = false
   
@@ -57,7 +50,7 @@ export default class BudgetCard extends Vue {
 
   async fetchData() {
     this.loading = true
-    await planningModule.fetchPlannings({})
+    const plannings = await planningModule.fetchPlannings({})
     this.loading = false
   }
 
@@ -72,6 +65,3 @@ export default class BudgetCard extends Vue {
   }
 }
 </script>
-
-<style scoped>
-</style>

@@ -1,11 +1,11 @@
 <template>
   <v-list-item>
     <v-list-item-icon>
-      <v-icon>{{ budget.icon }}</v-icon>
+      <v-icon>{{ getCategoryIcon(budget.category) }}</v-icon>
     </v-list-item-icon>
     <v-list-item-content>
       <v-list-item-title>
-        <span>{{ budget.category }}</span>
+        <span>{{ getCategoryName(budget.category) }}</span>
         <span class="float-right">
           <span class="font-weight-light">R$ {{ budget.current | formatCash }} de</span>
           <span class="font-weight-bold"> R$ {{ budget.value | formatCash }}</span>
@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import { Budget } from "@/models";
+import finances from '@/store/modules/finances';
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
@@ -40,6 +41,17 @@ export default class ExpenseListItem extends Vue {
     } else {
       return "success";
     }
+  }
+
+  getCategoryIcon(categoryId: string) {
+    const category = finances.categories.find(c => c.id == categoryId)
+    if (category) return 'mdi-'+category.icon
+    else return 'mdi-triangle'
+  }
+  getCategoryName(categoryId: string) {
+    const category = finances.categories.find(c => c.id == categoryId)
+    if (category) return category.name
+    else return ''
   }
 }
 </script>

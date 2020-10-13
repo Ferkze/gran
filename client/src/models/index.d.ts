@@ -65,6 +65,7 @@ export interface BudgetProgress {
 
 export interface Category {
   id: string;
+  icon: string;
   name: string;
   type: CategoryType;
   createdAt: string;
@@ -94,8 +95,9 @@ export interface TransactionFilter {
 export interface Group {
   id?: string;
   name: string;
-  creator: User;
-  members: User[];
+  creator: User | User['id'];
+  members: User[] | User['id'][];
+  plannings: Planning[]
   createdAt?: Date;
   updatedAt?: Date;
 }

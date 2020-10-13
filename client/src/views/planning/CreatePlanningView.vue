@@ -35,16 +35,6 @@ import { Component, Vue } from "vue-property-decorator";
     PlanningStepperForm: () =>
       import("@/components/planning/PlanningStepperForm.vue"),
   },
-  beforeRouteLeave(to, from, next) {
-    const answer = window.confirm(
-      "Você tem alterações que não foram salvas, deseja realmente sair?"
-    );
-    if (answer) {
-      next();
-    } else {
-      next(false);
-    }
-  },
 })
 export default class CreatePlanningView extends Vue {
   planning: Planning = {

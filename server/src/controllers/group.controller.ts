@@ -31,7 +31,7 @@ export default class GroupController extends BaseController {
 	}
 
 	async create(req: Request, res: Response): Promise<Response> {
-		const data = req.body
+		const data = req.body.group
 		const userId = req.user['id']
 		try {
 			const group = await usecases.group.registerGroup(userId, data)

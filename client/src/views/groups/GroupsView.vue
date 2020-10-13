@@ -15,15 +15,15 @@
 							</v-btn>
 						</v-col>
 					</v-row>
-					<v-card-text v-if="groups">
+					<v-card-text v-if="groups.length > 0">
 						<div class="font-weight-regular grey--text text--darken-3 mb-3">Grupos em que faço parte</div>
 						<v-list>
 							<group-list-item v-for="group in groups" :key="group.id" :group="group" />
 						</v-list>
 					</v-card-text>
 					<v-card-text v-else>
-						<p class="text-center">Nenhum planejamento para o mês foi criado</p>
-						<p class="text-center">Comece pelo botão acima</p>
+						<p class="text-center">Nenhum grupo foi criado</p>
+						<p class="text-center">Comece criando pelo botão acima</p>
 					</v-card-text>
         </v-card>
       </v-col>
@@ -41,8 +41,21 @@ import groupsModule from '@/store/modules/groupsModule'
 	}
 })
 export default class GroupsView extends Vue {
+	loading = false
   get groups() {
     return groupsModule.groups
-  }
+	}
+	mounted() {
+		this.loadData()
+	}
+
+	async loadData() {
+		if (this.loading && this.groups.length == 0) {
+			return
+		}
+		this.loading = true
+		await groupsModule.fetchGroups()
+		this.loading = false
+	}
 }
 </script>

@@ -39,6 +39,11 @@ import finances from '@/store/modules/finances';
 			return this.budgets.reduce((acc, cur) => acc + cur.value, 0)
 		}
 
+		getCategoryIcon(categoryId: string) {
+			const category = finances.categories.find(c => c.id == categoryId)
+			if (category) return 'mdi-'+category.icon
+			else return 'mdi-triangle'
+		}
 		getCategoryName(categoryId: string) {
 			const category = finances.categories.find(c => c.id == categoryId)
 			if (category) return category.name

@@ -1,5 +1,5 @@
 <template>
-  <v-list-item class="elevation-1 mb-3" @click="$router.push(`/grupos/${group.id}`)">
+  <v-list-item class="elevation-1 mb-3" @click="$router.push(`/grupos/${group.id}/transacoes`)">
 		<v-list-item-icon>
 			<v-avatar size="40" rounded="0" :color="color">
 			</v-avatar>

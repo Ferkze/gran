@@ -141,8 +141,9 @@ export default class PlanningView extends Vue {
 	}
 	
 	get incomesProgress() {
+		if (this.incomes.length == 0) return 0
 		const incomeCurrentTotal = this.incomes.reduce((acc, cur) => {
-			acc[0] += cur.current
+			acc[0] += 0
 			acc[1] += cur.value
 			return acc
 		}, [0, 0])
@@ -150,12 +151,13 @@ export default class PlanningView extends Vue {
 	}
 
 	get incomesTotal() {
-		return this.incomes.reduce((acc, cur) => acc + cur.current, 0)
+		return this.incomes.reduce((acc, cur) => acc + 0, 0)
 	}
 
 	get expensesProgress() {
+		if (this.expenses.length == 0) return 0
 		const expenseCurrentTotal = this.expenses.reduce((acc, cur) => {
-			acc[0] += cur.current
+			acc[0] += 0
 			acc[1] += cur.value
 			return acc
 		}, [0, 0])
@@ -163,7 +165,7 @@ export default class PlanningView extends Vue {
 	}
 
 	get expensesTotal() {
-		return this.expenses.reduce((acc, cur) => acc + cur.current, 0)
+		return this.expenses.reduce((acc, cur) => acc + 0, 0)
 	}
 }
 </script>

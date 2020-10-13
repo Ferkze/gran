@@ -83,7 +83,6 @@ class FinancesModule extends VuexModule {
 		}
 		transaction.user = auth.user.id
 		transaction = await TransactionService.createTransaction(transaction)
-		console.log(`Transação de id ${transaction.id} criada com sucesso`)
 		return transaction
 	}
 

@@ -9,6 +9,7 @@ Vue.filter('formatCurrency', (value: any): string => {
 
 
 Vue.filter('formatCash', (value: any): string => {
+	if (!value) return '0'
 	return parseFloat(value)
 		.toFixed(0)
 		.toString()

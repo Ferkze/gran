@@ -1,10 +1,10 @@
 <template>
-  <v-dialog v-model="show" width="780">
+  <v-dialog v-model="show" width="860">
     <v-card>
       <v-card-title>Criar planejamento</v-card-title>
       <v-card-text>
         <v-row justify="center">
-          <v-col cols="8" xs="12">
+          <v-col xs="12">
             <planning-stepper-form :data.sync="planning" @submit="finishPlanning" :loading="loading" />
           </v-col>
         </v-row>

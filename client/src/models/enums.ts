@@ -24,8 +24,8 @@ export enum InstitutionType {
 }
 
 export enum CategoryType {
-	INCOME = 'renda',
-	EXPENSE = 'gasto'
+	INCOME = 'income',
+	EXPENSE = 'expense'
 }
 
 export enum InvestmentSubType {

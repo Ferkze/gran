@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, PropSync, Vue } from "vue-property-decorator";
+import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 import { Group } from '@/models';
 
 @Component({
@@ -37,7 +37,8 @@ export default class GroupForm extends Vue {
 	@PropSync("data", { required: true })
   group!: Group
   
-  loading = false
+  @Prop({ default: false })
+  loading!: boolean
 
   @Emit("submit")
   async submit() {}

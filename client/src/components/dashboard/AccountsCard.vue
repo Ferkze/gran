@@ -1,7 +1,7 @@
 <template>
 	<v-card>
 		<v-card-title>Saldo das contas</v-card-title>
-		<v-card-text>
+		<v-card-text v-if="accounts.length > 0 && !loading">
 			<v-list>
 				<v-list-item v-for="account in accounts" :key="account.id">
 					<v-list-item-content>
@@ -13,26 +13,50 @@
 				</v-list-item>
 			</v-list>
 		</v-card-text>
-		<v-divider></v-divider>
-		<v-card-actions>
-			<v-spacer></v-spacer>
-			<v-btn text>
+		<v-card-text v-else-if="!loading">
+			Registre suas contas para acompanhar seu saldo
+		</v-card-text>
+		<v-card-text v-else>
+			<v-skeleton-loader type="list@2" />
+		</v-card-text>
+		<v-divider />
+		<v-card-actions v-if="accounts.length > 0 && !loading">
+			<v-spacer />
+			<v-btn text to="/contas">
 				<span class="text-capitalize">Contas</span>
+			</v-btn>
+		</v-card-actions>
+		<v-card-actions v-else-if="!loading">
+			<v-spacer />
+			<v-btn text to="/contas/criar">
+				<span class="text-capitalize">Cadastrar Conta</span>
 			</v-btn>
 		</v-card-actions>
 	</v-card>
 </template>
 
 <script lang="ts">
-	import { Component, Vue } from 'vue-property-decorator';
+import accounts from '@/store/modules/accounts';
+	import { Component, Prop, Vue } from 'vue-property-decorator';
 
 	@Component
 	export default class AccountsCard extends Vue {
-		accounts = [
-			{ id: 0, name: 'Nubank', balance: 300 },
-			{ id: 1, name: 'Carteira', balance: 100 },
-			{ id: 2, name: 'Itaú', balance: 50 },
-		]
+		loading = false
+		get accounts() {
+			if (!accounts.accounts.length && !this.loading) {
+				this.loadData()
+			}
+			return accounts.accounts
+		}
+
+		async loadData() {
+			this.loading = true
+			await accounts.fetchAccounts()
+			for (const account of this.accounts) {
+				await accounts.getAccountBalance(account.id)
+			}
+			this.loading = false
+		}
 	}
 </script>
 

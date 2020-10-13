@@ -1,10 +1,31 @@
 import { PlanningRepository } from '..'
-import { Planning } from '../../models/entities/Planning'
+import { Planning, PlanningFilter } from '../../models/entities/Planning'
 import { User } from '../../models/entities/User'
 import GroupModel from './models/GroupModel'
 import UserModel from './models/UserModel'
 
 export class MongoosePlanningRepository implements PlanningRepository {
+
+	async getFilteredPlannings(filter: PlanningFilter): Promise<Planning[]> {
+		const query = {}
+		if (filter.month)
+			query['plannings.month'] = filter.month
+		if (filter.year)
+			query['plannings.year'] = filter.year
+		if (filter.group) {
+			const doc = await GroupModel.findOne({
+				_id: filter.group,
+				...query
+			}, 'plannings')
+			return doc.plannings.map(p => p.getPlanning())
+		} else {
+			const doc = await UserModel.findOne({
+				_id: filter.user,
+				...query
+			}, 'plannings')
+			return doc.plannings.map(p => p.getPlanning())
+		}
+	}
 
 	async getUserPlannings(userId: User['id']): Promise<Planning[]> {
 		const userDoc = await UserModel.findById(userId)
@@ -37,6 +58,7 @@ export class MongoosePlanningRepository implements PlanningRepository {
 		const userDoc = await UserModel.findById(userId)
 		userDoc.plannings.id(planningId).remove()
 		await userDoc.save()
+		return
 	}
 
 	async planningExists(userId: User['id'], planningId: Account['id']): Promise<boolean> {

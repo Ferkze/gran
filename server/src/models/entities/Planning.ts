@@ -6,9 +6,16 @@ export interface Planning {
   id?: any
   month: number
 	year: number
-	user: User['id']
-	group: Group['id']
+	user?: User['id']
+	group?: Group['id']
 	budgets: Budget[]
-	createdAt: Date
-	updatedAt: Date
+	createdAt?: Date
+	updatedAt?: Date
+}
+
+export interface PlanningFilter {
+  month?: number
+	year?: number
+	user?: User['id']
+	group?: Group['id']
 }

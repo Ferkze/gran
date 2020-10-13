@@ -1,4 +1,4 @@
-import { Document, Schema, model, Model, DocumentQuery, Types } from 'mongoose'
+import { Document, Schema, model, Model, DocumentQuery, Types, MongooseFilterQuery } from 'mongoose'
 import { User } from '../../../models/entities/User'
 import { AccountSchema, IAccount } from './AccountSchema'
 import { IPlanning, PlanningSchema } from './PlanningSchema'
@@ -26,6 +26,7 @@ export interface UserDocumentModel extends Document, User {
 }
 
 export interface UserModel extends Model<UserDocument> {
+	findOne(conditions: MongooseFilterQuery<Pick<UserDocument, "_id" | "plannings" | "createdAt" | "updatedAt" | "accounts" | "username" | "email" | "password">>, projection: any): DocumentQuery<UserDocumentModel, UserDocumentModel>
   findById(id: string): DocumentQuery<UserDocumentModel, UserDocumentModel>
 }
 

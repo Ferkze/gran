@@ -14,8 +14,8 @@ export default class AccountController extends BaseController {
 
 	public async findById(req: Request, res: Response): Promise<Response> {
 		try {
-			const { accountId } = req.params
 			const userId = req.user['id']
+			const { accountId } = req.params
 			const account = await usecases.account.findAccountById(userId, accountId)
 			return res.status(200).json({ account })
 		} catch (error) {
@@ -34,8 +34,8 @@ export default class AccountController extends BaseController {
 	public async update(req: Request, res: Response): Promise<Response> {
 		try {
 			const userId = req.user['id']
-			const accountId = req.params.accountId
-			const data = req.body
+			const { accountId } = req.params
+			const data = req.body.account
 			const account = await usecases.account.editAccount(userId, accountId, data)
 			return res.status(200).json({ account })
 		} catch (error) {

@@ -7,13 +7,15 @@ import { Account } from '../models/entities/Account'
 import { Category } from '../models/entities/Category'
 import { Budget } from '../models/entities/Budget'
 import { Group } from '../models/entities/Group'
-import { Transaction } from '../models/entities/Transaction'
+import { Transaction, TransactionFilter } from '../models/entities/Transaction'
 import { Balance } from '../models/entities/Balance'
+import { Planning, PlanningFilter } from '../models/entities/Planning'
 
 export interface Usecases {
 	auth: AuthUsecases
 	account: AccountUsecases
 	budget: BudgetUsecases
+	planning: PlanningUsecases
 	group: GroupUsecases
 	category: CategoryUsecases
 	instution: InstitutionUsecases
@@ -44,6 +46,15 @@ export interface BudgetUsecases {
 	registerBudget(data: Budget): Promise<Budget>
 }
 
+export interface PlanningUsecases {
+	filterPlannings(userId: User['id'], filter: PlanningFilter): Promise<Planning[]>
+	listPlanningsByUser(userId: User['id']): Promise<Planning[]>
+	findPlanningById(userId: User['id'], planningId: Planning['id']): Promise<Planning | null>
+	deletePlanning(userId: User['id'], planningId: Planning['id']):  Promise<void>
+	editPlanning(userId: User['id'], planningId: Planning['id'], data: Planning): Promise<Planning>
+	registerPlanning(userId: User['id'], planning: Planning): Promise<Planning>
+}
+
 export interface CategoryUsecases {
 	editCategory(id:Category['id'], data: Category): Promise<Category>
 	listCategories(): Promise<Category[]>
@@ -53,7 +64,7 @@ export interface CategoryUsecases {
 export interface GroupUsecases {
 	editGroup(id:Group['id'], data: Group): Promise<Group>
 	listGroups(userId: User['id']): Promise<Group[]>
-	registerGroup(data: Group): Promise<Group>
+	registerGroup(userId: User['id'], data: Group): Promise<Group>
 	joinGroup(userId: User['id'], groupId: Group['id']): Promise<void>
 }
 
@@ -63,9 +74,12 @@ export interface InstitutionUsecases {
 
 export interface TransactionUsecases {
 	editTransaction(id:Transaction['id'], data: Transaction): Promise<Transaction>
-	listTransactionsByUser(userId: User['id']): Promise<Transaction[]>
+	getFilteredTransactions(filter: TransactionFilter): Promise<Transaction[]>
+	listTransactionsByUser(userId: User['id'], filter?: TransactionFilter): Promise<Transaction[]>
+	listTransactionsByGroup(groupId: User['id'], filter?: TransactionFilter): Promise<Transaction[]>
 	registerTransaction(data: Transaction): Promise<Transaction>
 	getBalance(userId: User['id']): Promise<Balance>
+	getAccountBalance(userId: User['id'], accountId: Account['id']): Promise<Balance>
 }
 
 export interface UserUsecases {

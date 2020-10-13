@@ -94,8 +94,8 @@ export interface TransactionFilter {
 export interface Group {
   id?: string;
   name: string;
-  creator: User | User["id"];
-  members: User[] | User["id"][];
+  creator: User;
+  members: User[];
   createdAt?: Date;
   updatedAt?: Date;
 }

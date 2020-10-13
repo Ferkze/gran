@@ -15,32 +15,7 @@ import PlanningService from '@/service/api/PlanningService'
 	name: 'groups'
 })
 class GroupModule extends VuexModule {
-	groups: Group[] = [
-		{ 
-			id: '001',
-			name: 'Família Martins',
-			creator: '00001',
-			members: [
-				'0002',
-				'0003',
-				'0004'
-			],
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		},
-		{ 
-			id: '002',
-			name: 'Praia com os trutas',
-			creator: '00001',
-			members: [
-				'0002',
-				'0003',
-				'0004'
-			],
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		}
-	]
+	groups: Group[] = []
 
 	selectedGroup: Group | null = null
 	selectedGroupTransactions: Transaction[] = []
@@ -126,8 +101,7 @@ class GroupModule extends VuexModule {
 		if (!this.selectedGroup) {
 			return []
 		}
-		const members = await GroupsService.getGroupMembers(this.selectedGroup.id)
-		return members
+		return this.selectedGroup.members
 	}
 
 	@Action({ commit: 'setSelectedGroupMembers', rawError: true })

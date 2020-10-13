@@ -3,6 +3,7 @@ import { Transaction, Account, Group, TransactionFilter } from "@/models";
 
 interface TransactionResponse {
   transaction: Transaction
+  error?: string
 }
 
 interface TransactionsResponse {
@@ -11,18 +12,20 @@ interface TransactionsResponse {
 }
 
 class TransactionService {
-  getAccountsTransactions(accountIds: Account["id"][]) {
-    return client.get("/api/transactions", {
-      params: { accounts: accountIds }
-    });
+  async getAccountTransactions(accountId: Account["id"]) {
+    const response = await client.get("/api/transactions/filter", {
+      params: { account: accountId }
+    })
+    return response.data.transactions;
   }
 
   async getUserTransactions() {
-    return await (await client.get(`/api/transactions`)).data.transactions;
+    const response = await client.get(`/api/transactions`)
+    return response.data.transactions;
   }
 
   async getTransactions(filter: TransactionFilter) {
-    const response = await client.get<TransactionsResponse>('/api/transactions', { params: filter })
+    const response = await client.get<TransactionsResponse>('/api/transactions/filter', { params: filter })
     if (response.data.error) {
       throw new Error(response.data.error)
     }
@@ -30,11 +33,15 @@ class TransactionService {
   }
 
   async getTransaction(transactionId: string) {
-    return (await client.get<TransactionResponse>(`/api/transaction/${transactionId}`)).data.transaction;
+    const response  = await client.get<TransactionResponse>(`/api/transactions/${transactionId}`)
+    if (response.data.error) {
+      throw new Error(response.data.error)
+    }
+    return response.data.transaction;
   }
 
   async getTransactionsByGroup(groupId: Group['id']) {
-    const response = await client.get<TransactionsResponse>('/api/transactions', { params: { group: groupId } })
+    const response = await client.get<TransactionsResponse>('/api/transactions/filter', { params: { group: groupId } })
     if (response.data.error) {
       throw new Error(response.data.error)
     }
@@ -42,11 +49,13 @@ class TransactionService {
   }
 
   async createTransaction(transaction: Transaction) {
-    return (await client.post("/api/transactions", { transaction })).data.transaction;
+    const response = await client.post("/api/transactions", { transaction })
+    return response.data.transaction;
   }
 
   async updateTransaction(transaction: Transaction) {
-    return (await client.put(`/api/transaction/${transaction.id}`, { transaction })).data.transaction;
+    const response = await client.put(`/api/transactions/${transaction.id}`, { transaction })
+    return response.data.transaction;
   }
 
   async deleteTransaction(transactionId: string) {

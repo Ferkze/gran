@@ -1,55 +1,65 @@
 import { TransactionRepository } from '..'
-import { Transaction } from '../../models/entities/Transaction'
+import { Transaction, TransactionFilter } from '../../models/entities/Transaction'
 import TransactionModel, { ITransaction } from './models/TransactionModel'
 
 class MongooseTransactionRepository implements TransactionRepository {
-	async getAllTransactions(): Promise<Transaction[]> {
-		const docs = await TransactionModel.find()
-		return MongooseTransactionRepository.deserializeTransactions(docs)
-	}
-	async getAllUserTransactions(userId: string): Promise<Transaction[]> {
-		const docs = await TransactionModel.find({ user: userId })
-		return MongooseTransactionRepository.deserializeTransactions(docs)
-	}
-	async getAllAccountTransactions(accountId: string): Promise<Transaction[]> {
-		const docs = await TransactionModel.find({ account: accountId }).exec()
-		return MongooseTransactionRepository.deserializeTransactions(docs)
-	}
-	async findTransactionById(id: string): Promise<Transaction> {
-		const doc = await TransactionModel.findById(id)
-		return MongooseTransactionRepository.deserializeTransaction(doc)
-	}
-	async saveTransaction(transaction: Transaction): Promise<Transaction> {
-		const doc = await TransactionModel.create(transaction)
-		return MongooseTransactionRepository.deserializeTransaction(doc)
-	}
-	async updateTransaction(id: Transaction['id'], transaction: Transaction): Promise<Transaction> {
-		const doc = await TransactionModel.update({ _id: id }, transaction)
-		return MongooseTransactionRepository.deserializeTransaction(doc)
-	}
-	async deleteTransaction(transactionId: string): Promise<void> {
-		await TransactionModel.deleteOne({ _id: transactionId })
+	
+	async getFilteredTransactions(filter: TransactionFilter): Promise<Transaction[]> {
+		const query = {}
+
+		if(filter.id)
+			query['_id'] = filter.id
+		if(filter.start || filter.end) {
+			query['date'] = {}
+			if(filter.start)
+				query['date']['$gte'] = filter.start
+			if(filter.end)
+				query['date']['$lt'] = filter.end
+		}
+		if(filter.paid)
+			query['paid'] = filter.paid
+		if(filter.type)
+			query['type'] = filter.type
+		if(filter.account)
+			query['account'] = filter.account
+		if(filter.category)
+			query['category'] = filter.category
+		if(filter.user)
+			query['user'] = filter.user
+		if(filter.group)
+			query['group'] = filter.group
+
+		const docs = await TransactionModel.find(query)
+		return docs.map(d => d.getTransaction())
 	}
 
-	static deserializeTransaction(transaction: ITransaction): Transaction {
-		return {
-			id: transaction.id,
-			amount: transaction.amount,
-			date: transaction.date,
-			paid: transaction.paid,
-			description: transaction.description,
-			account: transaction.account,
-			category: transaction.category,
-			type: transaction.type,
-			user: transaction.user,
-			// group: transaction.group,
-			createdAt: transaction.createdAt,
-			updatedAt: transaction.updatedAt,
-		}
+	async getAllUserTransactions(userId: string): Promise<Transaction[]> {
+		const docs = await TransactionModel.find({ user: userId })
+		return docs.map(d => d.getTransaction())
 	}
-	
-	static deserializeTransactions(transactions: ITransaction[]): Transaction[] {
-		return transactions.map(t => MongooseTransactionRepository.deserializeTransaction(t))
+
+	async getAllAccountTransactions(userId: string, accountId: string): Promise<Transaction[]> {
+		const docs = await TransactionModel.find({ user: userId, account: accountId }).exec()
+		return docs.map(d => d.getTransaction())
+	}
+
+	async findTransactionById(id: string): Promise<Transaction> {
+		const doc = await TransactionModel.findById(id)
+		return doc.getTransaction()
+	}
+
+	async saveTransaction(transaction: Transaction): Promise<Transaction> {
+		const doc = await TransactionModel.create(transaction)
+		return doc.getTransaction()
+	}
+
+	async updateTransaction(id: Transaction['id'], transaction: Transaction): Promise<Transaction> {
+		const doc = await TransactionModel.update({ _id: id }, transaction)
+		return doc.getTransaction()
+	}
+
+	async deleteTransaction(transactionId: string): Promise<void> {
+		await TransactionModel.deleteOne({ _id: transactionId })
 	}
 
 }

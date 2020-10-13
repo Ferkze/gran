@@ -5,6 +5,7 @@ import { Transaction, TransactionType } from '../../../models/entities/Transacti
 export const TRANSACTION: string = 'Transaction'
 
 export interface ITransaction extends Transaction, Document {
+  getTransaction(): Transaction
 }
 
 export interface ITransactionModel extends Model<ITransaction, typeof transactionQueryHelpers> {
@@ -38,5 +39,22 @@ let transactionQueryHelpers = {
 }
 
 SchemaTransaction.query = transactionQueryHelpers
+
+SchemaTransaction.methods.getTransaction = function() {
+  return {
+    id: this._id,
+    amount: this.amount,
+    date: new Date(this.date),
+    paid: this.paid,
+    description: this.description,
+    account: this.account,
+    category: this.category,
+    type: this.type,
+    user: this.user,
+    group: this.group,
+    createdAt: new Date(this.createdAt),
+    updatedAt: new Date(this.updatedAt),
+  }
+}
 
 export default model<ITransaction, ITransactionModel>(TRANSACTION, SchemaTransaction)

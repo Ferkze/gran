@@ -9,7 +9,9 @@ export default class BalanceController extends BaseController {
 
 	async index(req: Request, res: Response): Promise<Response> {
 		try {
-			const balance = await usecases.transaction.getBalance(req.user['id'])
+			const filter = req.query
+			filter.user = req.user['id']
+			const balance = await usecases.transaction.getBalance(filter)
 			return res.status(200).json({ balance })
 		} catch (error) {
 			log('Erro ao editar uma transação', error)

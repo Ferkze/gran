@@ -23,7 +23,7 @@ export interface PlanningRepository {
 	getUserPlannings(userId: User['id']): Promise<Planning[]>
 	findUserPlanningById(userId: User['id'], planningId: Planning['id']): Promise<Planning | null>
 	saveUserPlanning(userId: User['id'], planning: Planning): Promise<Planning>
-	updateUserPlanning(userId: User['id'], planningId: Planning['id'], data: Planning): Promise<Planning>
+	updateUserPlanning(userId: User['id'], planningId: Planning['id'], data: any): Promise<Planning>
 	deleteUserPlanning(userId: User['id'], planningId: Planning['id']): Promise<void>
 	planningExists(userId: User['id'], planningId: Account['id']): Promise<boolean>
 
@@ -65,7 +65,7 @@ export interface TransactionRepository {
 	findTransactionById(id: string): Promise<Transaction | null>
 	saveTransaction(transaction: Transaction): Promise<Transaction>
 	updateTransaction(id: Transaction['id'], transaction: Transaction): Promise<Transaction>
-	deleteTransaction(transactionId: Transaction['id']): Promise<void>
+	deleteTransaction(user: User['id'], transactionId: Transaction['id']): Promise<boolean>
 }
 
 export interface UserRepository {

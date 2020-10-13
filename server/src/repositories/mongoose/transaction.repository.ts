@@ -1,5 +1,6 @@
 import { TransactionRepository } from '..'
 import { Transaction, TransactionFilter } from '../../models/entities/Transaction'
+import { User } from '../../models/entities/User'
 import TransactionModel, { ITransaction } from './models/TransactionModel'
 
 class MongooseTransactionRepository implements TransactionRepository {
@@ -58,8 +59,9 @@ class MongooseTransactionRepository implements TransactionRepository {
 		return doc.getTransaction()
 	}
 
-	async deleteTransaction(transactionId: string): Promise<void> {
-		await TransactionModel.deleteOne({ _id: transactionId })
+	async deleteTransaction(userId: User['id'], transactionId: string): Promise<boolean> {
+		const result = await TransactionModel.deleteOne({ _id: transactionId, user: userId })
+		return result.deletedCount > 0
 	}
 
 }

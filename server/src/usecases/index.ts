@@ -47,12 +47,13 @@ export interface BudgetUsecases {
 }
 
 export interface PlanningUsecases {
-	filterPlannings(userId: User['id'], filter: PlanningFilter): Promise<Planning[]>
+	filterPlannings(filter: PlanningFilter): Promise<Planning[]>
 	listPlanningsByUser(userId: User['id']): Promise<Planning[]>
 	findPlanningById(userId: User['id'], planningId: Planning['id']): Promise<Planning | null>
 	deletePlanning(userId: User['id'], planningId: Planning['id']):  Promise<void>
-	editPlanning(userId: User['id'], planningId: Planning['id'], data: Planning): Promise<Planning>
+	editPlanning(userId: User['id'], planningId: Planning['id'], data: any): Promise<Planning>
 	registerPlanning(userId: User['id'], planning: Planning): Promise<Planning>
+	addBudgetToPlanning(userId: User['id'], planningId: Planning['id'], data: Budget): Promise<Planning>
 }
 
 export interface CategoryUsecases {
@@ -80,6 +81,7 @@ export interface TransactionUsecases {
 	registerTransaction(data: Transaction): Promise<Transaction>
 	getBalance(userId: User['id']): Promise<Balance>
 	getAccountBalance(userId: User['id'], accountId: Account['id']): Promise<Balance>
+	removeTransaction(userId: User['id'], accountId: Account['id']): Promise<boolean>
 }
 
 export interface UserUsecases {

@@ -8,6 +8,7 @@ import {
 	groupController,
 	indexController,
 	institutionController,
+	planningController,
 	transactionController,
 	userController
 } from './controllers'
@@ -30,10 +31,11 @@ router.get('/user/:userId', userController.readById)
 router.put('/user', authenticationMiddleware.userRequired, userController.update)
 
 // Precisam de autenticação, para que as transações do usuário sejam encontradas
-router.get('/transactions', authenticationMiddleware.userRequired, transactionController.readByUser) // OK
-// router.get('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.find)
+router.get('/transactions', authenticationMiddleware.userRequired, transactionController.getByUser) // OK
+router.get('/transactions/filter', authenticationMiddleware.userRequired, transactionController.filter) // OK
+router.get('/transactions/:transactionId', authenticationMiddleware.userRequired, transactionController.find)
 router.post('/transactions', authenticationMiddleware.userRequired, transactionController.create) // OK
-router.put('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.update) // OK
+router.put('/transactions/:transactionId', authenticationMiddleware.userRequired, transactionController.update) // OK
 // router.post('/transaction', authenticationMiddleware.userRequired, transactionController.store)
 // router.delete('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.remove)
 // Precisam de autenticação, para que as transações do usuário sejam encontradas
@@ -65,6 +67,12 @@ router.put('/categories/:categoryId', authenticationMiddleware.userRequired, cat
 router.get('/budgets', authenticationMiddleware.userRequired, budgetController.readByUser)
 router.post('/budgets', authenticationMiddleware.userRequired, budgetController.create)
 router.put('/budgets/:budgetId', authenticationMiddleware.userRequired, budgetController.update)
+
+router.get('/plannings', authenticationMiddleware.userRequired, planningController.get)
+router.get('/plannings/filter', authenticationMiddleware.userRequired, planningController.filter)
+router.post('/plannings', authenticationMiddleware.userRequired, planningController.create)
+router.post('/plannings/:planningId/budgets', authenticationMiddleware.userRequired, planningController.createBudget)
+router.put('/plannings/:planningId/budgets', authenticationMiddleware.userRequired, planningController.updateBudgets)
 
 router.get('/groups', authenticationMiddleware.userRequired, groupController.readByUser)
 router.post('/groups', authenticationMiddleware.userRequired, groupController.create)

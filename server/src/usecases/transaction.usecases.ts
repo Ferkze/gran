@@ -36,8 +36,8 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 		return await this.repo.transaction.saveTransaction(data)
 	}
 
-	async getBalance(userId: User['id']): Promise<Balance> {
-		const transactions = await this.repo.transaction.getAllUserTransactions(userId)
+	async getBalance(filter: TransactionFilter): Promise<Balance> {
+		const transactions = await this.repo.transaction.getFilteredTransactions(filter)
 		const balance = this.calculateBalance(transactions)
 		return balance
 	}
@@ -69,6 +69,10 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 		}, 0)
 		balance.balance += balanceAmount
 		return balance
+	}
+
+	async removeTransaction(userId: User['id'], transactionId: Transaction['id']): Promise<boolean> {
+		return await this.repo.transaction.deleteTransaction(userId, transactionId)
 	}
 	
 }

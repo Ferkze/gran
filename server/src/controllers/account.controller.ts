@@ -32,10 +32,10 @@ export default class AccountController extends BaseController {
 	}
 
 	public async update(req: Request, res: Response): Promise<Response> {
+		const userId = req.user['id']
+		const { accountId } = req.params
+		const data = req.body.account
 		try {
-			const userId = req.user['id']
-			const { accountId } = req.params
-			const data = req.body.account
 			const account = await usecases.account.editAccount(userId, accountId, data)
 			return res.status(200).json({ account })
 		} catch (error) {

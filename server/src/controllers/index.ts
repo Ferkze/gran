@@ -8,6 +8,7 @@ import CategoryController from './category.controller'
 import GroupController from './group.controller'
 import IndexController from './index.controller'
 import InstitutionController from './institution.controller'
+import PlanningController from './planning.controller'
 import TransactionController from './transaction.controller'
 import UserController from './user.controller'
 
@@ -21,5 +22,6 @@ export const categoryController = new CategoryController(usecasesImpl)
 export const groupController = new GroupController(usecasesImpl)
 export const indexController = new IndexController(usecasesImpl)
 export const institutionController = new InstitutionController(usecasesImpl)
+export const planningController = new PlanningController(usecasesImpl)
 export const transactionController = new TransactionController(usecasesImpl)
 export const userController = new UserController(usecasesImpl)

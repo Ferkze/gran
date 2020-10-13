@@ -3,6 +3,7 @@ import { PlanningUsecases } from '.'
 import { Planning, PlanningFilter } from '../models/entities/Planning'
 import { UsecaseError } from '../models/errors/UsecaseError'
 import { User } from '../models/entities/User'
+import { Budget } from '../models/entities/Budget'
 
 export class PlanningUsecasesImpl implements PlanningUsecases {
 	
@@ -12,8 +13,7 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 		return this.repo.planning.getUserPlannings(userId)
 	}
 
-	async filterPlannings(userId: User['id'], filter: PlanningFilter): Promise<Planning[]> {
-		filter.user = userId
+	async filterPlannings(filter: PlanningFilter): Promise<Planning[]> {
 		return this.repo.planning.getFilteredPlannings(filter)
 	}
 
@@ -34,6 +34,12 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 
 	async registerPlanning(userId: User['id'], planning: Planning): Promise<Planning> {
 		return await this.repo.planning.saveUserPlanning(userId, planning)
+	}
+
+	async addBudgetToPlanning(userId: User['id'], planningId: Planning['id'], data: Budget): Promise<Planning> {
+		const planning = await this.repo.planning.findUserPlanningById(userId, planningId)
+		planning.budgets.push(data)
+		return await this.repo.planning.updateUserPlanning(userId, planningId, { budgets: planning.budgets })
 	}
 
 }

@@ -12,6 +12,15 @@ export default class UserController extends BaseController {
 		const user = await usecases.user.getUser(req.params.userId)
 		return res.json({ user })
 	}
+
+	public async findByEmail(req: Request, res: Response): Promise<Response> {
+		const query = req.query
+		const user = await usecases.user.findByEmail(query.email as string)
+		if (user)
+			return res.status(200).json({ user })
+		else
+		return res.status(200).json({ error: 'Usuário não encontrado' })
+	}
 	// public async store(req: Request, res: Response): Promise<Response> {
 	// 	const user = req.body as User
 	// 	const userDoc = await UserRepository.saveUser(user)

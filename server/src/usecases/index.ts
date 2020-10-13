@@ -67,6 +67,7 @@ export interface GroupUsecases {
 	listGroups(userId: User['id']): Promise<Group[]>
 	registerGroup(userId: User['id'], data: Group): Promise<Group>
 	joinGroup(userId: User['id'], groupId: Group['id']): Promise<void>
+	deleteGroup(userId: User['id'], groupId: Group['id']): Promise<boolean>
 }
 
 export interface InstitutionUsecases {
@@ -85,6 +86,7 @@ export interface TransactionUsecases {
 }
 
 export interface UserUsecases {
+	findByEmail(email: string): Promise<User | null>
 	getUser(id: User['id']): Promise<User>
 	editUser(id: User['id'], data: User): Promise<User>
 	listUsers(): Promise<User[]>

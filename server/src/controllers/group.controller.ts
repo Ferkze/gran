@@ -9,8 +9,9 @@ export default class GroupController extends BaseController {
 
 	async update(req: Request, res: Response): Promise<Response> {
 		const data = req.body
+		const { groupId } = req.params
 		try {
-			const group = await usecases.group.editGroup(req.params.groupId, data)
+			const group = await usecases.group.editGroup(groupId, data)
 			return res.status(200).json({ group })
 		} catch (error) {
 			log('Erro ao editar um orçamento de grupo', error)
@@ -37,6 +38,18 @@ export default class GroupController extends BaseController {
 			return res.status(200).json({ group })
 		} catch (error) {
 			log('Erro ao criar um orçamento de grupo', error)
+			res.status(500).json({ error: error.message })
+		}
+	}
+
+	async delete(req: Request, res: Response): Promise<Response> {
+		const userId = req.user['id']
+		const { groupId } = req.params
+		try {
+			const deleted = await usecases.group.deleteGroup(userId, groupId)
+			return res.status(200).json({ deleted })
+		} catch (error) {
+			log('Erro ao deletar grupo', error)
 			res.status(500).json({ error: error.message })
 		}
 	}

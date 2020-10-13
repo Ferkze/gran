@@ -6,6 +6,10 @@ export class UserUsecasesImpl implements UserUsecases {
 	
 	constructor(private repo: Repositories) { }
 
+	async findByEmail(email: string): Promise<User> {
+		return await this.repo.user.findUserByEmail(email)
+	}
+
 	async editUser(id: User['id'], data: User): Promise<User> {
 		return await this.repo.user.updateUser(id, data)
 	}

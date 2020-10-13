@@ -30,7 +30,6 @@ describe('Groups usecases', () => {
 	let user2!: User
 	let account!: Account
 	let categories: Category[] = []
-	let plannings: Planning[] = []
 	let group1: Group = null
 	let group2: Group = null
 

@@ -7,7 +7,9 @@ import UserModel from "../repositories/mongoose/models/UserModel";
 const authUcs = new AuthUsecasesImpl(MongooseRepository)
 
 beforeAll(async () => {
-	dotenv.config()
+	dotenv.config({
+		path: '.env.test'
+	})
 	await configDatabase()
 })
 

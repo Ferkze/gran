@@ -19,7 +19,9 @@ describe('Accounts', () => {
 	let institutions = []
 
 	beforeAll(async () => {
-		dotenv.config()
+		dotenv.config({
+			path: '.env.test'
+		})
 		await configDatabase()
 
 		user = await authUcs.register({

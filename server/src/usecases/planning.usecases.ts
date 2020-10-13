@@ -4,6 +4,7 @@ import { Planning, PlanningFilter } from '../models/entities/Planning'
 import { UsecaseError } from '../models/errors/UsecaseError'
 import { User } from '../models/entities/User'
 import { Budget } from '../models/entities/Budget'
+import { Group } from '../models/entities/Group'
 
 export class PlanningUsecasesImpl implements PlanningUsecases {
 	
@@ -34,6 +35,10 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 
 	async registerPlanning(userId: User['id'], planning: Planning): Promise<Planning> {
 		return await this.repo.planning.saveUserPlanning(userId, planning)
+	}
+
+	async registerGroupPlanning(groupId: Group['id'], planning: Planning): Promise<Planning> {
+		return await this.repo.planning.saveGroupPlanning(groupId, planning)
 	}
 
 	async addBudgetToPlanning(userId: User['id'], planningId: Planning['id'], data: Budget): Promise<Planning> {

@@ -64,4 +64,28 @@ export default class GroupController extends BaseController {
 		}
 	}
 
+	async updateMembers(req: Request, res: Response): Promise<Response> {
+		const { groupId } = req.params
+		const members = req.body.members
+		try {
+			const group = await usecases.group.editGroup(groupId, { members })
+			return res.status(200).json({ members: group.members })
+		} catch (error) {
+			log('Erro ao entrar em um orçamento de grupo', error)
+			res.status(500).json({ error: error.message })
+		}
+	}
+
+	async createPlanning(req: Request, res: Response): Promise<Response> {
+		const { groupId } = req.params
+		const data = req.body.planning
+		try {
+			const planning = await usecases.planning.registerGroupPlanning(groupId, data)
+			return res.status(200).json({ planning })
+		} catch (error) {
+			log('Erro ao entrar em um orçamento de grupo', error)
+			res.status(500).json({ error: error.message })
+		}
+	}
+
 }

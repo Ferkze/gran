@@ -58,8 +58,8 @@ class GroupsService {
 		return response.data.user
 	}
 
-	async saveGroupMembers(groupId: Group['id'], userIds: User['id'][]) {
-		const response = await client.post(`/api/groups/${groupId}/members`, { userIds })
+	async updateGroupMembers(groupId: Group['id'], members: User['id'][]) {
+		const response = await client.put(`/api/groups/${groupId}/members`, { members })
 		if (response.data.error) {
 			throw new Error(response.data.error)
 		}

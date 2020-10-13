@@ -109,7 +109,7 @@ class GroupModule extends VuexModule {
 		if (!this.selectedGroup) {
 			return []
 		}
-		const members = await GroupsService.saveGroupMembers(this.selectedGroup.id, userIds)
+		const members = await GroupsService.updateGroupMembers(this.selectedGroup.id, userIds)
 		return members
 	}
 

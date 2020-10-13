@@ -53,6 +53,7 @@ export interface PlanningUsecases {
 	deletePlanning(userId: User['id'], planningId: Planning['id']):  Promise<void>
 	editPlanning(userId: User['id'], planningId: Planning['id'], data: any): Promise<Planning>
 	registerPlanning(userId: User['id'], planning: Planning): Promise<Planning>
+	registerGroupPlanning(groupId: Group['id'], planning: Planning): Promise<Planning>
 	addBudgetToPlanning(userId: User['id'], planningId: Planning['id'], data: Budget): Promise<Planning>
 }
 
@@ -63,7 +64,7 @@ export interface CategoryUsecases {
 }
 
 export interface GroupUsecases {
-	editGroup(id:Group['id'], data: Group): Promise<Group>
+	editGroup(groupId: Group['id'], data: any): Promise<Group>
 	listGroups(userId: User['id']): Promise<Group[]>
 	registerGroup(userId: User['id'], data: Group): Promise<Group>
 	joinGroup(userId: User['id'], groupId: Group['id']): Promise<void>

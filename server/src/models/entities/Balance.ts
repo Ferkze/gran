@@ -8,6 +8,7 @@ export enum Period {
 }
 
 export interface Balance {
+	initial: number
 	start: Date
 	finish: Date
 	credits: number

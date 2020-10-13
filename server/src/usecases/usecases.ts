@@ -1,5 +1,5 @@
 import { Repositories } from '../repositories'
-import { Usecases, InstitutionUsecases, AuthUsecases, AccountUsecases, UserUsecases, BudgetUsecases, GroupUsecases, CategoryUsecases, TransactionUsecases } from '.'
+import { Usecases, InstitutionUsecases, AuthUsecases, AccountUsecases, UserUsecases, BudgetUsecases, GroupUsecases, CategoryUsecases, TransactionUsecases, PlanningUsecases } from '.'
 import { InstitutionUsecasesImpl } from './institution.usecases'
 import { AuthUsecasesImpl } from './auth.usecases'
 import { UserUsecasesImpl } from './user.usecases'
@@ -8,6 +8,7 @@ import { TransactionUsecasesImpl } from './transaction.usecases'
 import { CategoryUsecasesImpl } from './category.usecases'
 import { GroupUsecasesImpl } from './group.usecases'
 import { BudgetUsecasesImpl } from './budget.usecases'
+import { PlanningUsecasesImpl } from './planning.usecases'
 
 export class UsecasesImpl implements Usecases {
 	
@@ -17,6 +18,7 @@ export class UsecasesImpl implements Usecases {
 	category: CategoryUsecases
 	group: GroupUsecases
 	instution: InstitutionUsecases
+	planning: PlanningUsecases
 	user: UserUsecases
 	transaction: TransactionUsecases
 
@@ -26,6 +28,7 @@ export class UsecasesImpl implements Usecases {
 		this.budget = new BudgetUsecasesImpl(repo)
 		this.category = new CategoryUsecasesImpl(repo)
 		this.group = new GroupUsecasesImpl(repo)
+		this.planning = new PlanningUsecasesImpl(repo)
 		this.transaction = new TransactionUsecasesImpl(repo)
 		this.instution = new InstitutionUsecasesImpl(repo)
 		this.user = new UserUsecasesImpl(repo)

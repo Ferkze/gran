@@ -24,15 +24,18 @@ export class AuthUsecasesImpl implements AuthUsecases {
 	async login(data: LoginData): Promise<User> {
 		const { isValid, errors } = validateLoginInput(data)
 		if (!isValid) {
+			log(errors)
 			throw new ValidationError(errors)
 		}
 		const { email, password } = data as LoginData
 		const user = await this.repo.user.findUserByEmail(email)
 		if (!user) {
+			log(`Usuário não encontrado para fazer login: ${email}`)
 			throw new Error('Usuário não encontrado')
 		}
 		const isMatch = await bcrypt.compare(password, user.password)
 		if (!isMatch) {
+			log('Senha incorreta')
 			throw new Error('Senha incorreta')
 		}
 		return user
@@ -57,6 +60,7 @@ export class AuthUsecasesImpl implements AuthUsecases {
 	async register(data: RegisterData): Promise<User> {
 		const { isValid, errors } = validateRegisterInput(data)
 		if (!isValid) {
+			log(`Erros de validação de cadastro:`, errors)
 			throw new ValidationError(errors)
 		}
 		let user = await this.repo.user.findUserByEmail(data.email)

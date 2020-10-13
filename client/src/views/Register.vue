@@ -1,74 +1,70 @@
 <template>
 	<v-container class="fill-height">
 		<v-row justify="center">
-			<v-col cols="12" sm="8" md="6">
-				<v-form ref="loginForm" v-model="valid" @submit.prevent="submitRegister">
-					<v-row>
-						<v-col class="text-center" cols="12">
-							<v-avatar class="mb-4" color="primary" size="78">
-								<v-icon large color="white">
-									mdi-account
-								</v-icon>
-							</v-avatar>
-							<h2 v-text="'Cadastro'" />
-						</v-col>
-						<v-col class="pa-4" cols="12">
-							<v-text-field
-								v-model="name"
-								:background-color="!theme.isDark ? 'grey lighten-3' : undefined"
-								label="Nome de usuário"
-								dense
-								flat
-								rounded
-								solo
-								:error-messages="error ? error.message : ''"
-							/>
-							<v-text-field
-								v-model="email"
-								:background-color="!theme.isDark ? 'grey lighten-3' : undefined"
-								label="Email"
-								dense
-								flat
-								rounded
-								solo
-								:error-messages="error ? error.message : ''"
-							/>
-							<v-text-field
-								v-model="password"
-								:background-color="!theme.isDark ? 'grey lighten-3' : undefined"
-								label="Senha"
-								dense
-								flat
-								rounded
-								solo
-								type="password"
-								:error-messages="passwordError"
-							/>
-							<v-text-field
-								v-model="password2"
-								:background-color="!theme.isDark ? 'grey lighten-3' : undefined"
-								label="Repita a Senha"
-								dense
-								flat
-								rounded
-								solo
-								type="password"
-								:error-messages="password2Error"
-							/>
-							<v-btn
-								type="submit"
-								color="primary"
-								elevation="6"
-								block
-								large
-								rounded
-								:loading="loading"
-								@submit.prevent="submitRegister"
-								v-text="'Cadastrar-se'"
-							/>
-						</v-col>
-					</v-row>
-				</v-form>
+			<v-col cols="12" sm="8">
+				<v-card>
+					<v-card-title>
+						<h2 class="font-weight-medium title">Cadastrar</h2>
+					</v-card-title>
+					<v-card-text>
+						<v-form ref="loginForm" v-model="valid" @submit.prevent="submitRegister">
+							<v-row justify="center">
+								<v-col cols="8" xs="12" class="mb-10 text-center">
+									<v-avatar class="mb-4" color="primary" size="78">
+										<v-icon large color="white">
+											mdi-account
+										</v-icon>
+									</v-avatar>
+									<base-form-field
+										v-model="name"
+										label="Nome de usuário"
+										form-field="text-field"
+										form-label="NOME"
+										:error-messages="error ? error.message : ''"
+										:hide-details="error ? false : true"
+									/>
+									<base-form-field
+										v-model="email"
+										label="Email"
+										form-field="text-field"
+										form-label="EMAIL"
+										:error-messages="error ? error.message : ''"
+										:hide-details="error ? false : true"
+									/>
+									<base-form-field
+										v-model="password"
+										label="Senha"
+										form-field="text-field"
+										form-label="SENHA"
+										type="password"
+										:error-messages="passwordError"
+										:hide-details="passwordError ? false : true"
+									/>
+									<base-form-field
+										v-model="password2"
+										label="Repita a Senha"
+										form-field="text-field"
+										form-label="CONFIRMAÇÃO DE SENHA"
+										type="password"
+										:error-messages="password2Error"
+										:hide-details="password2Error ? false : true"
+									/>
+									<base-button
+										type="submit"
+										color="primary"
+                    class="mt-5"
+										block
+										large
+										:loading="loading"
+										:disabled="loading"
+										@submit.prevent="submitRegister"
+										v-text="'Cadastrar-se'"
+									/>
+								</v-col>
+							</v-row>
+						</v-form>
+					</v-card-text>
+				</v-card>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -78,8 +74,15 @@
 import { Vue, Component } from 'vue-property-decorator'
 import auth from '../store/modules/auth'
 
+import BaseButton from "@/components/base/Button.vue";
+import BaseFormField from "@/components/base/FormField.vue";
+
 @Component({
-	inject: ['theme']
+	inject: ['theme'],
+	components: {
+    BaseButton,
+		BaseFormField
+	}
 })
 export default class Register extends Vue {
 	name: string = ''
@@ -118,7 +121,7 @@ export default class Register extends Vue {
 				this.$router.push('/dashboard')
 			}
 		} catch (error) {
-			const message = error.response ? error.response.data : 'Erro ao cadastrar'
+			const message = error.message ? error.message : 'Erro ao cadastrar'
 			this.error = message
 		} finally {
 			this.loading = false

@@ -50,6 +50,16 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 	}
 
 	private calculateBalance(transactions: Transaction[], initial: number = 0): Balance {
+		if (!transactions.length) {
+			return {
+				initial,
+				balance: initial,
+				credits: 0,
+				debits: 0,
+				finish: null,
+				start: null
+			}
+		}
 		const transactionDates = transactions.map(t => t.date)
 		const balance: Balance = {
 			initial,

@@ -74,7 +74,7 @@ export default class TransactionsRouterView extends Vue {
   }
 
   mounted() {
-    if (this.transactions.length < 2) {
+    if (this.transactions.length == 0) {
       finances.fetchTransactions();
     }
   }

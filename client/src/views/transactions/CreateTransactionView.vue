@@ -54,6 +54,9 @@ export default class CreateTransactionView extends Vue {
   async createTransaction() {
     this.loading = true;
     try {
+      if (this.transaction.group === '') {
+        delete this.transaction.group
+      }
       await finances.newTransaction(this.transaction);
       status.setStatus({
         type: "success",

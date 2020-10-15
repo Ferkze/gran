@@ -59,7 +59,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <transactions-filter-bar :data.sync="filter" @filter="filterTransaction" />
+    <transaction-filter-bar :data.sync="filter" @filter="filterTransaction" />
     <v-row v-if="!loading">
       <v-col cols="12">
         <app-transaction-item v-for="item in transactions" :key="item.id" :transaction="item" />

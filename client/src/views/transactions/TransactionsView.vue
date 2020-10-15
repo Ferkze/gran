@@ -25,7 +25,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Receitas</v-list-item-title>
-                  <v-list-item-subtitle>{{receitasTotais}}</v-list-item-subtitle>
+                  <v-list-item-subtitle> R$ {{receitasTotais | formatCurrency}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -38,7 +38,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Despesas</v-list-item-title>
-                  <v-list-item-subtitle>R$ 723213</v-list-item-subtitle>
+                  <v-list-item-subtitle>R$ {{ despesasTotais| formatCurrency}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -51,7 +51,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Saldo</v-list-item-title>
-                  <v-list-item-subtitle>R$ 100000</v-list-item-subtitle>
+                  <v-list-item-subtitle>R$ {{ saldoTotais | formatCurrency}} </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -99,6 +99,17 @@ export default class TransactionsView extends Vue {
     var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
     return receitas.reduce((acc, cur) => acc + cur.amount, 0);
   }
+
+  get despesasTotais () {
+    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
+    return despesas.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  get saldoTotais () {
+    var saldo = (this.receitasTotais) - (this.despesasTotais) 
+    return saldo;
+  }
+
 
   filter = { 
     year : new Date().getFullYear(),

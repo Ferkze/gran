@@ -25,7 +25,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>Recebido</v-list-item-subtitle>
-                  <v-list-item-title>R$ 623213</v-list-item-title>
+                  <v-list-item-title>R$ {{receitasTotais | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -103,7 +103,12 @@ export default class IncomesView extends Vue {
     return finances.transactions.filter((t) => t.type == TransactionType.DEBIT);
   }
 	year = 2020
-	month = 10
+  month = 10
+  
+  get receitasTotais () {
+    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+  }  
 
 	nextMonth() {
 		if (this.month == 12) {
@@ -112,7 +117,7 @@ export default class IncomesView extends Vue {
 		} else {
 			this.month++
 		}
-	}
+  }
 
 	prevMonth() {
 		if (this.month == 1) {

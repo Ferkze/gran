@@ -121,6 +121,3 @@ export default class TransactionsView extends Vue {
 	}
 }
 </script>
-
-<style scoped>
-</style>

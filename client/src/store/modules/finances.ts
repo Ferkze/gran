@@ -2,7 +2,7 @@ import store from '..'
 import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-decorators'
 import auth from './auth'
 import { CategoryType, InstitutionType } from '@/models/enums'
-import { Transaction, Category, Institution } from '@/models'
+import { Transaction, Category, Institution, TransactionFilter } from '@/models'
 import TransactionService from '@/service/api/TransactionService'
 import InstitutionService from '@/service/api/InstitutionService'
 import CategoryService from '@/service/api/CategoryService'
@@ -74,6 +74,14 @@ class FinancesModule extends VuexModule {
 			return []
 		}
 		return await TransactionService.getUserTransactions()
+	}
+
+	@Action({ commit: 'setTransactions', rawError: true })
+	async filterTransactions(filter:TransactionFilter): Promise<Transaction[]> {
+		if (!auth.user || !auth.user.id) {
+			return []
+		}
+		return await TransactionService.getTransactions(filter)
 	}
 
 	@Action({ commit: 'addTransaction', rawError: true })

@@ -25,7 +25,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Receitas</v-list-item-title>
-                  <v-list-item-subtitle>R$ 823213</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{receitasTotais}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -88,6 +88,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import finances from "@/store/modules/finances";
+import { filter } from "vue/types/umd";
+import { TransactionType } from "../../models/enums";
+import { Transaction } from "../../models";
 
 @Component({
   components: {
@@ -96,11 +99,21 @@ import finances from "@/store/modules/finances";
   },
 })
 export default class TransactionsView extends Vue {
-  get transactions() {
+  get transactions():Transaction[]{
     return finances.transactions;
   }
 	year = 2020
-	month = 10
+  month = 10
+
+  get receitasTotais () {
+    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  filter = { 
+    year : 2020,
+    month : 10,
+  }
 
 	nextMonth() {
 		if (this.month == 12) {
@@ -108,7 +121,8 @@ export default class TransactionsView extends Vue {
 			this.year++
 		} else {
 			this.month++
-		}
+    }
+    this.filterTransaction()
 	}
 
 	prevMonth() {
@@ -117,8 +131,14 @@ export default class TransactionsView extends Vue {
 			this.year--
 		} else {
 			this.month--
-		}
-	}
+    }
+    this.filterTransaction()
+  }
+  
+  filterTransaction() {
+    finances.filterTransactions(this.filter)
+  }
+
 }
 </script>
 

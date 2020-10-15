@@ -17,6 +17,7 @@ export interface RegisterData {
 export interface AuthResponse {
 	token: Token
 	user: User
+	error?: string
 }
 
 export interface CurrentAuthResponse {

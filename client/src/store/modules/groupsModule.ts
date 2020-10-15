@@ -101,7 +101,7 @@ class GroupModule extends VuexModule {
 		if (!this.selectedGroup) {
 			return []
 		}
-		return this.selectedGroup.members
+		return this.selectedGroup.members as User[]
 	}
 
 	@Action({ commit: 'setSelectedGroupMembers', rawError: true })

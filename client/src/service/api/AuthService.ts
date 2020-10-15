@@ -41,6 +41,8 @@ class AuthService {
 
 	async register(payload: RegisterData): Promise<User> {
 		const response = await client.post<AuthResponse>('/api/auth/register', payload)
+		if (response.data.error)
+			throw new Error(response.data.error)
 		setAuthToken(response.data.token)
 		AuthTokenPersistanceService.saveToken(response.data.token)
 		return response.data.user

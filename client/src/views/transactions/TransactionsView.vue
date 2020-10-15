@@ -91,6 +91,7 @@ import finances from "@/store/modules/finances";
 import { filter } from "vue/types/umd";
 import { TransactionType } from "../../models/enums";
 import { Transaction } from "../../models";
+import auth from "../../store/modules/auth";
 
 @Component({
   components: {
@@ -113,24 +114,25 @@ export default class TransactionsView extends Vue {
   filter = { 
     year : 2020,
     month : 10,
+    user : auth.user.id,
   }
 
 	nextMonth() {
 		if (this.month == 12) {
-			this.month = 1
-			this.year++
+			this.filter.month = 1
+			this.filter.year++
 		} else {
-			this.month++
+			this.filter.month++
     }
     this.filterTransaction()
 	}
 
 	prevMonth() {
 		if (this.month == 1) {
-			this.month = 12
-			this.year--
+			this.filter.month = 12
+			this.filter.year--
 		} else {
-			this.month--
+			this.filter.month--
     }
     this.filterTransaction()
   }

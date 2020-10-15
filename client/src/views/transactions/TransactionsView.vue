@@ -103,7 +103,7 @@ export default class TransactionsView extends Vue {
   filter = { 
     year : new Date().getFullYear(),
     month : new Date().getMonth()+1,
-    user: auth.setUser
+    user: auth.userId
   }
 
   async filterTransaction() {

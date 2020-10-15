@@ -6,6 +6,10 @@ import { Balance } from '../models/entities/Balance'
 import { User } from '../models/entities/User'
 import { Account } from '../models/entities/Account'
 import { Group } from '../models/entities/Group'
+import debug from 'debug'
+import moment from 'moment'
+
+const log = debug('app:transaction:usecase:')
 
 export class TransactionUsecasesImpl implements TransactionUsecases {
 	
@@ -16,15 +20,18 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 	}
 
 	async getFilteredTransactions(filter: TransactionFilter): Promise<Transaction[]> {
+		filter = this.convertMonthYearToStartEnd(filter)
 		return await this.repo.transaction.getFilteredTransactions(filter)
 	}
 
 	async listTransactionsByUser(userId: string, filter: TransactionFilter = {}): Promise<Transaction[]> {
+		filter = this.convertMonthYearToStartEnd(filter)
 		filter.user = userId
 		return await this.repo.transaction.getFilteredTransactions(filter)
 	}
 
 	async listTransactionsByGroup(groupId: Group['id'], filter: TransactionFilter = {}): Promise<Transaction[]> {
+		filter = this.convertMonthYearToStartEnd(filter)
 		filter.group = groupId
 		return await this.repo.transaction.getFilteredTransactions(filter)
 	}
@@ -33,10 +40,14 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 		if (!data.amount) {
 			throw new ValidationError('A transação precisa ter um valor')
 		}
+		if (data.type == TransactionType.TRANSFERENCE) {
+			log('Nova transferência')
+		}
 		return await this.repo.transaction.saveTransaction(data)
 	}
 
 	async getBalance(filter: TransactionFilter): Promise<Balance> {
+		filter = this.convertMonthYearToStartEnd(filter)
 		const transactions = await this.repo.transaction.getFilteredTransactions(filter)
 		const balance = this.calculateBalance(transactions)
 		return balance
@@ -83,6 +94,15 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 
 	async removeTransaction(userId: User['id'], transactionId: Transaction['id']): Promise<boolean> {
 		return await this.repo.transaction.deleteTransaction(userId, transactionId)
+	}
+
+	private convertMonthYearToStartEnd(filter: TransactionFilter): TransactionFilter {
+		if (filter.month && filter.year) {
+			const date = moment(`${filter.month.toString().padStart(2, '0')}-${filter.year}`, "MM-YYYY")
+			filter.start = date.startOf('month').toDate()
+			filter.end = date.endOf('month').toDate()
+		}
+		return filter
 	}
 	
 }

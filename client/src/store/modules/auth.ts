@@ -20,6 +20,10 @@ class AuthModule extends VuexModule {
 		return true
 	}
 
+	get userId(): string {
+		return this.user == null ? '' : this.user.id
+	}
+
 	@Action({ commit: 'setUser', rawError: true })
 	async login(data: LoginData): Promise<User> {
 		return await AuthService.login(data)

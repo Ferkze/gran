@@ -111,7 +111,7 @@ export default class TransactionsView extends Vue {
   async filterTransaction() {
     this.loading = true
     await finances.filterTransactions(this.filter)
-    this.loading = true
+    this.loading = false
   }
 
 }

@@ -111,6 +111,7 @@ class FinancesModule extends VuexModule {
 			await TransactionService.deleteTransaction(transaction.id)
 			return transaction
 		} catch (error) {
+			console.log('Erro ao excluir a transação', error)
 			status.setStatus({
 				message: 'Erro ao excluir a transação',
 				type: 'error'

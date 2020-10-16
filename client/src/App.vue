@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator"
+import accounts from './store/modules/accounts'
 import auth from './store/modules/auth'
 import finances from './store/modules/finances'
 
@@ -32,6 +33,7 @@ export default class App extends Vue {
 		this.loading = true
 		await auth.silentLogin()
 		await finances.load()
+		await accounts.fetchAccounts()
 		this.loading = false
 	}
 }

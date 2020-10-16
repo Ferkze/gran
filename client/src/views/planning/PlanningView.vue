@@ -132,6 +132,12 @@ export default class PlanningView extends Vue {
 	}
 
 	get budgetProgress(): BudgetProgress {
+		console.log({
+			incomesProgress: parseInt(this.incomesProgress.toFixed(0)),
+			incomesTotal: this.incomesTotal,
+			expensesProgress: parseInt(this.expensesProgress.toFixed(0)),
+			expensesTotal: this.expensesTotal
+		})
 		return {
 			incomesProgress: parseInt(this.incomesProgress.toFixed(0)),
 			incomesTotal: this.incomesTotal,
@@ -143,7 +149,7 @@ export default class PlanningView extends Vue {
 	get incomesProgress() {
 		if (this.incomes.length == 0) return 0
 		const incomeCurrentTotal = this.incomes.reduce((acc, cur) => {
-			acc[0] += 0
+			acc[0] += cur.current
 			acc[1] += cur.value
 			return acc
 		}, [0, 0])
@@ -157,7 +163,7 @@ export default class PlanningView extends Vue {
 	get expensesProgress() {
 		if (this.expenses.length == 0) return 0
 		const expenseCurrentTotal = this.expenses.reduce((acc, cur) => {
-			acc[0] += 0
+			acc[0] += cur.current
 			acc[1] += cur.value
 			return acc
 		}, [0, 0])

@@ -44,9 +44,6 @@ import { BudgetProgress } from '@/models';
 	export default class BudgetsProgressBar extends Vue {
 		@Prop({ type: Object, required: true })
 		data!: BudgetProgress
+
 	}
 </script>
-
-<style scoped>
-
-</style>

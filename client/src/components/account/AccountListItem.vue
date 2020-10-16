@@ -10,7 +10,7 @@
         <v-col>
           <v-list-item-title>
             <span class="font-weight-medium">{{ account.name }}</span>
-            <span class="text-body-2 font-weight-light float-right">saldo atual</span>
+            <span class="text-body-2 font-weight-light float-right"> Saldo atual</span>
           </v-list-item-title>
         </v-col>
         <v-col v-if="account.balance">

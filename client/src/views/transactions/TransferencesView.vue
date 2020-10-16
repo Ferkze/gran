@@ -27,7 +27,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>Total</v-list-item-subtitle>
-                  <v-list-item-title>R$ 24000</v-list-item-title>
+                  <v-list-item-title>R$ {{ trasnsferenciasTotais | formatCurrency }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -67,6 +67,11 @@ export default class TransferencesView extends Vue {
 
   mounted() {
     this.filterTransaction()
+  }
+
+  get trasnsferenciasTotais() {
+    var receitas = this.transactions.filter(t => t.type == TransactionType.TRANSFERENCE)
+    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
   async filterTransaction() {

@@ -1,4 +1,4 @@
-import { Budget } from "./Budget";
+import { Budget, CalculatedBudget } from "./Budget";
 import { Group } from "./Group";
 import { User } from "./User";
 
@@ -11,6 +11,10 @@ export interface Planning {
 	budgets: Budget[]
 	createdAt?: Date
 	updatedAt?: Date
+}
+
+export interface CalculatedPlanning extends Planning {
+	budgets: CalculatedBudget[]
 }
 
 export interface PlanningFilter {

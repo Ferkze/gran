@@ -55,7 +55,8 @@ class MongooseTransactionRepository implements TransactionRepository {
 	}
 
 	async updateTransaction(id: Transaction['id'], transaction: Transaction): Promise<Transaction> {
-		const doc = await TransactionModel.update({ _id: id }, transaction)
+		await TransactionModel.update({ _id: id }, transaction)
+		const doc = await TransactionModel.findById(id)
 		return doc.getTransaction()
 	}
 

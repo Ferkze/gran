@@ -1,7 +1,7 @@
 import { Category, CategoryType } from "./Category";
 
 export interface Budget {
-  id?: string;
+  id?: any;
   type: CategoryType;
   value: number;
   category: Category['id'];

@@ -26,8 +26,8 @@ export interface Transaction {
 
 export interface TransactionFilter {
   id?: string
-  month?: Date
-  year?: Date
+  month?: number
+  year?: number
   start?: Date
   end?: Date
   paid?: boolean

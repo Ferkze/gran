@@ -24,7 +24,7 @@ PlanningSchema.methods.getPlanning = function(): Planning {
     year: this.year,
     user: this.user,
     group: this.group,
-    budgets: this.budgets,
+    budgets: this.budgets.map(b => b.getBudget()),
     createdAt: new Date(this.createdAt),
     updatedAt: new Date(this.updatedAt)
   }

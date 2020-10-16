@@ -5,7 +5,7 @@ import { CategoryType } from '../../../models/entities/Category'
 export const BUDGET: string = 'Budget'
 
 export interface IBudget extends Types.Subdocument, Budget {
-  id: string
+  getBudget(): Budget
 }
 
 export const BudgetSchema = new Schema<IBudget>({
@@ -28,3 +28,15 @@ export const BudgetSchema = new Schema<IBudget>({
 }, {
   timestamps: true
 })
+
+
+BudgetSchema.methods.getBudget = function(): Budget {
+  return {
+    id: this.id,
+    type: this.type,
+    value: this.value,
+    category: this.category,
+    createdAt: new Date(this.createdAt),
+    updatedAt: new Date(this.updatedAt)
+  }
+}

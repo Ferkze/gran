@@ -1,7 +1,6 @@
 <template>
-  <v-card class="mb-3" color="grey lighten-3" elevation="1">
+  <v-card class="mb-3" color="grey lighten-3" flat>
     <v-row no-gutters :class="`pa-2`" align="center">
-    <!-- <v-row no-gutters :class="`pa-2 transaction ${transaction.type}`"> -->
       <v-col cols="8" md="6" lg="5">
         <v-row no-gutters>
           <v-col cols="1">
@@ -9,8 +8,8 @@
           </v-col>
           <v-col cols="11" class="ml-0 ml-md-n4 ml-lg-n5">
             <div class="font-weight-bold">{{ transaction.description }}</div>
-            <div class="text-caption">{{ transaction.date.substr(0, 10) }}</div>
-            <div class="text-caption">{{ transaction.category }} | {{ transaction.account }}</div>
+            <div class="text-caption">{{ transaction.date.substr(0, 10) | formatDate }}</div>
+            <div class="text-caption">{{ transaction.category | categoryName }} | {{ transaction.account | accountName }}</div>
           </v-col>
         </v-row>
       </v-col>

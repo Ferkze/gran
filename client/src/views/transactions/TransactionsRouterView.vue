@@ -69,15 +69,6 @@ import finances from "../../store/modules/finances";
 
 @Component
 export default class TransactionsRouterView extends Vue {
-  get transactions() {
-    return finances.transactions;
-  }
-
-  mounted() {
-    if (this.transactions.length == 0) {
-      finances.fetchTransactions();
-    }
-  }
 
 }
 </script>

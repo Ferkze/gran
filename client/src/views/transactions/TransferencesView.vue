@@ -35,31 +35,8 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-spacer />
-      <v-col cols="4" class="text-center">
-        <div class="text-center">
-          <v-btn icon class="px-5" @click="prevMonth">
-            <v-icon size="20">mdi-chevron-left</v-icon>
-          </v-btn>
-          <span class="font-weight-light text-body-1 grey--text text--darken-3">{{ month | monthName }} de {{ year }}</span>
-          <v-btn icon class="px-5" @click="nextMonth">
-            <v-icon size="20">mdi-chevron-right</v-icon>
-          </v-btn>
-        </div>
-      </v-col>
-      <v-col cols="4" class="text-right">
-        <v-btn text>
-          <v-icon left>mdi-filter</v-icon>
-          <span class="text-capitalize">Filtro</span>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12">
-        <app-transaction-item v-for="item in transactions" :key="item.id" :transaction="item" />
-      </v-col>
-    </v-row>
+    <transaction-filter-bar :data.sync="filter" @filter="filterTransaction" />
+    <transactions-list :loading="loading" :transactions="transactions" />
   </v-container>
 </template>
 
@@ -67,12 +44,13 @@
 import { Component, Vue } from "vue-property-decorator";
 import finances from "@/store/modules/finances";
 import { TransactionType } from "@/models/enums";
+import auth from '@/store/modules/auth';
 
 @Component({
   components: {
-    AppTransactionItem: () =>
-      import("@/components/transaction/TransactionListItem.vue"),
-  },
+    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
+    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
+  }
 })
 export default class TransferencesView extends Vue {
   get transactions() {
@@ -80,28 +58,21 @@ export default class TransferencesView extends Vue {
       (t) => t.type == TransactionType.TRANSFERENCE
     );
   }
-	year = 2020
-	month = 10
+  loading = false
+  filter = { 
+    year: new Date().getFullYear(),
+    month: new Date().getMonth()+1,
+    user: auth.userId
+  }
 
-	nextMonth() {
-		if (this.month == 12) {
-			this.month = 1
-			this.year++
-		} else {
-			this.month++
-		}
-	}
+  mounted() {
+    this.filterTransaction()
+  }
 
-	prevMonth() {
-		if (this.month == 1) {
-			this.month = 12
-			this.year--
-		} else {
-			this.month--
-		}
-	}
+  async filterTransaction() {
+    this.loading = true
+    await finances.filterTransactions(this.filter)
+    this.loading = false
+  }
 }
 </script>
-
-<style scoped>
-</style>

@@ -25,7 +25,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Receitas</v-list-item-title>
-                  <v-list-item-subtitle> R$ {{receitasTotais | formatCurrency}}</v-list-item-subtitle>
+                  <v-list-item-subtitle> R$ {{ receitasTotais | formatCurrency }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -38,7 +38,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Despesas</v-list-item-title>
-                  <v-list-item-subtitle>R$ {{ despesasTotais| formatCurrency}}</v-list-item-subtitle>
+                  <v-list-item-subtitle>R$ {{ despesasTotais | formatCurrency }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -51,7 +51,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Saldo</v-list-item-title>
-                  <v-list-item-subtitle>R$ {{ saldoTotais | formatCurrency}} </v-list-item-subtitle>
+                  <v-list-item-subtitle>R$ {{ saldoTotais | formatCurrency }} </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -60,16 +60,7 @@
       </v-col>
     </v-row>
     <transaction-filter-bar :data.sync="filter" @filter="filterTransaction" />
-    <v-row v-if="!loading">
-      <v-col cols="12">
-        <app-transaction-item v-for="item in transactions" :key="item.id" :transaction="item" />
-      </v-col>
-    </v-row>
-    <v-row v-else>
-      <v-col>
-        <v-skeleton-loader type="list@5" />
-      </v-col>
-    </v-row>
+    <transactions-list :loading="loading" :transactions="transactions" />
   </v-container>
 </template>
 
@@ -77,50 +68,50 @@
 import { Component, Vue } from "vue-property-decorator";
 import finances from "@/store/modules/finances";
 import { filter } from "vue/types/umd";
-import { TransactionType } from "../../models/enums";
-import { Transaction } from "../../models";
+import { TransactionType } from "@/models/enums";
+import { Transaction } from "@/models";
 import auth from '@/store/modules/auth';
 
 @Component({
   components: {
-    AppTransactionItem: () =>
-      import("@/components/transaction/TransactionListItem.vue"),
+    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
     TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
   },
 })
 export default class TransactionsView extends Vue {
+  get transactions(): Transaction[] {
+    return finances.transactions
+  }
   loading = false
+  filter = { 
+    year: new Date().getFullYear(),
+    month: new Date().getMonth()+1,
+    user: auth.userId
+  }
 
-  get transactions():Transaction[]{
-    return finances.transactions;
+  mounted() {
+    this.filterTransaction()
   }
 
   get receitasTotais () {
     var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
-    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+    return receitas.reduce((acc, cur) => acc + cur.amount, 0)
   }
 
   get despesasTotais () {
     var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
-    return despesas.reduce((acc, cur) => acc + cur.amount, 0);
+    return despesas.reduce((acc, cur) => acc + cur.amount, 0)
   }
 
   get saldoTotais () {
     var saldo = (this.receitasTotais) - (this.despesasTotais) 
-    return saldo;
-  }
-
-
-  filter = { 
-    year : new Date().getFullYear(),
-    month : new Date().getMonth()+1,
-    user: auth.userId
+    return saldo
   }
 
   async filterTransaction() {
     this.loading = true
     await finances.filterTransactions(this.filter)
-    this.loading = false
+    this.loading = true
   }
 
 }

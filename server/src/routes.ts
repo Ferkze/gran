@@ -38,7 +38,7 @@ router.get('/transactions/:transactionId', authenticationMiddleware.userRequired
 router.post('/transactions', authenticationMiddleware.userRequired, transactionController.create) // OK
 router.put('/transactions/:transactionId', authenticationMiddleware.userRequired, transactionController.update) // OK
 // router.post('/transaction', authenticationMiddleware.userRequired, transactionController.store)
-// router.delete('/transaction/:transactionId', authenticationMiddleware.userRequired, transactionController.remove)
+router.delete('/transactions/:transactionId', authenticationMiddleware.userRequired, transactionController.remove)
 // Precisam de autenticação, para que as transações do usuário sejam encontradas
 
 router.get('/balance', authenticationMiddleware.userRequired, balanceController.index)
@@ -60,7 +60,7 @@ router.get('/institutions', institutionController.index)
 // router.delete('/institutions', institutionController.deleteMany)
 
 // Não precisam de autenticação, uma vez que o usuário utiliza as categorias padrões
-router.get('/categories', authenticationMiddleware.userRequired, categoryController.read)
+router.get('/categories', categoryController.read)
 // router.get('/category/:categoryId', authenticationMiddleware.userRequired, categoryController.find)
 router.post('/categories', authenticationMiddleware.userRequired, categoryController.create)
 router.put('/categories/:categoryId', authenticationMiddleware.userRequired, categoryController.update)

@@ -31,9 +31,11 @@ export default class App extends Vue {
 
 	async mounted() {
 		this.loading = true
-		await auth.silentLogin()
+		const user = auth.silentLogin()
 		await finances.load()
-		await accounts.fetchAccounts()
+		if (await user != null) {
+			await accounts.fetchAccounts()
+		}
 		this.loading = false
 	}
 }

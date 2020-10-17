@@ -35,7 +35,6 @@ class MongooseGroupRepository implements GroupRepository {
 		return res.deletedCount > 0
 	}
 	
-
 }
 
 export default new MongooseGroupRepository()

@@ -30,8 +30,8 @@ GroupSchema.methods.getGroup = function() {
   return {
     id: this._id,
     name: this.name,
-    creator: this.creator,
-    members: this.members,
+    creator: this.creator.getUser(),
+    members: this.members.map(member => member.getUser()),
     plannings: this.plannings,
     createdAt: new Date(this.createdAt),
     updatedAt: new Date(this.updatedAt)

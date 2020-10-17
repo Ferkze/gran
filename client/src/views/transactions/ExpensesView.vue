@@ -25,7 +25,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>Pago</v-list-item-subtitle>
-                  <v-list-item-title>R$ 50000</v-list-item-title>
+                  <v-list-item-title>R$ {{despesasPagas | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -38,7 +38,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>A pagar</v-list-item-subtitle>
-                  <v-list-item-title>R$ 50000</v-list-item-title>
+                  <v-list-item-title>R$ {{despesasAPagar | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -51,7 +51,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>Total</v-list-item-subtitle>
-                  <v-list-item-title>R$ 100000</v-list-item-title>
+                  <v-list-item-title>R$ {{ depesasTotais | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -85,6 +85,21 @@ export default class ExpensesView extends Vue {
     year: new Date().getFullYear(),
     month: new Date().getMonth()+1,
     user: auth.userId
+  }
+
+  get despesasPagas () {
+    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
+    return despesas.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  get despesasAPagar () {
+    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
+    return despesas.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  get depesasTotais () {
+    var saldo = (this.despesasPagas) + (this.despesasAPagar) 
+    return saldo
   }
 
   mounted() {

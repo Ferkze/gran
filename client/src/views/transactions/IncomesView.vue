@@ -25,7 +25,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>Recebido</v-list-item-subtitle>
-                  <v-list-item-title>R$ {{receitasTotais | formatCurrency}}</v-list-item-title>
+                  <v-list-item-title>R$ {{receitasRecebidos | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -38,7 +38,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>A receber</v-list-item-subtitle>
-                  <v-list-item-title>R$ 100000</v-list-item-title>
+                  <v-list-item-title>R$ {{receitasAReceber | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -51,7 +51,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-subtitle>Total</v-list-item-subtitle>
-                  <v-list-item-title>R$ 723213</v-list-item-title>
+                  <v-list-item-title>R$ {{receitasTotais | formatCurrency}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -80,10 +80,21 @@ export default class IncomesView extends Vue {
   get transactions() {
     return finances.transactions.filter((t) => t.type == TransactionType.DEBIT);
   }
-  get receitasTotais () {
+  get receitasRecebidos () {
     var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
     return receitas.reduce((acc, cur) => acc + cur.amount, 0);
   }
+
+  get receitasAReceber () {
+    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+  }
+
+  get receitasTotais () {
+    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+    return receitas.reduce((acc, cur) => acc + cur.amount, 0)
+  }
+
 
   loading = false
   filter = { 

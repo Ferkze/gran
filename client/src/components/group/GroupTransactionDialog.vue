@@ -55,7 +55,7 @@ import status from '@/store/modules/status';
 					type: "success",
 					message: "Transação salva com sucesso",
 				});
-				this.$router.push("/transacoes");
+				this.show = false
 			} catch (error) {
 				status.setStatus({
 					type: "error",

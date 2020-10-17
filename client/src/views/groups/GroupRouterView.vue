@@ -68,7 +68,7 @@ import finances from "../../store/modules/finances";
 export default class GroupRouterView extends Vue {
   groupId = "";
 
-  created() {
+  mounted() {
     this.groupId = this.$route.params.groupId;
     groupsModule.selectGroup(this.groupId);
   }

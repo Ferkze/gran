@@ -19,6 +19,7 @@ import { Component, Vue } from "vue-property-decorator"
 import accounts from './store/modules/accounts'
 import auth from './store/modules/auth'
 import finances from './store/modules/finances'
+import groupsModule from './store/modules/groupsModule'
 
 @Component({
 	components: {
@@ -34,7 +35,10 @@ export default class App extends Vue {
 		const user = await auth.silentLogin()
 		await finances.load()
 		if (user != null) {
-			await accounts.fetchAccounts()
+			await Promise.all([
+				accounts.fetchAccounts(),
+				groupsModule.fetchGroups(),
+			])
 		}
 		this.loading = false
 	}

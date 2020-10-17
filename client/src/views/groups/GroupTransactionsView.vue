@@ -12,34 +12,11 @@
 				</v-btn>
 			</v-col>
 		</v-row>
-    <v-row>
-      <v-spacer />
-      <v-col cols="4" class="text-center">
-        <div class="text-center">
-          <v-btn icon class="px-5" @click="prevMonth">
-            <v-icon size="20">mdi-chevron-left</v-icon>
-          </v-btn>
-          <span class="font-weight-light text-body-1 grey--text text--darken-3">{{ month | monthName }} de {{ year }}</span>
-          <v-btn icon class="px-5" @click="nextMonth">
-            <v-icon size="20">mdi-chevron-right</v-icon>
-          </v-btn>
-        </div>
-      </v-col>
-      <v-col cols="4" class="text-right">
-        <v-btn text>
-          <v-icon left>mdi-filter</v-icon>
-          <span class="text-capitalize">Filtrar</span>
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
+    <transaction-filter-bar :data.sync="filter" @filter="filterTransaction" />
+    <transactions-list v-if="transactions.length > 0" :loading="loading" :transactions="transactions" />
+    <v-row v-else>
       <v-col cols="12">
-        <v-card-text v-if="transactions.length > 0">
-					<v-list>
-						<transaction-item v-for="item in transactions" :key="item.id" :transaction="item" />
-					</v-list>
-				</v-card-text>
-				<v-card-text v-else class="text-center">
+				<v-card-text class="text-center">
 					<p>Nenhuma transação associada ao grupo</p>
 					<p>Começe adicionando novos registros clicando no botão acima</p>
 				</v-card-text>
@@ -57,41 +34,32 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({
   components: {
     GroupTransactionDialog: () => import('@/components/group/GroupTransactionDialog.vue'),
-    TransactionItem: () =>
-      import("@/components/transaction/TransactionListItem.vue"),
+    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue'),
+    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
   },
 })
 export default class GroupTransactionsView extends Vue {
+  get transactions(): Transaction[] {
+    return groupsModule.selectedGroupTransactions;
+  }
   dialog = false
+  loading = false
   
-  year = 2020;
-  month = 10;
-  nextMonth() {
-    if (this.month == 12) {
-      this.month = 1;
-      this.year++;
-    } else {
-      this.month++;
-    }
-  }
-  prevMonth() {
-    if (this.month == 1) {
-      this.month = 12;
-      this.year--;
-    } else {
-      this.month--;
-    }
-  }
   filter: TransactionFilter = {
-
+    year: new Date().getFullYear(),
+    month: new Date().getMonth()+1,
   }
 
   mounted() {
-    groupsModule.getSelectGroupTransactions(this.filter)
+    this.filter.group = this.$route.params.groupId
+    this.filterTransaction()
   }
 
-  get transactions(): Transaction[] {
-    return [];
+  async filterTransaction() {
+    this.loading = true
+    console.log(this.filter)
+    await groupsModule.getSelectGroupTransactions(this.filter)
+    this.loading = false
   }
 }
 </script>

@@ -29,7 +29,7 @@ import status from '@/store/modules/status';
 	}
 })
 	export default class GroupTransactionDialog extends Vue {
-		@PropSync('dialog', { type: Boolean, default: true })
+		@PropSync('dialog', { type: Boolean, default: false })
 		show!: boolean
 
 		@Prop({ required: true, type: String })

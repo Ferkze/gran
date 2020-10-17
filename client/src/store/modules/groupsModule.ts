@@ -79,6 +79,7 @@ class GroupModule extends VuexModule {
 	@Action({ commit: 'setSelectedGroupTransactions', rawError: true })
 	async getSelectGroupTransactions(filter: TransactionFilter): Promise<Transaction[]> {
 		if (!this.selectedGroup) {
+			alert('Nenhum grupo selecionado')
 			return []
 		}
 		filter.group = this.selectedGroup.id

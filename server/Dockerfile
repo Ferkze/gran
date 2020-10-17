@@ -1,19 +1,17 @@
-FROM node:lts-alpine as build-stage
+FROM node:lts-alpine
 
-RUN mkdir -p /home/node/server
-WORKDIR /home/node/server
+WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY tsconfig.json .
+RUN npm install
 ENV NODE_ENV=production
-RUN npm ci
 
 COPY . .
 RUN npm run build
 
-USER node
+ENV PORT=8000
 
-ENV PORT=8080
+EXPOSE 8000
 
-EXPOSE 8080
-
-CMD ["node", "dist/index.js"]
+CMD ["npm", "start"]

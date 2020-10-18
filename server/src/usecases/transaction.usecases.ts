@@ -49,7 +49,9 @@ export class TransactionUsecasesImpl implements TransactionUsecases {
 	async getBalance(filter: TransactionFilter): Promise<Balance> {
 		filter = this.convertMonthYearToStartEnd(filter)
 		const transactions = await this.repo.transaction.getFilteredTransactions(filter)
-		const balance = this.calculateBalance(transactions)
+		const accounts = await this.repo.account.getAllUserAccounts(filter.user)
+		const initialBalance = accounts.reduce((acc, cur) => acc + cur.startingBalance, 0)
+		const balance = this.calculateBalance(transactions, initialBalance)
 		return balance
 	}
 

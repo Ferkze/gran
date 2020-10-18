@@ -16,6 +16,7 @@
 <script lang="ts">
 import { Group, Planning, User } from "@/models";
 import GroupsService from "@/service/api/GroupsService";
+import auth from '@/store/modules/auth';
 import groupsModule from "@/store/modules/groupsModule";
 import status from "@/store/modules/status";
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
@@ -36,9 +37,15 @@ export default class GroupPlanningsDialog extends Vue {
   planning: Planning = {
     month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
+    user: auth.userId,
+    group: '',
     budgets: [],
   };
   loading = false;
+
+  mounted() {
+    this.planning.group = this.groupId
+  }
 
   async finishPlanning() {
     this.loading = true;
@@ -48,9 +55,8 @@ export default class GroupPlanningsDialog extends Vue {
         type: "success",
         message: "Planejamento criado com sucesso",
       });
-      this.$router.push(
-        `/planejamento?mes=${this.planning.month}&ano=${this.planning.year}`
-      );
+      this.show = false
+      this.$emit('update:dialog', false)
     } catch (error) {
       status.setStatus({
         type: "error",

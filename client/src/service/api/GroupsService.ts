@@ -51,6 +51,7 @@ class GroupsService {
 	}
 
 	async findUserByEmail(email: string) {
+		console.log(email)
 		const response = await client.get('/api/users/findByEmail', { params: { email } })
 		if (response.data.error) {
 			throw new Error(response.data.error)

@@ -1,19 +1,17 @@
 <template>
-  <v-list-item class="elevation-1 mb-3" @click="$router.push(`/grupos/${member.id}`)">
+  <v-list-item class="elevation-1 mb-3">
 		<v-list-item-icon>
 			<v-avatar size="40" rounded="0" :color="color">
 			</v-avatar>
 		</v-list-item-icon>
     <v-list-item-content>
       <v-list-item-title>
-        <span class="font-weight-regular">{{ member.name }}</span>
+        <span class="font-weight-regular">{{ member.username }}</span>
       </v-list-item-title>
+      <v-list-item-subtitle>
+        <span class="font-weight-regular">{{ member.email }}</span>
+      </v-list-item-subtitle>
     </v-list-item-content>
-    <v-list-item-action>
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
-    </v-list-item-action>
   </v-list-item>
 </template>
 

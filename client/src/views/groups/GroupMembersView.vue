@@ -17,7 +17,7 @@
 					</v-row>
 					<v-row no-gutters align="center">
 						<v-card-text v-if="members.length > 0">
-							<v-list two-line>
+							<v-list>
 								<member-list-item v-for="member in members" :key="member.id" :member="member" />
 							</v-list>
 						</v-card-text>
@@ -48,6 +48,7 @@ export default class GroupMembersView extends Vue {
 	dialog = false
 
 	get members(): User[] {
+		console.log(groupsModule.groups, groupsModule.selectedGroup)
 		return groupsModule.selectedGroupMembers
 	}
 }

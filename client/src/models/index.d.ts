@@ -38,7 +38,11 @@ export interface Planning {
   id?: string;
   month: number
   year: number
+	user?: User['id']
+	group?: Group['id']
   budgets: Budget[]
+	createdAt?: Date
+	updatedAt?: Date
 }
 
 export interface PlanningFilter {

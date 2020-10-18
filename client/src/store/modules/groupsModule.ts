@@ -74,6 +74,10 @@ class GroupModule extends VuexModule {
 			return
 		}
 		this.setSelectedGroup(group)
+		this.getSelectGroupMembers()
+		this.getSelectGroupPlannings({
+			group: group.id,
+		})
 	}
 
 	@Action({ commit: 'setSelectedGroupTransactions', rawError: true })

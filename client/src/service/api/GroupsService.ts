@@ -80,8 +80,8 @@ class GroupsService {
 		return response.data.planning
 	}
 
-	async updatePlanningBudgets(groupId: Group['id'],planningId: Planning['id'], budgets: Budget[]) {
-		const response = await client.put<PlanningResponse>(`/groups/${groupId}/planning/${planningId}/budgets`, { budgets })
+	async updatePlanningBudgets(groupId: Group['id'], planningId: Planning['id'], budgets: Budget[]) {
+		const response = await client.put<PlanningResponse>(`/api/groups/${groupId}/planning/${planningId}/budgets`, { budgets })
 		if (response.data.error) {
 			throw new Error(response.data.error)
 		}

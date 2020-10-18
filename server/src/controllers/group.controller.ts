@@ -79,7 +79,6 @@ export default class GroupController extends BaseController {
 	async createPlanning(req: Request, res: Response): Promise<Response> {
 		const { groupId } = req.params
 		const data = req.body.planning
-		console.log(req.body)
 		try {
 			const planning = await usecases.planning.registerGroupPlanning(groupId, data)
 			return res.status(200).json({ planning })

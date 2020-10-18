@@ -47,7 +47,7 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 	async editGroupPlanning(groupId: Group['id'], planningId: Planning['id'], data: any): Promise<Planning> {
 		await this.repo.planning.updateGroupPlanning(groupId, planningId, data)
 		const planning = await this.repo.planning.findGroupPlanningById(groupId, planningId)
-		return await this.calculatePlanningProgress(planning)
+		return await this.calculateGroupPlanningProgress(planning)
 	}
 
 	async registerPlanning(userId: User['id'], planning: Planning): Promise<Planning> {

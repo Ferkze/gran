@@ -45,7 +45,6 @@ export default class IncomesDialog extends Vue {
   income: Budget = {
     type: CategoryType.INCOME,
     category: "",
-    icon: "",
     current: 0,
     value: 0,
   };

@@ -55,7 +55,7 @@
 								</v-btn>
 							</v-col>
 						</v-row>
-						<incomes-dialog :dialog.sync="expensesDialog" :planning-id="currentPlanning.id" />
+						<expenses-dialog :dialog.sync="expensesDialog" :planning-id="currentPlanning.id" />
 						<v-list two-line>
 							<expense-list-item v-for="budget in expenses" :key="budget.id" :budget="budget" />
 						</v-list>

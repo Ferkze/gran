@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="show" width="520">
     <v-card>
-      <v-card-title>Adicionar fonte de renda</v-card-title>
+      <v-card-title>Adicionar orçamento de gastos</v-card-title>
       <v-card-text>
         <expense-budget-form :data.sync="expense" @submit="addExpense" :loading="loading" />
 				<planning-budget-list :budgets="expenses" summary-text="Total de gastos orçado" />
@@ -45,7 +45,6 @@ export default class ExpenseDialog extends Vue {
   expense: Budget = {
     type: CategoryType.EXPENSE,
     category: "",
-    icon: "",
     current: 0,
     value: 0,
   };

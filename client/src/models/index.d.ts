@@ -77,6 +77,7 @@ export interface Transaction {
   amount: number;
   date: string;
   description: string;
+  paid: boolean;
   account: Account['id'];
   category: Category['id'];
   type: TransactionType;

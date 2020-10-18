@@ -88,12 +88,12 @@ export default class ExpensesView extends Vue {
   }
 
   get despesasPagas () {
-    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
+    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT && t.paid)
     return despesas.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
   get despesasAPagar () {
-    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
+    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT && !t.paid)
     return despesas.reduce((acc, cur) => acc + cur.amount, 0);
   }
 

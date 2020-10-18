@@ -44,6 +44,7 @@ export default class CreateTransactionView extends Vue {
     user: auth.user?.id || '',
     type: TransactionType.DEBIT,
     amount: 0,
+    paid: true,
     description: '',
     category: '',
     group: '',

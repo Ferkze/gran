@@ -39,6 +39,7 @@ import status from '@/store/modules/status';
 			account: '',
 			user: auth.user?.id || '',
 			type: TransactionType.CREDIT,
+			paid: true,
 			amount: 0,
 			description: '',
 			category: '',

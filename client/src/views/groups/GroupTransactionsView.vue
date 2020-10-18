@@ -13,7 +13,7 @@
 			</v-col>
 		</v-row>
     <transaction-filter-bar :data.sync="filter" @filter="filterTransaction" />
-    <transactions-list v-if="transactions.length > 0" :loading="loading" :transactions="transactions" />
+    <group-transactions-list v-if="transactions.length > 0" :loading="loading" :transactions="transactions" />
     <v-row v-else>
       <v-col cols="12">
 				<v-card-text class="text-center">
@@ -35,7 +35,7 @@ import { Component, Vue } from "vue-property-decorator";
   components: {
     GroupTransactionDialog: () => import('@/components/group/GroupTransactionDialog.vue'),
     TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue'),
-    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
+    GroupTransactionsList: () => import("@/components/group/GroupTransactionsList.vue"),
   },
 })
 export default class GroupTransactionsView extends Vue {
@@ -63,6 +63,3 @@ export default class GroupTransactionsView extends Vue {
   }
 }
 </script>
-
-<style scoped>
-</style>

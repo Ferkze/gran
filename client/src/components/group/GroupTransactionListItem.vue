@@ -9,11 +9,7 @@
           <v-col cols="11" class="ml-0 ml-md-n4 ml-lg-n5">
             <div class="font-weight-bold">{{ transaction.description }}</div>
             <div class="text-caption">{{ transaction.date.substr(0, 10) | formatDate }}</div>
-            <div class="text-caption">
-              {{ transaction.category | categoryName }}
-              <span v-if="hasCategoryAndAccount"> | </span>
-              {{ transaction.account | accountName }}
-            </div>
+            <div class="text-caption">{{ transaction.user | groupMemberName }}</div>
           </v-col>
         </v-row>
       </v-col>
@@ -76,10 +72,6 @@ export default class TransactionListItem extends Vue {
         return "grey";
       }
     }
-  }
-
-  get hasCategoryAndAccount() {
-    return !!this.transaction.category && !!this.transaction.account
   }
 
   async onMenuItemSelected(action: string) {

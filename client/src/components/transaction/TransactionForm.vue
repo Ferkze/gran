@@ -199,7 +199,22 @@ export default class TransactionForm extends Vue {
     this.transaction.amount = parseFloat(str.replace(",", "."));
   }
 
-  @Emit("submit")
-  async submitTransaction() {}
+  async submitTransaction() {
+    if (this.transaction.account == '') {
+      status.setStatus({
+        message: 'A transação estar vinculada a uma conta',
+        type: 'warning'
+      })
+      return
+    }
+    if (this.transaction.category == '') {
+      status.setStatus({
+        message: 'A transação precisa de uma categoria',
+        type: 'warning'
+      })
+      return
+    }
+    this.$emit('submit')
+  }
 }
 </script>

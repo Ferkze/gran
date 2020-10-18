@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import accounts from './store/modules/accounts'
 import finances from './store/modules/finances'
+import groupsModule from './store/modules/groupsModule'
 
 Vue.filter('formatCurrency', (value: any): string => {
 	return parseFloat(value)
@@ -46,4 +47,8 @@ Vue.filter('accountName', (value: any): string => {
 Vue.filter('formatDate', (value: any): string => {
 	const split = value.split('-')
 	return `${split[2]}/${split[1]}/${split[0]}`
+})
+
+Vue.filter('groupMemberName', (value: any): string => {
+	return groupsModule.selectedGroupMembers.find(m => m.id == value)?.username || ''
 })

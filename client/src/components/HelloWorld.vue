@@ -23,7 +23,7 @@
 		<section class="height-100vh backgroundGray">
 			<v-container class="fill-height">
 				<!-- Primeiros textos -->
-				<v-col tag="h1" cols="4">
+				<v-col tag="h1" cols="12" md="8">
 					<v-row class="display-2 font-weight-black">
 						<p class="white--text">Controle seus gastos</p>
 					</v-row>
@@ -35,10 +35,10 @@
 				<v-col cols ="12">
 					<!--Bloco A com 3 Cards-->
 					<v-row>
-						<v-col cols="4">
+						<v-col cols="12" sm="6" md="4">
 
 							<v-container>
-								<v-card outlined>
+								<v-card min-height="200px" outlined>
 									<v-avatar class="profile" size="60" tile>
 										<img class="paddingBasico" src="../assets/icones/cloudStorage.svg">
 									</v-avatar>
@@ -53,9 +53,9 @@
 
 						</v-col>
 
-						<v-col cols="4">
-							<v-container outlined>
-								<v-card>
+						<v-col cols="12" sm="6" md="4">
+							<v-container>
+								<v-card  min-height="200px" outlined>
 									<v-avatar class="profile" size="60" tile>
 										<img class="paddingBasico" src="../assets/icones/celularSeguranca.svg">
 									</v-avatar>
@@ -70,9 +70,9 @@
 							</v-container>
 						</v-col>
 
-						<v-col cols="4">
+						<v-col cols="12" sm="6" md="4">
 							<v-container>
-								<v-card outlined>
+								<v-card min-height="200px" outlined>
 									<v-avatar class="profile" size="60" tile>
 										<img class="paddingBasico" src="../assets/icones/celularPeformace.svg">
 									</v-avatar>
@@ -86,13 +86,11 @@
 							</v-container>
 
 						</v-col>
-					</v-row>
 
 					<!--Bloco B com 3 Cards-->
-					<v-row>
-						<v-col cols="4">
+						<v-col cols="12" sm="6" md="4">
 							<v-container>
-								<v-card outlined>
+								<v-card min-height="200px" outlined>
 									<v-avatar class="profile" size="60" tile>
 										<img class="paddingBasico" src="../assets/icones/celularPagamento.svg">
 									</v-avatar>
@@ -108,9 +106,9 @@
 
 						</v-col>
 
-						<v-col cols="4">
+						<v-col cols="12" sm="6" md="4">
 							<v-container>
-								<v-card outlined>
+								<v-card min-height="200px" outlined>
 									<v-avatar class="profile" size="60" tile>
 										<img class="paddingBasico" src="../assets/icones/celularMobile.svg">
 									</v-avatar>
@@ -125,9 +123,9 @@
 
 						</v-col>
 
-						<v-col cols="4">
+						<v-col cols="12" sm="6" md="4">
 							<v-container>
-								<v-card outlined>
+								<v-card min-height="200px" outlined>
 									<v-avatar class="profile" size="60" tile>
 										<img class="paddingBasico" src="../assets/icones/celularComunicacoes.svg">
 									</v-avatar>
@@ -202,10 +200,10 @@
 				</v-container>
 				<v-row>
 					<!-- Primeira coluna do Footer -->
-					<v-col cols="4">
+					<v-col cols="12" sm="4">
 						<v-container class="ma-1 backgroundFuncionalidades">
 							<v-row>
-								<v-col cols="6">
+								<v-col cols="4">
 									<v-container class="ma-1 pl-4 backgroundGray">
 										<v-row><img width="60" src="../assets/disponivelGoogleplay.png"></v-row>
 										<v-row><img width="60" src="../assets/disponivelAppStore.png"></v-row>
@@ -214,18 +212,18 @@
 										</v-row>
 									</v-container>
 								</v-col>
-								<v-col cols="6">
+								<v-col cols="8">
 									<v-container class="ma-1 pl-5 backgroundGray">
 										<v-row>
 											<p>Nossas Funcionalidades</p>
 										</v-row>
 										<v-row>
 											<ol>
-												<li>Funcionalidade A</li>
-												<li>Funcionalidade B</li>
-												<li>Funcionalidade C</li>
-												<li>Funcionalidade D</li>
-												<li>Funcionalidade E</li>
+												<li>Registro de transações</li>
+												<li>Cadastro de contas</li>
+												<li>Planejamentos</li>
+												<li>Grupos financeiros</li>
+												<li>Relatórios mensais</li>
 											</ol>
 										</v-row>
 									</v-container>
@@ -234,22 +232,8 @@
 						</v-container>
 					</v-col>
 					<!-- Segunda coluna do Footer -->
-					<v-col cols="4">
+					<v-col cols="12" sm="4">
 						<v-container class="ma-1 backgroundFuncionalidades">
-							<v-row>
-								<v-col cols="6">
-									<v-container class="ma-1 pl-4 backgroundGray">
-										<p>Capitais e Regiões Metropolitanas</p>
-										<p>0800 0400 0440</p>
-									</v-container>
-								</v-col>
-								<v-col cols="6">
-									<v-container class="ma-1 pl-4 backgroundGray">
-										<p>SAC 24H</p>
-										<p>0800 0400 0444</p>
-									</v-container>
-								</v-col>
-							</v-row>
 							<v-row>
 								<v-col cols="12">
 									<v-container class="ma-1 pl-4 backgroundGray">
@@ -269,7 +253,7 @@
 						</v-container>
 					</v-col>
 					<!-- Terceira coluna do Footer -->
-					<v-col cols="4">
+					<v-col cols="12" sm="4">
 						<v-container class="ma-1 backgroundFuncionalidades">
 							<v-row>
 								<v-col cols="12">
@@ -286,7 +270,7 @@
 										<ol>
 											<li>Allan Silva</li>
 											<li>Erick Matsunaga</li>
-											<li>Fabio Gonçalvez</li>
+											<li>Fabio Gonçalves</li>
 											<li>Matheus Shimanoe</li>
 										</ol>
 									</v-container>

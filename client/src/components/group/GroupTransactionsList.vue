@@ -24,7 +24,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 		GroupTransactionListItem: () => import('@/components/group/GroupTransactionListItem.vue')
 	}
 })
-export default class TransactionsList extends Vue {
+export default class GroupTransactionsList extends Vue {
 	@Prop({ type: Array, required: true })
 	transactions!: Transaction[]
 

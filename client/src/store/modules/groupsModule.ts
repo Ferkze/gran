@@ -3,7 +3,7 @@ import { Module, VuexModule, Action, Mutation, getModule } from 'vuex-module-dec
 import GroupsService from '@/service/api/GroupsService'
 import auth from './auth'
 
-import { Group, Planning, PlanningFilter, Transaction, TransactionFilter, User } from '@/models'
+import { Budget, Group, Planning, PlanningFilter, Transaction, TransactionFilter, User } from '@/models'
 import TransactionService from '@/service/api/TransactionService'
 import status from './status'
 import PlanningService from '@/service/api/PlanningService'
@@ -126,6 +126,14 @@ class GroupModule extends VuexModule {
 		const planning = await GroupsService.saveGroupPlanning(this.selectedGroup.id, data)
 		return planning
 	}
+
+	@Action({ commit: 'mutateSelectedGroupPlannings', rawError: true })
+	async updateGroupPlanningBudgets({ planningId, budgets }: { planningId: Planning['id'], budgets: Budget[] }) {
+		if (!auth.user || !auth.user.id) {
+			return null
+		}
+		return await PlanningService.updatePlanningBudgets(planningId, budgets)
+	}
 	
 	@Mutation
 	setGroups(groups: Group[]) {
@@ -168,6 +176,11 @@ class GroupModule extends VuexModule {
 	@Mutation
 	addToSelectedGroupPlannings(planning: Planning) {
 		this.selectedGroupPlannings.push(planning)
+	}
+	@Mutation
+	mutateSelectedGroupPlannings(planning: Planning) {
+		const index = this.selectedGroupPlannings.findIndex(sp => sp.id == planning.id)
+		this.selectedGroupPlannings.splice(index, 1, planning)
 	}
 
 }

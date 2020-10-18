@@ -46,7 +46,7 @@ import finances from "@/store/modules/finances";
 import status from "@/store/modules/status";
 
 @Component
-export default class TransactionListItem extends Vue {
+export default class GroupTransactionListItem extends Vue {
   @Prop({ type: Object, required: true }) transaction!: Transaction;
 
   menuItems = [

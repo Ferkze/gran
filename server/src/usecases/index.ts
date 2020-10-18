@@ -52,6 +52,7 @@ export interface PlanningUsecases {
 	findPlanningById(userId: User['id'], planningId: Planning['id']): Promise<Planning | null>
 	deletePlanning(userId: User['id'], planningId: Planning['id']):  Promise<void>
 	editPlanning(userId: User['id'], planningId: Planning['id'], data: any): Promise<Planning>
+	editGroupPlanning(groupId: Group['id'], planningId: Planning['id'], data: any): Promise<Planning>
 	registerPlanning(userId: User['id'], planning: Planning): Promise<Planning>
 	registerGroupPlanning(groupId: Group['id'], planning: Planning): Promise<Planning>
 	addBudgetToPlanning(userId: User['id'], planningId: Planning['id'], data: Budget): Promise<Planning>

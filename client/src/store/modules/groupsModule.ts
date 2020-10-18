@@ -129,10 +129,10 @@ class GroupModule extends VuexModule {
 
 	@Action({ commit: 'mutateSelectedGroupPlannings', rawError: true })
 	async updateGroupPlanningBudgets({ planningId, budgets }: { planningId: Planning['id'], budgets: Budget[] }) {
-		if (!auth.user || !auth.user.id) {
+		if (!this.selectedGroup) {
 			return null
 		}
-		return await PlanningService.updatePlanningBudgets(planningId, budgets)
+		return await GroupsService.updatePlanningBudgets(this.selectedGroup.id, planningId, budgets)
 	}
 	
 	@Mutation

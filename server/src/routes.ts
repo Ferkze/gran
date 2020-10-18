@@ -81,5 +81,6 @@ router.put('/groups/:groupId', authenticationMiddleware.userRequired, groupContr
 router.delete('/groups/:groupId', authenticationMiddleware.userRequired, groupController.delete)
 router.put('/groups/:groupId/members', authenticationMiddleware.userRequired, groupController.updateMembers)
 router.post('/groups/:groupId/planning', authenticationMiddleware.userRequired, groupController.createPlanning)
+router.put('/groups/:groupId/planning/:planningId/budgets', authenticationMiddleware.userRequired, groupController.updatePlanningBudgets)
 
 export default router

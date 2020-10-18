@@ -89,4 +89,11 @@ export default class GroupController extends BaseController {
 		}
 	}
 
+	async updatePlanningBudgets(req: Request, res: Response): Promise<Response> {
+		const { groupId, planningId } = req.params
+		const budgets = req.body.budgets
+		const planning = await usecases.planning.editGroupPlanning(groupId, planningId, { budgets })
+		return res.status(200).json({ planning })
+	}
+
 }

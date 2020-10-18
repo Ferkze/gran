@@ -72,7 +72,7 @@ export class MongoosePlanningRepository implements PlanningRepository {
 	}
 
 	async findGroupPlanningById(groupId: string, planningId: string): Promise<Planning> {
-		const groupDoc = await UserModel.findById(groupId)
+		const groupDoc = await GroupModel.findById(groupId)
 		return groupDoc.plannings.id(planningId).getPlanning()
 	}
 
@@ -84,7 +84,7 @@ export class MongoosePlanningRepository implements PlanningRepository {
 	}
 
 	async updateGroupPlanning(groupId: string, planningId: string, data: Planning): Promise<Planning> {
-		const groupDoc = await UserModel.findById(groupId)
+		const groupDoc = await GroupModel.findById(groupId)
 		const planningDoc = groupDoc.plannings.id(planningId)
 		for (const key in data) {
 			planningDoc[key] = data[key]
@@ -94,7 +94,7 @@ export class MongoosePlanningRepository implements PlanningRepository {
 	}
 
 	async deleteGroupPlanning(groupId: string, planningId: string): Promise<void> {
-		const groupDoc = await UserModel.findById(groupId)
+		const groupDoc = await GroupModel.findById(groupId)
 		groupDoc.plannings.id(planningId).remove()
 		await groupDoc.save()
 	}

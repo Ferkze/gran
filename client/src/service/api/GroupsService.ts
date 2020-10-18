@@ -1,5 +1,5 @@
 import client from './ApiService'
-import { Group, Planning, User } from '@/models'
+import { Budget, Group, Planning, User } from '@/models'
 
 interface GroupResponse {
 	group: Group
@@ -7,6 +7,11 @@ interface GroupResponse {
 
 interface GroupsResponse {
 	groups: Group[]
+}
+
+interface PlanningResponse {
+	planning: Planning
+	error?: string
 }
 
 class GroupsService {
@@ -69,6 +74,14 @@ class GroupsService {
 	
 	async saveGroupPlanning(groupId: Group['id'], planning: Planning) {
 		const response = await client.post(`/api/groups/${groupId}/planning`, { planning })
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.planning
+	}
+
+	async updatePlanningBudgets(groupId: Group['id'],planningId: Planning['id'], budgets: Budget[]) {
+		const response = await client.put<PlanningResponse>(`/groups/${groupId}/planning/${planningId}/budgets`, { budgets })
 		if (response.data.error) {
 			throw new Error(response.data.error)
 		}

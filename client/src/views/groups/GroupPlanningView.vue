@@ -31,11 +31,12 @@
                 <div class="font-weight-medium grey--text text--darken-4 px-3">Fontes de renda</div>
               </v-col>
               <v-col class="text-right px-4">
-                <v-btn class="primary" depressed small @click="newIncomeBudget">
+                <v-btn class="primary" depressed small @click="incomesDialog = true">
                   <span class="text-lowercase">nova fonte de renda</span>
                 </v-btn>
               </v-col>
             </v-row>
+						<group-planning-incomes-dialog :dialog.sync="incomesDialog" :planning-id="currentPlanning.id" :groupId="groupId" />
             <v-list two-line>
               <income-list-item v-for="budget in incomes" :key="budget.id" :budget="budget" />
             </v-list>
@@ -44,11 +45,12 @@
                 <div class="font-weight-medium grey--text text--darken-4 px-3">Orçamento de gastos</div>
               </v-col>
               <v-col class="text-right px-4">
-                <v-btn class="primary" depressed small @click="newExpenseBudget">
+                <v-btn class="primary" depressed small @click="expensesDialog = true">
                   <span class="text-lowercase">novo orçamento</span>
                 </v-btn>
               </v-col>
             </v-row>
+						<group-planning-expenses-dialog :dialog.sync="expensesDialog" :planning-id="currentPlanning.id" :groupId="groupId" />
             <v-list two-line>
               <expense-list-item v-for="budget in expenses" :key="budget.id" :budget="budget" />
             </v-list>
@@ -76,10 +78,14 @@ import groupsModule from "@/store/modules/groupsModule";
     IncomeListItem: () => import("@/components/planning/IncomeListItem.vue"),
     ExpenseListItem: () => import("@/components/planning/ExpenseListItem.vue"),
     GroupPlanningDialog: () => import("@/components/group/GroupPlanningDialog.vue"),
+		GroupPlanningIncomesDialog: () => import('@/components/group/GroupPlanningIncomesDialog.vue'),
+		GroupPlanningExpensesDialog: () => import('@/components/group/GroupPlanningExpensesDialog.vue'),
   },
 })
 export default class GroupPlanningView extends Vue {
   planningDialog = false
+  incomesDialog = false
+  expensesDialog = false
   
   year = 2020;
   month = 10;
@@ -102,9 +108,9 @@ export default class GroupPlanningView extends Vue {
     }
   }
 
-  newIncomeBudget() {}
-
-  newExpenseBudget() {}
+  get groupId() {
+    return this.$route.params.groupId
+  }
 
   get currentPlanning() {
     return groupsModule.selectedGroupPlannings.find((planning) => {

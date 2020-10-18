@@ -29,7 +29,7 @@ router.get('/user/:userId', userController.readById)
 // router.post('/users', userController.store)
 // router.delete('/user/:userId', userController.delete)
 router.put('/user', authenticationMiddleware.userRequired, userController.update)
-router.put('/users/findByEmail', authenticationMiddleware.userRequired, userController.findByEmail)
+router.get('/users/findByEmail', authenticationMiddleware.userRequired, userController.findByEmail)
 
 // Precisam de autenticação, para que as transações do usuário sejam encontradas
 router.get('/transactions', authenticationMiddleware.userRequired, transactionController.getByUser) // OK

@@ -77,7 +77,7 @@ export class MongoosePlanningRepository implements PlanningRepository {
 	}
 
 	async saveGroupPlanning(groupId: string, planning: Planning): Promise<Planning> {
-		const groupDoc = await UserModel.findById(groupId)
+		const groupDoc = await GroupModel.findById(groupId)
 		groupDoc.plannings.push(planning)
 		await groupDoc.save()
 		return groupDoc.plannings[groupDoc.plannings.length-1].getPlanning()

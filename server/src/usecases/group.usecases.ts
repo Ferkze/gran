@@ -9,7 +9,7 @@ export class GroupUsecasesImpl implements GroupUsecases {
 	constructor(private repo: Repositories) { }
 	
 	async editGroup(groupId: Group, data: any): Promise<Group> {
-		return this.repo.group.updateGroup(groupId, data)
+		return await this.repo.group.updateGroup(groupId, data)
 	}
 
 	async listGroups(userId: User['id']): Promise<Group[]> {
@@ -18,8 +18,8 @@ export class GroupUsecasesImpl implements GroupUsecases {
 
 	async registerGroup(userId: User['id'], data: any): Promise<Group> {
 		data.creator = userId
-		if (data.members && !data.members.some(member => member.id == userId)) {
-			data.members.push(userId)
+		if (data.members && data.members.length == 1) {
+			data.members = [userId]
 		}
 		return await this.repo.group.saveGroup(data)
 	}

@@ -20,7 +20,10 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 
 	async filterPlannings(filter: PlanningFilter): Promise<Planning[]> {
 		const plannings = await this.repo.planning.getFilteredPlannings(filter)
-		return await this.calculatePlanningsProgress(plannings)
+		if (filter.group)
+			return await this.calculateGroupPlanningsProgress(plannings)
+		else
+			return await this.calculatePlanningsProgress(plannings)
 	}
 
 	async findPlanningById(userId: User['id'], planningId: Planning['id']): Promise<Planning | null> {
@@ -46,9 +49,10 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 		return await this.repo.planning.saveUserPlanning(userId, planning)
 	}
 
-	async registerGroupPlanning(groupId: Group['id'], planning: Planning): Promise<Planning> {
-		planning.group = groupId
-		return await this.repo.planning.saveGroupPlanning(groupId, planning)
+	async registerGroupPlanning(groupId: Group['id'], data: Planning): Promise<Planning> {
+		data.group = groupId
+		const planning = await this.repo.planning.saveGroupPlanning(groupId, data)
+		return this.calculateGroupPlanningProgress(planning)
 	}
 
 	async addBudgetToPlanning(userId: User['id'], planningId: Planning['id'], data: Budget): Promise<Planning> {
@@ -70,6 +74,37 @@ export class PlanningUsecasesImpl implements PlanningUsecases {
 			const filter: TransactionFilter = {
 				category: budget.category,
 				user: planning.user,
+				type: budget.type == CategoryType.EXPENSE ? TransactionType.CREDIT : TransactionType.DEBIT
+			}
+			const date = moment(`${planning.month.toString().padStart(2, '0')}-${planning.year}`, "MM-YYYY")
+			filter.start = date.startOf('month').toDate()
+			filter.end = date.endOf('month').toDate()
+			const transactions = await this.repo.transaction.getFilteredTransactions(filter)
+			const calculatedBudget: CalculatedBudget = {
+				...budget,
+				current: transactions.reduce((acc, cur) => acc + cur.amount, 0)
+			}
+			return calculatedBudget
+		})
+		return {
+			...planning,
+			budgets: await Promise.all(calculatedBudgets)
+		}
+	}
+
+	private async calculateGroupPlanningsProgress(plannings: Planning[]): Promise<CalculatedPlanning[]> {
+		const calculatedPlannings = plannings.map(async planning => {
+			const calculatedPlanning = await this.calculateGroupPlanningProgress(planning)
+			return calculatedPlanning
+		})
+		return await Promise.all(calculatedPlannings)
+	}
+
+	private async calculateGroupPlanningProgress(planning: Planning): Promise<CalculatedPlanning> {
+		const calculatedBudgets = planning.budgets.map(async budget => {
+			const filter: TransactionFilter = {
+				category: budget.category,
+				group: planning.group,
 				type: budget.type == CategoryType.EXPENSE ? TransactionType.CREDIT : TransactionType.DEBIT
 			}
 			const date = moment(`${planning.month.toString().padStart(2, '0')}-${planning.year}`, "MM-YYYY")

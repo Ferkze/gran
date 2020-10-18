@@ -15,7 +15,7 @@ class AccountService {
     return response.data.accounts
   };
   
-  async createAccount (userId: string, account: Account) {
+  async createAccount (userId: string, account: Account): Promise<Account> {
     const response = await client.post(`/api/accounts`, { account })
     if (response.data.error) {
       throw new Error(response.data.error)

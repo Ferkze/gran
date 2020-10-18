@@ -23,7 +23,9 @@ class AccountModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return await AccountService.getAccounts()
+		const accounts = await AccountService.getAccounts()
+		accounts.forEach(acc => this.getAccountBalance(acc.id))
+		return accounts
 	}
 
 	@Action({ commit: 'addAccount', rawError: true })
@@ -33,6 +35,7 @@ class AccountModule extends VuexModule {
 		}
 		account.owner = auth.user.id
 		const savedAccount = await AccountService.createAccount(auth.user.id, account)
+		savedAccount.balance = savedAccount.startingBalance
 		return savedAccount
 	}
 
@@ -41,15 +44,18 @@ class AccountModule extends VuexModule {
 		if (!auth.user || !auth.user.id) {
 			return null
 		}
-		return (await AccountService.updateAccount(auth.user.id, account)).data
+		const updatedAccount = await AccountService.updateAccount(auth.user.id, account)
+		this.getAccountBalance(updatedAccount.id)
+		return updatedAccount
 	}
 
 	@Action({ commit: 'removeAccount', rawError: true })
-	async deleteAccount(account: Account): Promise<Account | null> {
+	async deleteAccount(account: Account): Promise<Account['id'] | null> {
 		if (!auth.user || !auth.user.id || !account.id) {
 			return null
 		}
-		return (await AccountService.deleteAccount(account.id)).data
+		await AccountService.deleteAccount(account.id)
+		return account.id
 	}
 
 	@Action({ commit: 'mutateAccountBalance', rawError: true })
@@ -81,8 +87,8 @@ class AccountModule extends VuexModule {
 	}
 
 	@Mutation
-	removeAccount(account: Account) {
-		const index = this.accounts.findIndex(a => a.id == account.id)
+	removeAccount(accountId: Account['id']) {
+		const index = this.accounts.findIndex(a => a.id == accountId)
 		this.accounts.splice(index, 1)
 	}
 

@@ -5,10 +5,10 @@
 				<v-container class="fill-height">
 					<v-row>
 						<!--Texto introdutórios-->
-						<v-col tag="h1" cols="6">
-							<p class="display-4 font-weight-black white--text">Toda a finança do seu dia a dia na palma da sua mão</p>
+						<v-col tag="h1" cols="12" md="8" lg="6">
+							<p class="text-h2 text-sm-h1 font-weight-black white--text">Toda a finança do seu dia a dia na palma da sua mão</p>
 							<br>
-							<p class="display-2 font-weight-light  white--text">Melhor aplicativo de finanças no mercado. Simples e intuitivo de utilizar</p>
+							<p class="text-h5 text-sm-h4 font-weight-light white--text">Melhor aplicativo de finanças no mercado. Simples e intuitivo de utilizar</p>
 							<br>
 							<!--Botão de Cadastro (Caso não esteja logado)-->
 							<v-btn v-if="!loggedIn" block large outlined @click="$router.push('/cadastrar')" class="white--text">Crie sua conta</v-btn>
@@ -371,7 +371,7 @@ export default class HelloWorld extends Vue {
 }
 
 .height-100vh {
-	height: 100vh;
+	height: calc(100vh - 64px);
 }
 
 .height-70vh {

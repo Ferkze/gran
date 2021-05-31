@@ -1,6 +1,5 @@
 <template>
   <v-container fluid class="pa-0">
-    <!-- Seção inicial da primeira página -->
     <section class="min-h-100vh backgroundImage">
       <v-container fill-height>
         <v-row align-content="center" class="min-h-100vh">
@@ -26,7 +25,6 @@
       </v-container>
     </section>
 
-    <!-- Seção com Cards de informações do granFinance -->
     <section class="min-h-100vh backgroundGray">
       <v-container class="fill-height">
         <v-col class="mt-3" tag="h2" cols="12" md="8">
@@ -37,7 +35,6 @@
             <p class="white--text">A qualquer momento do dia</p>
           </v-row>
         </v-col>
-        <!--Seção dos Cards-->
         <v-col cols="12">
           <v-row>
             <v-col cols="12" sm="6" md="4" v-for="card in benefitCards" :key="card.title">
@@ -60,45 +57,6 @@
       </v-container>
     </section>
 
-    <!-- Seção com Funcionalidades do granFinance -->
-    <!-- <section class="min-h-100vh backgroundGray">
-      <v-container class="fill-height">
-        <v-col cols="10" tag="h1">
-          <v-row>
-            <h1 class="mb-2 display-3 font-weight-black">CONHEÇA AS FUNCIONALIDADES</h1>
-          </v-row>
-          <v-row>
-            <h1 class="display-2 font-weight-light">Que facilitaram o seu controle financeiro</h1>
-          </v-row>
-        </v-col>
-
-        <v-row>
-          <v-col cols="12">
-            <v-container class="fill-height ma-2 backgroundFuncionalidades"></v-container>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4">
-            <v-container class="fill-height ma-2 backgroundFuncionalidades"></v-container>
-          </v-col>
-          <v-col cols="8">
-            <v-container class="fill-height ma-2 backgroundFuncionalidades"></v-container>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="4">
-            <v-container class="fill-height ma-2 backgroundFuncionalidades"></v-container>
-          </v-col>
-          <v-col cols="4">
-            <v-container class="fill-height ma-2 backgroundFuncionalidades"></v-container>
-          </v-col>
-          <v-col cols="4">
-            <v-container class="fill-height ma-2 backgroundFuncionalidades"></v-container>
-          </v-col>
-        </v-row>
-      </v-container>
-    </section>-->
-    <!-- Seção do Footer -->
     <section class="backgroundFooter">
       <v-container class="fill-height">
         <v-row justify="center">
@@ -127,7 +85,7 @@
         </v-row>
 
         <v-row class="white--text mt-5 px-8">
-          <v-col cols="12" sm="2">
+          <v-col cols="12" sm="6" md="2">
             <v-row>
               <p class="text-subtitle-2 grey--text font-weight-bold mb-1">BAIXE NOSSO APP</p>
             </v-row>
@@ -138,7 +96,7 @@
               <img width="150" src="../assets/disponivelAppStore.png" />
             </v-row>
           </v-col>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="6" md="3">
             <v-row>
               <p class="text-subtitle-2 grey--text font-weight-bold mb-1">NOSSAS FUNCIONALIDADES</p>
             </v-row>
@@ -153,7 +111,7 @@
             </v-row>
           </v-col>
           <!-- Segunda coluna do Footer -->
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="6" md="4">
             <p class="text-subtitle-2 grey--text font-weight-bold mb-1">CENTRAL DO SHIMA DE RELACIONAMENTOS</p>
             <p>9h as 20h - Segunda a Sábado, exceto feriados</p>
             <p class="text-subtitle-2 grey--text font-weight-bold mb-1">EMAIL</p>
@@ -163,8 +121,7 @@
               <a href="https://github.com/Ferkze" target="_blank">Fabio Martins</a>
             </p>
           </v-col>
-          <!-- Terceira coluna do Footer -->
-          <v-col cols="12" sm="3">
+          <v-col cols="12" sm="6" md="3">
             <p class="text-subtitle-2 grey--text font-weight-bold mb-1">INICIATIVAS</p>
             <p>FATEC SÃO BERNARDO DO CAMPO</p>
             <p class="text-subtitle-2 grey--text font-weight-bold mb-1">EQUIPE</p>
@@ -198,15 +155,13 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import auth from "../store/modules/auth";
 
 @Component({
   name: "HelloWorld",
 })
 export default class HelloWorld extends Vue {
-  @Prop(String) msg!: string;
-
   benefitCards = [
     {
       description:
@@ -270,7 +225,8 @@ export default class HelloWorld extends Vue {
 
 <style lang="scss" scoped>
 .backgroundImage {
-  background-image: url("../assets/imagemGran.jpg");
+  background-image: url("../assets/imagemGran-min.jpg");
+  background-size: cover;
 }
 
 .backgroundGray {
@@ -285,27 +241,7 @@ export default class HelloWorld extends Vue {
   );
 }
 
-.backgroundFuncionalidades {
-  background-image: linear-gradient(#f9f9f9, #ffffff);
-}
-
-.backgroundWhite {
-  background-image: linear-gradient(#fff, #fff);
-}
-
 .min-h-100vh {
   min-height: calc(100vh - 64px);
-}
-
-.height-70vh {
-  height: 70vh;
-}
-
-.paddingTituloCard {
-  padding: 5px 16px 5px 16px;
-}
-
-.margin-5 {
-  margin: 5px;
 }
 </style>

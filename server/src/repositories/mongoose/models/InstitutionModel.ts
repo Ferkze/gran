@@ -21,7 +21,7 @@ const SchemaInstitution = new Schema<IInstitution>({
     primary: Schema.Types.String,
     secondary: Schema.Types.String
   },
-  logoUrl: { type: Schema.Types.String, required: false },
+  imageUrl: { type: Schema.Types.String, required: false },
 }, {
   timestamps: true
 })
@@ -32,7 +32,7 @@ SchemaInstitution.methods.getInstitution = function () {
     name: this.name,
     description: this.description,
     colors: this.colors,
-    logoUrl: this.logoUrl,
+    imageUrl: this.imageUrl,
     type: this.type,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt

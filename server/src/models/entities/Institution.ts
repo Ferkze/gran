@@ -13,7 +13,7 @@ export interface Institution {
     primary: string
     secondary: string
   },
-  logoUrl: string
+  imageUrl: string
   createdAt: Date
   updatedAt: Date
 }

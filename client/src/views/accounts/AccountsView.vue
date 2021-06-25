@@ -36,10 +36,10 @@ import accounts from "@/store/modules/accounts";
 export default class Accounts extends Vue {
   menuItems = [{ title: "Editar", action: "edit" }];
 
-  loading = false
+  loading = false;
   mounted() {
     if (accounts.accounts.length == 0) {
-      this.loadAccounts()
+      this.loadAccounts();
     }
   }
 
@@ -48,10 +48,9 @@ export default class Accounts extends Vue {
   }
 
   async loadAccounts() {
-    this.loading = false
+    this.loading = false;
     await accounts.fetchAccounts();
-    this.loading = true
+    this.loading = true;
   }
-
 }
 </script>

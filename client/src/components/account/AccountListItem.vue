@@ -1,16 +1,14 @@
 <template>
   <v-list-item>
-    <v-list-item-icon>
-      <v-avatar rounded="0" color="purple">
-        <v-icon color="white">mdi-bank</v-icon>
-      </v-avatar>
+    <v-list-item-icon v-if="institution">
+      <account-logo :image-url="institution.imageUrl" />
     </v-list-item-icon>
     <v-list-item-content>
       <v-row>
         <v-col>
           <v-list-item-title>
             <span class="font-weight-medium">{{ account.name }}</span>
-            <span class="text-body-2 font-weight-light float-right"> Saldo atual</span>
+            <span class="text-body-2 font-weight-light float-right">Saldo atual</span>
           </v-list-item-title>
         </v-col>
         <v-col v-if="account.balance">
@@ -35,18 +33,34 @@
 </template>
 
 <script lang="ts">
-import { Account } from '@/models';
-import accounts from '@/store/modules/accounts';
-import status from '@/store/modules/status';
+import { Account } from "@/models";
+import accounts from "@/store/modules/accounts";
+import finances from "@/store/modules/finances";
+import status from "@/store/modules/status";
 import { Component, Prop, Vue } from "vue-property-decorator";
+import AccountLogo from "./AccountLogo.vue";
 
-@Component
+@Component({
+  components: {
+    AccountLogo,
+  },
+})
 export default class AccountListItem extends Vue {
-	@Prop({ required:true, type: Object })
-  account!: Account
-  
-  loading = false
-  
+  @Prop({ required: true, type: Object })
+  account!: Account;
+
+  loading = false;
+
+  mounted() {
+    console.log(this.account);
+  }
+
+  get institution() {
+    return finances.bankInstitutions.find(
+      (i) => i.id == this.account.institution
+    );
+  }
+
   async deleteAccount() {
     if (!this.account) {
       return;

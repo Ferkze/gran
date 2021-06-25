@@ -42,9 +42,11 @@ class FinancesModule extends VuexModule {
 	@Action
 	async load() {
 		try {
+			console.log('test', this.institutions);
+			
 			await Promise.all([
 				this.fetchCategories(),
-				this.fetchInstitutions()
+				await this.fetchInstitutions()
 			])
 		} catch (error) {
 			console.error('Erro no carregamento de dados financeiros', error)
@@ -54,10 +56,12 @@ class FinancesModule extends VuexModule {
 
 	@Action({ commit: 'setInstitutions', rawError: true })
 	async fetchInstitutions(): Promise<Institution[]> {
+		console.log('fetching ins')
 		if (!auth.user || !auth.user.id) {
 			return []
 		}
-		return await InstitutionService.getInstitutions()
+		const institutions = await InstitutionService.getInstitutions()		
+		return institutions
 	}
 
 	@Action({ commit: 'setCategories', rawError: true })

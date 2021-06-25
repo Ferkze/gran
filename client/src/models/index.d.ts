@@ -22,7 +22,7 @@ export interface Account {
   id?: string;
   name: string;
   main: boolean;
-  institution?: Institution;
+  institution?: Institution | Institution['id'];
   unregisteredInstitution?: string;
   type: AccountTypes;
   subtype?: AccountSubtypes;
@@ -116,7 +116,7 @@ export interface Institution {
     primary: string;
     secondary?: string;
   };
-  logoURL?: string;
+  imageUrl?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

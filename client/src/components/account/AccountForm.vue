@@ -1,36 +1,57 @@
 <template>
   <v-form @submit.prevent="submitAccount">
     <base-form-field
-			v-model="account.name"
-			field-type="text-field"
-			form-label="Nome da conta"
-			flat
-			solo
-			hide-details
-			label="Nome da conta"
-		/>
+      v-model="account.name"
+      field-type="text-field"
+      form-label="Nome da conta"
+      flat
+      solo
+      hide-details
+      label="Nome da conta"
+    />
     <base-form-field
-			v-model="account.subtype"
-			:items="accountTypes"
-			field-type="select"
-			form-label="Tipo de conta"
-			hide-details
-			label="Tipo de conta"
-		/>
-		<base-form-field
-			v-if="account.subtype != 'currency' && account.subtype"
-			v-model="account.institution"
-			:items="accountInstitutions"
-			field-type="select"
-			form-label="Instituição"
-			item-text="name"
-			item-value="id"
-			hide-details
-			label="Banco ou corretora"
-		/>
+      v-model="account.subtype"
+      :items="accountTypes"
+      field-type="select"
+      form-label="Tipo de conta"
+      hide-details
+      label="Tipo de conta"
+    />
+    <base-form-field
+      v-if="account.subtype != 'currency' && account.subtype"
+      v-model="account.institution"
+      :items="accountInstitutions"
+      field-type="select"
+      form-label="Instituição"
+      item-text="name"
+      item-value="id"
+      hide-details
+      label="Banco ou corretora"
+    >
+      <base-select
+        :items="accountInstitutions"
+        item-text="name"
+        item-value="id"
+        hide-details
+        label="Banco ou corretora"
+      >
+        <template v-slot:item-tile="{ on, item, attrs }">
+          <v-list-item v-bind="attrs" v-on="on">
+            <v-list-item-icon>
+              <account-logo :image-url="item.imageUrl" />
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>
+                <span>{{ item.name }}</span>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
+      </base-select>
+    </base-form-field>
     <base-form-field
       field-type="text-field"
-      v-if="account.institution && account.institution.name && account.institution.name.startsWith('Outro')"
+      v-if="account.institution && typeof account.institution != 'string' && account.institution.name && account.institution.name.startsWith('Outro')"
       form-label="Outra Instituição"
       flat
       solo
@@ -69,6 +90,7 @@ import BaseFormField from "@/components/base/FormField.vue";
     BaseTextField,
     BaseSelect,
     BaseFormField,
+    AccountLogo: () => import("./AccountLogo.vue"),
   },
 })
 export default class AccountForm extends Vue {

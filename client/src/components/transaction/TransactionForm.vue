@@ -113,10 +113,10 @@ import status from '@/store/modules/status';
 import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
-    BaseFormField: () => import("@/components/base/FormField.vue"),
-  },
+	components: {
+		BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
+		BaseFormField: () => import("@/components/base/FormField.vue"),
+	},
 })
 export default class TransactionForm extends Vue {
   @PropSync("data", { required: true })
@@ -126,9 +126,9 @@ export default class TransactionForm extends Vue {
   loading!: boolean;
 
   types = [
-    { value: TransactionType.CREDIT, text: "Despesa", color: 'error' },
-    { value: TransactionType.DEBIT, text: "Receita", color: 'success' },
-    { value: TransactionType.TRANSFERENCE, text: "Transferência", color: 'info' },
+  	{ value: TransactionType.CREDIT, text: "Despesa", color: 'error' },
+  	{ value: TransactionType.DEBIT, text: "Receita", color: 'success' },
+  	{ value: TransactionType.TRANSFERENCE, text: "Transferência", color: 'info' },
   ];
 
   transferenceTo: Account["id"] = "";
@@ -136,85 +136,85 @@ export default class TransactionForm extends Vue {
   groupFormEnabled = true
 
   async created() {
-    if (!accounts.accounts.length) {
-      const accs = await accounts.fetchAccounts();
-      if (!accs || !accs.length) {
-        status.setStatus({
-          type: "error",
-          message: `Adicione uma conta para começar a registrar transações`,
-        });
-        this.$router.push("/contas");
-        return;
-      }
-    }
-    if (!finances.categories.length) {
-      const cats = await finances.fetchCategories();
-    }
+  	if (!accounts.accounts.length) {
+  		const accs = await accounts.fetchAccounts();
+  		if (!accs || !accs.length) {
+  			status.setStatus({
+  				type: "error",
+  				message: `Adicione uma conta para começar a registrar transações`,
+  			});
+  			this.$router.push("/contas");
+  			return;
+  		}
+  	}
+  	if (!finances.categories.length) {
+  		const cats = await finances.fetchCategories();
+  	}
   }
   
   mounted() {
-    if (this.$route.params.groupId) {
-      this.groupFormEnabled = false
-      this.transaction.group = this.$route.params.groupId
-    }
+  	if (this.$route.params.groupId) {
+  		this.groupFormEnabled = false
+  		this.transaction.group = this.$route.params.groupId
+  	}
   }
 
   get accounts() {
-    return accounts.accounts;
+  	return accounts.accounts;
   }
 
   get groups() {
-    return groupsModule.groups
+  	return groupsModule.groups
   }
   
   get categories() {
-    return finances.categories.filter((cat) => {
-      switch (this.transaction.type) {
-        case TransactionType.DEBIT:
-          return cat.type == CategoryType.INCOME;
-          break;
-        case TransactionType.CREDIT:
-          return cat.type == CategoryType.EXPENSE;
-          break;
+  	return finances.categories.filter((cat) => {
+  		switch (this.transaction.type) {
+  			case TransactionType.DEBIT:
+  				return cat.type == CategoryType.INCOME;
+  				break;
+  			case TransactionType.CREDIT:
+  				return cat.type == CategoryType.EXPENSE;
+  				break;
 
-        default:
-          return true;
-          break;
-      }
-    });
+  			default:
+  				return true;
+  				break;
+  		}
+  	});
   }
 
   get amount(): string {
-    if (!this.transaction) return "";
-    const amount = this.transaction.amount || 0;
-    if (amount - Math.ceil(amount) !== 0) {
-      return amount.toFixed(2).replace(".", ",");
-    }
-    return amount.toString();
+  	if (!this.transaction) return "";
+  	const amount = this.transaction.amount || 0;
+  	if (amount - Math.ceil(amount) !== 0) {
+  		return amount.toFixed(2).replace(".", ",");
+  	}
+  	return amount.toString();
   }
   set amount(str: string) {
-    if (!this.transaction) return;
-    str.replace(/\D/g, "");
-    if (str == "") str = "0";
-    this.transaction.amount = parseFloat(str.replace(",", "."));
+  	if (!this.transaction) return;
+  	str.replace(/\D/g, "");
+  	if (str == "") str = "0";
+  	this.transaction.amount = parseFloat(str.replace(",", "."));
   }
 
   async submitTransaction() {
-    if (this.transaction.account == '') {
-      status.setStatus({
-        message: 'A transação estar vinculada a uma conta',
-        type: 'warning'
-      })
-      return
-    }
-    if (this.transaction.category == '') {
-      status.setStatus({
-        message: 'A transação precisa de uma categoria',
-        type: 'warning'
-      })
-      return
-    }
-    this.$emit('submit')
+  	if (this.transaction.account == '') {
+  		status.setStatus({
+  			message: 'A transação estar vinculada a uma conta',
+  			type: 'warning'
+  		})
+  		return
+  	}
+  	if (this.transaction.category == '') {
+  		status.setStatus({
+  			message: 'A transação precisa de uma categoria',
+  			type: 'warning'
+  		})
+  		return
+  	}
+  	this.$emit('submit')
   }
 }
 </script>

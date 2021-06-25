@@ -1,12 +1,29 @@
 {
-	"extends": ["plugin:vue/essential", "@vue/typescript"],
+	"extends": [
+		"plugin:vue/essential",
+		"@vue/typescript"
+	],
 	"rules": {
-		"indent": ["off", "tab", { "SwitchCase": 1 }],
+		"indent": [
+			"error",
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		],
 		"no-console": "off",
 		"no-unused-vars": "off",
-		"@typescript-eslint/no-unused-vars": ["off"],
-		"semi": ["off", "never"],
-		"quotes": ["off", "single"]
+		"@typescript-eslint/no-unused-vars": [
+			"off"
+		],
+		"semi": [
+			"off",
+			"never"
+		],
+		"quotes": [
+			"off",
+			"single"
+		]
 	},
 	"parserOptions": {
 		"parser": "@typescript-eslint/parser",
@@ -18,7 +35,10 @@
 	},
 	"overrides": [
 		{
-			"files": ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
+			"files": [
+				"**/__tests__/*.{j,t}s?(x)",
+				"**/tests/unit/**/*.spec.{j,t}s?(x)"
+			],
 			"env": {
 				"jest": true
 			}

@@ -28,40 +28,40 @@ import planningModule from '@/store/modules/planningModule';
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    ExpenseListItem: () => import('@/components/planning/ExpenseListItem.vue')
-  }
+	components: {
+		ExpenseListItem: () => import('@/components/planning/ExpenseListItem.vue')
+	}
 })
 export default class BudgetCard extends Vue {
   loading = false
   
   get budgets () {
-    const today = new Date()
-    const planning = planningModule.plannings.find(p => p.month == today.getMonth()+1 && p.year == today.getFullYear())
-    if (!planning) {
-      return []
-    }
-    return planning.budgets.filter(b => b.type == CategoryType.EXPENSE)
+  	const today = new Date()
+  	const planning = planningModule.plannings.find(p => p.month == today.getMonth()+1 && p.year == today.getFullYear())
+  	if (!planning) {
+  		return []
+  	}
+  	return planning.budgets.filter(b => b.type == CategoryType.EXPENSE)
   }
 
   mounted() {
-    this.fetchData()
+  	this.fetchData()
   }
 
   async fetchData() {
-    this.loading = true
-    const plannings = await planningModule.fetchPlannings({})
-    this.loading = false
+  	this.loading = true
+  	const plannings = await planningModule.fetchPlannings({})
+  	this.loading = false
   }
 
   progressColor(percent: number) {
-    if (percent > 0.7) {
-      return 'red'
-    } else if (percent > 0.4) {
-      return 'warning'
-    } else {
-      return 'success'
-    }
+  	if (percent > 0.7) {
+  		return 'red'
+  	} else if (percent > 0.4) {
+  		return 'warning'
+  	} else {
+  		return 'success'
+  	}
   }
 }
 </script>

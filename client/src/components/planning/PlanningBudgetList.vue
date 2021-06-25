@@ -25,10 +25,10 @@
 import { Budget } from '@/models';
 import { CategoryType } from '@/models/enums';
 import finances from '@/store/modules/finances';
-	import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 	@Component
-	export default class IncomesPlanningList extends Vue {
+export default class IncomesPlanningList extends Vue {
 		@Prop({ type: Array, required: true })
 		budgets!: Budget[]
 
@@ -49,7 +49,7 @@ import finances from '@/store/modules/finances';
 			if (category) return category.name
 			else return ''
 		}
-	}
+}
 </script>
 
 <style scoped>

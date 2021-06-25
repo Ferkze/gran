@@ -31,46 +31,46 @@ import status from "@/store/modules/status";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    PlanningStepperForm: () =>
+	components: {
+		PlanningStepperForm: () =>
       import("@/components/planning/PlanningStepperForm.vue"),
-  },
+	},
 })
 export default class CreatePlanningView extends Vue {
   planning: Planning = {
-    month: new Date().getMonth() + 1,
-    year: new Date().getFullYear(),
-    budgets: [],
+  	month: new Date().getMonth() + 1,
+  	year: new Date().getFullYear(),
+  	budgets: [],
   };
   loading = false;
 
   mounted() {
-    if (this.$route.query.mes && this.$route.query.ano) {
-      this.planning.year = parseInt(this.$route.query.ano as string);
-      this.planning.month = parseInt(this.$route.query.mes as string);
-    }
+  	if (this.$route.query.mes && this.$route.query.ano) {
+  		this.planning.year = parseInt(this.$route.query.ano as string);
+  		this.planning.month = parseInt(this.$route.query.mes as string);
+  	}
   }
 
   async finishPlanning() {
-    this.loading = true;
-    try {
-      await planningModule.createPlanning(this.planning);
-      status.setStatus({
-        type: "success",
-        message: "Planejamento criado com sucesso",
-      });
-      this.$router.push(
-        `/planejamento?mes=${this.planning.month}&ano=${this.planning.year}`
-      );
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível criar o planejamento: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = false;
-    }
+  	this.loading = true;
+  	try {
+  		await planningModule.createPlanning(this.planning);
+  		status.setStatus({
+  			type: "success",
+  			message: "Planejamento criado com sucesso",
+  		});
+  		this.$router.push(
+  			`/planejamento?mes=${this.planning.month}&ano=${this.planning.year}`
+  		);
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível criar o planejamento: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = false;
+  	}
   }
 }
 </script>

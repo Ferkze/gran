@@ -41,9 +41,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import AccountLogo from "./AccountLogo.vue";
 
 @Component({
-  components: {
-    AccountLogo,
-  },
+	components: {
+		AccountLogo,
+	},
 })
 export default class AccountListItem extends Vue {
   @Prop({ required: true, type: Object })
@@ -52,36 +52,36 @@ export default class AccountListItem extends Vue {
   loading = false;
 
   mounted() {
-    console.log(this.account);
+  	console.log(this.account);
   }
 
   get institution() {
-    return finances.bankInstitutions.find(
-      (i) => i.id == this.account.institution
-    );
+  	return finances.bankInstitutions.find(
+  		(i) => i.id == this.account.institution
+  	);
   }
 
   async deleteAccount() {
-    if (!this.account) {
-      return;
-    }
-    this.loading = true;
-    try {
-      await accounts.deleteAccount(this.account);
-      status.setStatus({
-        type: "success",
-        message: "Conta deletada com sucesso",
-      });
-      this.$router.push("/contas");
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível deletar a conta: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = true;
-    }
+  	if (!this.account) {
+  		return;
+  	}
+  	this.loading = true;
+  	try {
+  		await accounts.deleteAccount(this.account);
+  		status.setStatus({
+  			type: "success",
+  			message: "Conta deletada com sucesso",
+  		});
+  		this.$router.push("/contas");
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível deletar a conta: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = true;
+  	}
   }
 }
 </script>

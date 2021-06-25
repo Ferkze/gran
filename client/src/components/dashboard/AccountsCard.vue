@@ -37,29 +37,26 @@
 
 <script lang="ts">
 import accounts from '@/store/modules/accounts';
-	import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
-	@Component
-	export default class AccountsCard extends Vue {
-		loading = false
-		get accounts() {
-			if (!accounts.accounts.length && !this.loading) {
-				this.loadData()
-			}
-			return accounts.accounts
+@Component
+export default class AccountsCard extends Vue {
+	loading = false
+	get accounts() {
+		if (!accounts.accounts.length && !this.loading) {
+			this.loadData()
 		}
-
-		async loadData() {
-			this.loading = true
-			await accounts.fetchAccounts()
-			for (const account of this.accounts) {
-				await accounts.getAccountBalance(account.id)
-			}
-			this.loading = false
-		}
+		console.debug(accounts)
+		return accounts.accounts
 	}
+
+	async loadData() {
+		this.loading = true
+		await accounts.fetchAccounts()
+		for (const account of this.accounts) {
+			await accounts.getAccountBalance(account.id)
+		}
+		this.loading = false
+	}
+}
 </script>
-
-<style scoped>
-
-</style>

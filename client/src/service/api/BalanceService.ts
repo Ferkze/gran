@@ -15,13 +15,13 @@ interface Response {
 
 class BalanceService {
 
-  async getBalance() {
-    const response = await client.get<Response>(`/api/balance`)
-    if (response.data.error) {
-      throw new Error(response.data.error)
-    }
-    return response.data.balance
-  }
+	async getBalance() {
+		const response = await client.get<Response>(`/api/balance`)
+		if (response.data.error) {
+			throw new Error(response.data.error)
+		}
+		return response.data.balance
+	}
 
 }
 

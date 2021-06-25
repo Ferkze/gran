@@ -23,12 +23,12 @@ import status from "@/store/modules/status";
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    ExpenseBudgetForm: () =>
+	components: {
+		ExpenseBudgetForm: () =>
       import("@/components/planning/ExpenseBudgetForm.vue"),
-    PlanningBudgetList: () =>
+		PlanningBudgetList: () =>
       import("@/components/planning/PlanningBudgetList.vue"),
-  },
+	},
 })
 export default class GroupPlanningExpensesDialog extends Vue {
   @PropSync("dialog", { type: Boolean, default: true })
@@ -42,49 +42,49 @@ export default class GroupPlanningExpensesDialog extends Vue {
 	incomes: Budget[] = []
 	expenses: Budget[] = []
   expense: Budget = {
-    type: CategoryType.EXPENSE,
-    category: "",
-    current: 0,
-    value: 0,
+  	type: CategoryType.EXPENSE,
+  	category: "",
+  	current: 0,
+  	value: 0,
   };
   addExpense() {
-    const expense = Object.assign({}, this.expense);
-    this.expenses.push(expense);
-    this.expense.category = "";
-    this.expense.value = 0;
+  	const expense = Object.assign({}, this.expense);
+  	this.expenses.push(expense);
+  	this.expense.category = "";
+  	this.expense.value = 0;
   }
 
-	async save() {
-		this.loading = true;
-    try {
-      await groupsModule.updateGroupPlanningBudgets({
-				planningId: this.planningId,
-				budgets: [...this.incomes, ...this.expenses]
-			});
-      status.setStatus({
-        type: "success",
-        message: "Orçamentos de gastos atualizadas com sucesso",
-      });
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível atualizar os orçamentos de gastos: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = false;
-    }
-	}
+  async save() {
+  	this.loading = true;
+  	try {
+  		await groupsModule.updateGroupPlanningBudgets({
+  			planningId: this.planningId,
+  			budgets: [...this.incomes, ...this.expenses]
+  		});
+  		status.setStatus({
+  			type: "success",
+  			message: "Orçamentos de gastos atualizadas com sucesso",
+  		});
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível atualizar os orçamentos de gastos: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = false;
+  	}
+  }
 	
-	mounted() {
-    const planning = groupsModule.selectedGroupPlannings.find(
-      (p) => p.id == this.planningId
-    );
-    if (planning) {
-			this.incomes.push(...planning.budgets.filter((b) => b.type == CategoryType.INCOME));
-			this.expenses.push(...planning.budgets.filter((b) => b.type == CategoryType.EXPENSE));
-		}
-	}
+  mounted() {
+  	const planning = groupsModule.selectedGroupPlannings.find(
+  		(p) => p.id == this.planningId
+  	);
+  	if (planning) {
+  		this.incomes.push(...planning.budgets.filter((b) => b.type == CategoryType.INCOME));
+  		this.expenses.push(...planning.budgets.filter((b) => b.type == CategoryType.EXPENSE));
+  	}
+  }
 
 }
 </script>

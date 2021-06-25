@@ -24,8 +24,8 @@ export default class MemberListItem extends Vue {
   @Prop({ required: true, type: Object })
 	member!: User
 	
-	get color() {
-		return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-	}
+  get color() {
+  	return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+  }
 }
 </script>

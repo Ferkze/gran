@@ -46,10 +46,10 @@ import groupsModule from "@/store/modules/groupsModule";
 import status from '@/store/modules/status';
 
 @Component({
-  components: {
-    BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
-    BaseFormField: () => import("@/components/base/FormField.vue"),
-  },
+	components: {
+		BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
+		BaseFormField: () => import("@/components/base/FormField.vue"),
+	},
 })
 export default class ExpenseBudgetForm extends Vue {
   @PropSync("data", { required: true })
@@ -59,8 +59,8 @@ export default class ExpenseBudgetForm extends Vue {
   loading!: boolean;
 
   types = [
-    { value: CategoryType.EXPENSE, text: "Despesa", color: 'error' },
-    { value: CategoryType.INCOME, text: "Receita", color: 'success' },
+  	{ value: CategoryType.EXPENSE, text: "Despesa", color: 'error' },
+  	{ value: CategoryType.INCOME, text: "Receita", color: 'success' },
   ];
 
   transferenceTo: Account["id"] = "";
@@ -68,28 +68,28 @@ export default class ExpenseBudgetForm extends Vue {
   groupFormEnabled = true
 
   async created() {
-    if (!accounts.accounts.length) {
-      const accs = await accounts.fetchAccounts();
-      if (!accs || !accs.length) {
-        status.setStatus({
-          type: "error",
-          message: `Adicione uma conta para começar a registrar transações`,
-        });
-        this.$router.push("/contas");
-        return;
-      }
-    }
-    if (!finances.categories.length) {
-      const cats = await finances.fetchCategories();
-    }
+  	if (!accounts.accounts.length) {
+  		const accs = await accounts.fetchAccounts();
+  		if (!accs || !accs.length) {
+  			status.setStatus({
+  				type: "error",
+  				message: `Adicione uma conta para começar a registrar transações`,
+  			});
+  			this.$router.push("/contas");
+  			return;
+  		}
+  	}
+  	if (!finances.categories.length) {
+  		const cats = await finances.fetchCategories();
+  	}
   }
   
   get groups() {
-    return groupsModule.groups
+  	return groupsModule.groups
   }
   
   get categories() {
-    return finances.categories.filter((cat) => cat.type == this.budget.type);
+  	return finances.categories.filter((cat) => cat.type == this.budget.type);
   }
 
   @Emit("submit")

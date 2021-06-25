@@ -73,45 +73,45 @@ import { Transaction } from "@/models";
 import auth from '@/store/modules/auth';
 
 @Component({
-  components: {
-    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
-    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
-  },
+	components: {
+		TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
+		TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
+	},
 })
 export default class TransactionsView extends Vue {
-  get transactions(): Transaction[] {
-    return finances.transactions
-  }
+	get transactions(): Transaction[] {
+		return finances.transactions
+	}
   loading = false
   filter = { 
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    user: auth.userId
+  	year: new Date().getFullYear(),
+  	month: new Date().getMonth()+1,
+  	user: auth.userId
   }
 
   mounted() {
-    this.filterTransaction()
+  	this.filterTransaction()
   }
 
   get receitasTotais () {
-    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
-    return receitas.reduce((acc, cur) => acc + cur.amount, 0)
+  	var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+  	return receitas.reduce((acc, cur) => acc + cur.amount, 0)
   }
 
   get despesasTotais () {
-    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
-    return despesas.reduce((acc, cur) => acc + cur.amount, 0)
+  	var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT)
+  	return despesas.reduce((acc, cur) => acc + cur.amount, 0)
   }
 
   get saldoTotais () {
-    var saldo = (this.receitasTotais) - (this.despesasTotais) 
-    return saldo
+  	var saldo = (this.receitasTotais) - (this.despesasTotais) 
+  	return saldo
   }
 
   async filterTransaction() {
-    this.loading = true
-    await finances.filterTransactions(this.filter)
-    this.loading = false
+  	this.loading = true
+  	await finances.filterTransactions(this.filter)
+  	this.loading = false
   }
 
 }

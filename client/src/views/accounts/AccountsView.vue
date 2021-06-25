@@ -28,29 +28,29 @@ import { AccountTypes } from "@/models/enums";
 import accounts from "@/store/modules/accounts";
 
 @Component({
-  name: "AccountsView",
-  components: {
-    AccountListItem: () => import("@/components/account/AccountListItem.vue"),
-  },
+	name: "AccountsView",
+	components: {
+		AccountListItem: () => import("@/components/account/AccountListItem.vue"),
+	},
 })
 export default class Accounts extends Vue {
   menuItems = [{ title: "Editar", action: "edit" }];
 
   loading = false;
   mounted() {
-    if (accounts.accounts.length == 0) {
-      this.loadAccounts();
-    }
+  	if (accounts.accounts.length == 0) {
+  		this.loadAccounts();
+  	}
   }
 
   get debitAccounts() {
-    return accounts.accounts.filter((a) => a.type == AccountTypes.DEBIT);
+  	return accounts.accounts.filter((a) => a.type == AccountTypes.DEBIT);
   }
 
   async loadAccounts() {
-    this.loading = false;
-    await accounts.fetchAccounts();
-    this.loading = true;
+  	this.loading = false;
+  	await accounts.fetchAccounts();
+  	this.loading = true;
   }
 }
 </script>

@@ -32,43 +32,43 @@ import finances from "@/store/modules/finances";
 import status from "@/store/modules/status";
 
 @Component({
-  components: {
-    AccountForm: () => import("@/components/account/AccountForm.vue"),
-  }
+	components: {
+		AccountForm: () => import("@/components/account/AccountForm.vue"),
+	}
 })
 export default class Settings extends Vue {
   account: Account = {
-    name: "",
-    main: false,
-    unregisteredInstitution: "",
-    type: AccountTypes.DEBIT,
-    subtype: AccountSubtypes.CURRENT,
-    startingBalance: 0,
+  	name: "",
+  	main: false,
+  	unregisteredInstitution: "",
+  	type: AccountTypes.DEBIT,
+  	subtype: AccountSubtypes.CURRENT,
+  	startingBalance: 0,
   };
   loading = false;
 
   mounted() {
-    finances.fetchInstitutions();
+  	finances.fetchInstitutions();
   }
 
   async createAccount() {
-    this.loading = true;
-    try {
-      await accounts.createAccount(this.account);
-      status.setStatus({
-        type: "success",
-        message: "Conta criada com sucesso",
-      });
-      this.$router.push("/contas");
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível cria a conta: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = true;
-    }
+  	this.loading = true;
+  	try {
+  		await accounts.createAccount(this.account);
+  		status.setStatus({
+  			type: "success",
+  			message: "Conta criada com sucesso",
+  		});
+  		this.$router.push("/contas");
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível cria a conta: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = true;
+  	}
   }
 }
 </script>

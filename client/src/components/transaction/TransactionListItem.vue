@@ -54,45 +54,45 @@ export default class TransactionListItem extends Vue {
   @Prop({ type: Object, required: true }) transaction!: Transaction;
 
   menuItems = [
-    { text: "Editar", action: "edit" },
-    { text: "Deletar", action: "delete" },
+  	{ text: "Editar", action: "edit" },
+  	{ text: "Deletar", action: "delete" },
   ];
 
   get account(): Account | undefined {
-    return accounts.accounts.find(acc => acc.id == this.transaction.account);
+  	return accounts.accounts.find(acc => acc.id == this.transaction.account);
   }
   get typeColor(): string {
-    switch (this.transaction.type) {
-      case TransactionType.DEBIT: {
-        return "success";
-      }
-      case TransactionType.CREDIT: {
-        return "error";
-      }
-      case TransactionType.TRANSFERENCE: {
-        return "info";
-      }
-      default: {
-        return "grey";
-      }
-    }
+  	switch (this.transaction.type) {
+  		case TransactionType.DEBIT: {
+  			return "success";
+  		}
+  		case TransactionType.CREDIT: {
+  			return "error";
+  		}
+  		case TransactionType.TRANSFERENCE: {
+  			return "info";
+  		}
+  		default: {
+  			return "grey";
+  		}
+  	}
   }
 
   get hasCategoryAndAccount() {
-    return !!this.transaction.category && !!this.transaction.account
+  	return !!this.transaction.category && !!this.transaction.account
   }
 
   async onMenuItemSelected(action: string) {
-    switch (action) {
-      case "edit":
-        this.$router.push(`/transacoes/${this.transaction.id}/edicao`);
-        break;
-      case "delete":
-        finances.deleteTransaction(this.transaction);
-        break;
-      default:
-        break;
-    }
+  	switch (action) {
+  		case "edit":
+  			this.$router.push(`/transacoes/${this.transaction.id}/edicao`);
+  			break;
+  		case "delete":
+  			finances.deleteTransaction(this.transaction);
+  			break;
+  		default:
+  			break;
+  	}
   }
 }
 </script>

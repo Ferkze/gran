@@ -25,8 +25,8 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  name: "BaseGranLogo",
-  inject: ["theme"],
+	name: "BaseGranLogo",
+	inject: ["theme"],
 })
 export default class GranLogo extends Vue {}
 </script>

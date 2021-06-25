@@ -32,47 +32,47 @@ import finances from "@/store/modules/finances";
 import status from "@/store/modules/status";
 
 @Component({
-  components: {
-    TransactionForm: () =>
+	components: {
+		TransactionForm: () =>
       import("@/components/transaction/TransactionForm.vue"),
-  },
+	},
 })
 export default class CreateTransactionView extends Vue {
 
   transaction: Transaction = {
-    account: '',
-    user: auth.user?.id || '',
-    type: TransactionType.DEBIT,
-    amount: 0,
-    paid: true,
-    description: '',
-    category: '',
-    group: '',
-    date: new Date().toISOString().substr(0, 10),
+  	account: '',
+  	user: auth.user?.id || '',
+  	type: TransactionType.DEBIT,
+  	amount: 0,
+  	paid: true,
+  	description: '',
+  	category: '',
+  	group: '',
+  	date: new Date().toISOString().substr(0, 10),
   };
   loading = false
 
   async createTransaction() {
-    this.loading = true;
-    try {
-      if (this.transaction.group === '') {
-        delete this.transaction.group
-      }
-      await finances.newTransaction(this.transaction);
-      status.setStatus({
-        type: "success",
-        message: "Transação criada com sucesso",
-      });
-      this.$router.push("/transacoes");
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível criar a transação: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = false;
-    }
+  	this.loading = true;
+  	try {
+  		if (this.transaction.group === '') {
+  			delete this.transaction.group
+  		}
+  		await finances.newTransaction(this.transaction);
+  		status.setStatus({
+  			type: "success",
+  			message: "Transação criada com sucesso",
+  		});
+  		this.$router.push("/transacoes");
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível criar a transação: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = false;
+  	}
   }
 }
 </script>

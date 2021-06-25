@@ -32,34 +32,34 @@ import groupsModule from '@/store/modules/groupsModule';
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    GroupTransactionDialog: () => import('@/components/group/GroupTransactionDialog.vue'),
-    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue'),
-    GroupTransactionsList: () => import("@/components/group/GroupTransactionsList.vue"),
-  },
+	components: {
+		GroupTransactionDialog: () => import('@/components/group/GroupTransactionDialog.vue'),
+		TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue'),
+		GroupTransactionsList: () => import("@/components/group/GroupTransactionsList.vue"),
+	},
 })
 export default class GroupTransactionsView extends Vue {
-  get transactions(): Transaction[] {
-    return groupsModule.selectedGroupTransactions;
-  }
+	get transactions(): Transaction[] {
+		return groupsModule.selectedGroupTransactions;
+	}
   dialog = false
   loading = false
   
   filter: TransactionFilter = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
+  	year: new Date().getFullYear(),
+  	month: new Date().getMonth()+1,
   }
 
   mounted() {
-    this.filter.group = this.$route.params.groupId
-    this.filterTransaction()
+  	this.filter.group = this.$route.params.groupId
+  	this.filterTransaction()
   }
 
   async filterTransaction() {
-    this.loading = true
-    console.log(this.filter)
-    await groupsModule.getSelectGroupTransactions(this.filter)
-    this.loading = false
+  	this.loading = true
+  	console.log(this.filter)
+  	await groupsModule.getSelectGroupTransactions(this.filter)
+  	this.loading = false
   }
 }
 </script>

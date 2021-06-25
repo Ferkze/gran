@@ -29,28 +29,28 @@ import auth from '@/store/modules/auth';
 import { Group } from '@/models';
 
 @Component({
-  components: {
-    GroupForm: () => import('@/components/group/GroupForm.vue')
-  }
+	components: {
+		GroupForm: () => import('@/components/group/GroupForm.vue')
+	}
 })
 export default class CreateGroupView extends Vue {
   loading = false
   group: Group = {
-    name: '',
-    creator: this.currentUserId,
-    members: [ this.currentUserId ],
-    plannings: []
+  	name: '',
+  	creator: this.currentUserId,
+  	members: [ this.currentUserId ],
+  	plannings: []
   }
 
   get currentUserId() {
-    return auth.user ? auth.user.id : ''
+  	return auth.user ? auth.user.id : ''
   }
   
   async createGroup() {
-    this.loading = true
-    await groupsModule.createGroup(this.group)
-    this.$router.push('/grupos')
-    this.loading = false
+  	this.loading = true
+  	await groupsModule.createGroup(this.group)
+  	this.$router.push('/grupos')
+  	this.loading = false
   }
 }
 </script>

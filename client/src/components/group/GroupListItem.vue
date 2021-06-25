@@ -34,15 +34,15 @@ export default class GroupListItem extends Vue {
   group!: Group;
 
   editGroup() {
-    this.$router.push(`/grupos/${this.group.id}/editar`)
+  	this.$router.push(`/grupos/${this.group.id}/editar`)
   }
 
   viewGroup() {
-    this.$router.push(`/grupos/${this.group.id}/transacoes`)
+  	this.$router.push(`/grupos/${this.group.id}/transacoes`)
   }
 	
-	get color() {
-		return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-	} 
+  get color() {
+  	return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+  } 
 }
 </script>

@@ -38,10 +38,10 @@ import groupsModule from "@/store/modules/groupsModule";
 import status from '@/store/modules/status';
 
 @Component({
-  components: {
-    BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
-    BaseFormField: () => import("@/components/base/FormField.vue"),
-  },
+	components: {
+		BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
+		BaseFormField: () => import("@/components/base/FormField.vue"),
+	},
 })
 export default class PlanningForm extends Vue {
   @PropSync("data", { required: true })
@@ -56,12 +56,12 @@ export default class PlanningForm extends Vue {
   // repeat = 0
 
   get monthData() {
-    return `${this.planning.year}-${this.planning.month.toString().padStart(2, '0')}`
+  	return `${this.planning.year}-${this.planning.month.toString().padStart(2, '0')}`
   }
   set monthData(value: string) {
-    const dates = value.split('-')
-    this.planning.year = parseInt(dates[0])
-    this.planning.month = parseInt(dates[1])
+  	const dates = value.split('-')
+  	this.planning.year = parseInt(dates[0])
+  	this.planning.month = parseInt(dates[1])
   }
 
   @Emit("submit")

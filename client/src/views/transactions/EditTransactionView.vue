@@ -34,84 +34,84 @@ import TransactionService from "@/service/api/TransactionService";
 
 
 @Component({
-  components: {
-    TransactionForm: () => import('@/components/transaction/TransactionForm.vue')
-  }
+	components: {
+		TransactionForm: () => import('@/components/transaction/TransactionForm.vue')
+	}
 })
 export default class EditDebitAccount extends Vue {
   loading = false;
 
   get transaction(): Transaction | undefined {
-    const transactionId = this.$route.params.transactionId;
-    const tt = finances.transactions.find((a) => a.id == transactionId);
-    if (!tt && transactionId) {
-      this.getTransaction(transactionId);
-      return undefined;
-    }
-    return tt;
+  	const transactionId = this.$route.params.transactionId;
+  	const tt = finances.transactions.find((a) => a.id == transactionId);
+  	if (!tt && transactionId) {
+  		this.getTransaction(transactionId);
+  		return undefined;
+  	}
+  	return tt;
   }
   set transaction(transaction: Transaction | undefined) {
-    if (!transaction) return;
-    finances.replaceTransaction(transaction);
+  	if (!transaction) return;
+  	finances.replaceTransaction(transaction);
   }
 
   beforeDestroy() {
-    if (finances.transactions.length == 1 && this.transaction) {
-      finances.removeTransaction(this.transaction);
-    }
+  	if (finances.transactions.length == 1 && this.transaction) {
+  		finances.removeTransaction(this.transaction);
+  	}
   }
 
   async getTransaction(transactionId: string) {
-    this.loading = true;
-    const tt = await TransactionService.getTransaction(transactionId);
-    if (!tt) {
-      this.loading = false;
-      return;
-    }
-    finances.setTransactions([tt]);
-    this.loading = false;
+  	this.loading = true;
+  	const tt = await TransactionService.getTransaction(transactionId);
+  	if (!tt) {
+  		this.loading = false;
+  		return;
+  	}
+  	finances.setTransactions([tt]);
+  	this.loading = false;
   }
 
   async updateTransaction() {
-    if (!this.transaction) return;
-    this.loading = true;
-    try {
-      await finances.changeTransaction(this.transaction);
-      status.setStatus({
-        type: "success",
-        message: "Transação atualizada com sucesso",
-      });
-      this.$router.push("/contas");
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível atualizar a conta: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = true;
-    }
+  	if (!this.transaction) return;
+  	this.loading = true;
+  	try {
+  		await finances.changeTransaction(this.transaction);
+  		status.setStatus({
+  			type: "success",
+  			message: "Transação atualizada com sucesso",
+  		});
+  		this.$router.push("/contas");
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível atualizar a conta: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = true;
+  	}
   }
 
-  // async deleteTransaction() {
-  //   if (!this.transaction) return;
-  //   this.loadingDeletion = true;
-  //   try {
-  //     await finances.deleteTransaction(this.transaction);
-  //     status.setStatus({
-  //       type: "success",
-  //       message: "Transação deletada com sucesso",
-  //     });
-  //     this.$router.push("/contas");
-  //   } catch (error) {
-  //     status.setStatus({
-  //       type: "error",
-  //       message: `Não foi possível deletar a transação: ${error.toString()}`,
-  //     });
-  //     status.setError(error);
-  //   } finally {
-  //     this.loadingDeletion = true;
-  //   }
-  // }
+	// async deleteTransaction() {
+	//   if (!this.transaction) return;
+	//   this.loadingDeletion = true;
+	//   try {
+	//     await finances.deleteTransaction(this.transaction);
+	//     status.setStatus({
+	//       type: "success",
+	//       message: "Transação deletada com sucesso",
+	//     });
+	//     this.$router.push("/contas");
+	//   } catch (error) {
+	//     status.setStatus({
+	//       type: "error",
+	//       message: `Não foi possível deletar a transação: ${error.toString()}`,
+	//     });
+	//     status.setError(error);
+	//   } finally {
+	//     this.loadingDeletion = true;
+	//   }
+	// }
 }
 </script>

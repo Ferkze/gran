@@ -71,45 +71,45 @@ import { TransactionType } from '@/models/enums';
 import auth from '@/store/modules/auth';
 
 @Component({
-  components: {
-    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
-    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
-  }
+	components: {
+		TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
+		TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
+	}
 })
 export default class ExpensesView extends Vue {
-  get transactions() {
-    return finances.transactions.filter(t => t.type == TransactionType.CREDIT);
-  }
+	get transactions() {
+		return finances.transactions.filter(t => t.type == TransactionType.CREDIT);
+	}
   loading = false
   filter = { 
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    user: auth.userId
+  	year: new Date().getFullYear(),
+  	month: new Date().getMonth()+1,
+  	user: auth.userId
   }
 
   get despesasPagas () {
-    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT && t.paid)
-    return despesas.reduce((acc, cur) => acc + cur.amount, 0);
+  	var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT && t.paid)
+  	return despesas.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
   get despesasAPagar () {
-    var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT && !t.paid)
-    return despesas.reduce((acc, cur) => acc + cur.amount, 0);
+  	var despesas = this.transactions.filter(t => t.type == TransactionType.CREDIT && !t.paid)
+  	return despesas.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
   get depesasTotais () {
-    var saldo = (this.despesasPagas) + (this.despesasAPagar) 
-    return saldo
+  	var saldo = (this.despesasPagas) + (this.despesasAPagar) 
+  	return saldo
   }
 
   mounted() {
-    this.filterTransaction()
+  	this.filterTransaction()
   }
 
   async filterTransaction() {
-    this.loading = true
-    await finances.filterTransactions(this.filter)
-    this.loading = false
+  	this.loading = true
+  	await finances.filterTransactions(this.filter)
+  	this.loading = false
   }
 }
 </script>

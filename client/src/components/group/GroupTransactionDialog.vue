@@ -21,14 +21,14 @@ import auth from '@/store/modules/auth';
 import finances from '@/store/modules/finances';
 import groupsModule from '@/store/modules/groupsModule';
 import status from '@/store/modules/status';
-	import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
+import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
 
 @Component({
 	components: {
 		TransactionForm: () => import('@/components/transaction/TransactionForm.vue'),
 	}
 })
-	export default class GroupTransactionDialog extends Vue {
+export default class GroupTransactionDialog extends Vue {
 		@PropSync('dialog', { type: Boolean, default: false })
 		show!: boolean
 
@@ -67,7 +67,7 @@ import status from '@/store/modules/status';
 				this.loading = true;
 			}
 		}
-	}
+}
 </script>
 
 <style scoped>

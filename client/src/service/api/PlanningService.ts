@@ -14,7 +14,7 @@ interface PlanningResponse {
 
 class PlanningService {
 
-  async getPlannings(filter: PlanningFilter)  {
+	async getPlannings(filter: PlanningFilter)  {
 		const response = await ApiService.get<PlanningsResponse>('/api/plannings/filter', { params: filter })
 		if (response.data.error) {
 			throw new Error(response.data.error)

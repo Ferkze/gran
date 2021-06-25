@@ -28,37 +28,37 @@ import { Component, Emit, PropSync, Vue } from "vue-property-decorator";
 @Component
 export default class TransactionFilterBar extends Vue {
 	@PropSync('data', { type: Object, default: () => ({
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    user: auth.userId,
-  })})
+		year: new Date().getFullYear(),
+		month: new Date().getMonth()+1,
+		user: auth.userId,
+	})})
   filter!: TransactionFilter
 
-  nextMonth() {
+	nextMonth() {
 		if (!this.filter.month || !this.filter.year) return
-    if (this.filter.month == 12) {
-      this.filter.month = 1;
-      this.filter.year++;
-    } else {
-      this.filter.month++;
-    }
-    this.filterTransaction();
-  }
+		if (this.filter.month == 12) {
+			this.filter.month = 1;
+			this.filter.year++;
+		} else {
+			this.filter.month++;
+		}
+		this.filterTransaction();
+	}
 
-  prevMonth() {
+	prevMonth() {
 		if (!this.filter.month || !this.filter.year) return
-    if (this.filter.month == 1) {
-      this.filter.month = 12;
-      this.filter.year--;
-    } else {
-      this.filter.month--;
-    }
-    this.filterTransaction();
-  }
+		if (this.filter.month == 1) {
+			this.filter.month = 12;
+			this.filter.year--;
+		} else {
+			this.filter.month--;
+		}
+		this.filterTransaction();
+	}
 
   @Emit("filter")
-  filterTransaction() {
-    return this.filter
-  }
+	filterTransaction() {
+		return this.filter
+	}
 }
 </script>

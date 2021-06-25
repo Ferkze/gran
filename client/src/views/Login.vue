@@ -60,11 +60,11 @@ import BaseButton from "@/components/base/Button.vue";
 import BaseFormField from "@/components/base/FormField.vue";
 
 @Component({
-  components: {
-    BaseButton,
-    BaseFormField,
-  },
-  inject: ["theme"],
+	components: {
+		BaseButton,
+		BaseFormField,
+	},
+	inject: ["theme"],
 })
 export default class Login extends Vue {
   email: string = "";
@@ -74,28 +74,28 @@ export default class Login extends Vue {
   loading = false;
 
   async submitLogin() {
-    this.loading = true;
-    this.error = null;
-    try {
-      const user = await auth.login({
-        email: this.email,
-        password: this.password,
-      });
-      if (user != null) {
-        this.$router.push("/dashboard");
-      }
-    } catch (error) {
-      const message = error.response ? error.response.data : "Erro ao entrar";
-      this.error = message;
-    } finally {
-      this.loading = false;
-    }
+  	this.loading = true;
+  	this.error = null;
+  	try {
+  		const user = await auth.login({
+  			email: this.email,
+  			password: this.password,
+  		});
+  		if (user != null) {
+  			this.$router.push("/dashboard");
+  		}
+  	} catch (error) {
+  		const message = error.response ? error.response.data : "Erro ao entrar";
+  		this.error = message;
+  	} finally {
+  		this.loading = false;
+  	}
   }
 
   mounted() {
-    if (auth.isAuthenticated) {
-      this.$router.push("/dashboard");
-    }
+  	if (auth.isAuthenticated) {
+  		this.$router.push("/dashboard");
+  	}
   }
 }
 </script>

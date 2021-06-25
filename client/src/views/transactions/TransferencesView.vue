@@ -47,37 +47,37 @@ import { TransactionType } from "@/models/enums";
 import auth from '@/store/modules/auth';
 
 @Component({
-  components: {
-    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
-    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
-  }
+	components: {
+		TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
+		TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
+	}
 })
 export default class TransferencesView extends Vue {
-  get transactions() {
-    return finances.transactions.filter(
-      (t) => t.type == TransactionType.TRANSFERENCE
-    );
-  }
+	get transactions() {
+		return finances.transactions.filter(
+			(t) => t.type == TransactionType.TRANSFERENCE
+		);
+	}
   loading = false
   filter = { 
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    user: auth.userId
+  	year: new Date().getFullYear(),
+  	month: new Date().getMonth()+1,
+  	user: auth.userId
   }
 
   mounted() {
-    this.filterTransaction()
+  	this.filterTransaction()
   }
 
   get trasnsferenciasTotais() {
-    var receitas = this.transactions.filter(t => t.type == TransactionType.TRANSFERENCE)
-    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+  	var receitas = this.transactions.filter(t => t.type == TransactionType.TRANSFERENCE)
+  	return receitas.reduce((acc, cur) => acc + cur.amount, 0);
   }
 
   async filterTransaction() {
-    this.loading = true
-    await finances.filterTransactions(this.filter)
-    this.loading = false
+  	this.loading = true
+  	await finances.filterTransactions(this.filter)
+  	this.loading = false
   }
 }
 </script>

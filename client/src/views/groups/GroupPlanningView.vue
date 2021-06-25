@@ -73,14 +73,14 @@ import planningModule from "@/store/modules/planningModule";
 import groupsModule from "@/store/modules/groupsModule";
 
 @Component({
-  components: {
-    BudgetProgressBar: () => import("@/components/planning/BudgetsProgressBar.vue"),
-    IncomeListItem: () => import("@/components/planning/IncomeListItem.vue"),
-    ExpenseListItem: () => import("@/components/planning/ExpenseListItem.vue"),
-    GroupPlanningDialog: () => import("@/components/group/GroupPlanningDialog.vue"),
+	components: {
+		BudgetProgressBar: () => import("@/components/planning/BudgetsProgressBar.vue"),
+		IncomeListItem: () => import("@/components/planning/IncomeListItem.vue"),
+		ExpenseListItem: () => import("@/components/planning/ExpenseListItem.vue"),
+		GroupPlanningDialog: () => import("@/components/group/GroupPlanningDialog.vue"),
 		GroupPlanningIncomesDialog: () => import('@/components/group/GroupPlanningIncomesDialog.vue'),
 		GroupPlanningExpensesDialog: () => import('@/components/group/GroupPlanningExpensesDialog.vue'),
-  },
+	},
 })
 export default class GroupPlanningView extends Vue {
   planningDialog = false
@@ -91,90 +91,90 @@ export default class GroupPlanningView extends Vue {
   month = 10;
 
   nextMonth() {
-    if (this.month == 12) {
-      this.month = 1;
-      this.year++;
-    } else {
-      this.month++;
-    }
+  	if (this.month == 12) {
+  		this.month = 1;
+  		this.year++;
+  	} else {
+  		this.month++;
+  	}
   }
 
   prevMonth() {
-    if (this.month == 1) {
-      this.month = 12;
-      this.year--;
-    } else {
-      this.month--;
-    }
+  	if (this.month == 1) {
+  		this.month = 12;
+  		this.year--;
+  	} else {
+  		this.month--;
+  	}
   }
 
   get groupId() {
-    return this.$route.params.groupId
+  	return this.$route.params.groupId
   }
 
   get currentPlanning() {
-    return groupsModule.selectedGroupPlannings.find((planning) => {
-      return planning.year == this.year && planning.month == this.month;
-    });
+  	return groupsModule.selectedGroupPlannings.find((planning) => {
+  		return planning.year == this.year && planning.month == this.month;
+  	});
   }
 
   get incomes() {
-    if (this.currentPlanning) {
-      return this.currentPlanning.budgets.filter(
-        (budget) => budget.type == "income"
-      );
-    }
-    return [];
+  	if (this.currentPlanning) {
+  		return this.currentPlanning.budgets.filter(
+  			(budget) => budget.type == "income"
+  		);
+  	}
+  	return [];
   }
 
   get expenses() {
-    if (this.currentPlanning) {
-      return this.currentPlanning.budgets.filter(
-        (budget) => budget.type == "expense"
-      );
-    }
-    return [];
+  	if (this.currentPlanning) {
+  		return this.currentPlanning.budgets.filter(
+  			(budget) => budget.type == "expense"
+  		);
+  	}
+  	return [];
   }
 
   get budgetProgress(): BudgetProgress {
-    return {
-      incomesProgress: parseInt(this.incomesProgress.toFixed(0)),
-      incomesTotal: this.incomesTotal,
-      expensesProgress: parseInt(this.expensesProgress.toFixed(0)),
-      expensesTotal: this.expensesTotal,
-    };
+  	return {
+  		incomesProgress: parseInt(this.incomesProgress.toFixed(0)),
+  		incomesTotal: this.incomesTotal,
+  		expensesProgress: parseInt(this.expensesProgress.toFixed(0)),
+  		expensesTotal: this.expensesTotal,
+  	};
   }
 
   get incomesProgress() {
-    const incomeCurrentTotal = this.incomes.reduce(
-      (acc, cur) => {
-        acc[0] += cur.current;
-        acc[1] += cur.value;
-        return acc;
-      },
-      [0, 0]
-    );
-    return (incomeCurrentTotal[0] * 100) / incomeCurrentTotal[1];
+  	const incomeCurrentTotal = this.incomes.reduce(
+  		(acc, cur) => {
+  			acc[0] += cur.current;
+  			acc[1] += cur.value;
+  			return acc;
+  		},
+  		[0, 0]
+  	);
+  	return (incomeCurrentTotal[0] * 100) / incomeCurrentTotal[1];
   }
 
   get incomesTotal() {
-    return this.incomes.reduce((acc, cur) => acc + cur.current, 0);
+  	return this.incomes.reduce((acc, cur) => acc + cur.current, 0);
   }
 
   get expensesProgress() {
-    const expenseCurrentTotal = this.expenses.reduce(
-      (acc, cur) => {
-        acc[0] += cur.current;
-        acc[1] += cur.value;
-        return acc;
-      },
-      [0, 0]
-    );
-    return (expenseCurrentTotal[0] * 100) / expenseCurrentTotal[1];
+  	const expenseCurrentTotal = this.expenses.reduce(
+  		(acc, cur) => {
+  			acc[0] += cur.current;
+  			acc[1] += cur.value;
+  			return acc;
+  		},
+  		[0, 0]
+  	);
+  	return (expenseCurrentTotal[0] * 100) / expenseCurrentTotal[1];
   }
 
   get expensesTotal() {
-    return this.expenses.reduce((acc, cur) => acc + cur.current, 0);
+  	return this.expenses.reduce((acc, cur) => acc + cur.current, 0);
   }
 }
 </script>

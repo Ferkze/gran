@@ -58,14 +58,14 @@ import { Group, User } from '@/models';
 import GroupsService from '@/service/api/GroupsService';
 import groupsModule from '@/store/modules/groupsModule';
 import status from '@/store/modules/status';
-	import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
+import { Component, Prop, PropSync, Vue } from 'vue-property-decorator';
 
 @Component({
 	components: {
 		BaseFormField: () => import('@/components/base/FormField.vue'),
 	}
 })
-	export default class GroupMembersDialog extends Vue {
+export default class GroupMembersDialog extends Vue {
 		@PropSync('dialog', { type: Boolean, default: true })
 		show!: boolean
 
@@ -109,10 +109,10 @@ import status from '@/store/modules/status';
 					})
 				}
 			} catch (error) {
-					status.setStatus({
-						message: 'Não foi possível buscar o usuário',
-						type: 'error'
-					})
+				status.setStatus({
+					message: 'Não foi possível buscar o usuário',
+					type: 'error'
+				})
 				console.error('Erro ao buscar email: ', error)
 			} finally {
 				this.memberEmail = ''
@@ -142,5 +142,5 @@ import status from '@/store/modules/status';
 			}
 
 		}
-	}
+}
 </script>

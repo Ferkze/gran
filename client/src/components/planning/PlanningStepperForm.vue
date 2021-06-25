@@ -40,12 +40,12 @@ import { CategoryType } from "@/models/enums";
 import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    PlanningForm: () => import('@/components/planning/PlanningForm.vue'),
-    IncomeBudgetForm: () => import('@/components/planning/IncomeBudgetForm.vue'),
-    PlanningBudgetList: () => import('@/components/planning/PlanningBudgetList.vue'),
-    ExpenseBudgetForm: () => import('@/components/planning/ExpenseBudgetForm.vue')
-  },
+	components: {
+		PlanningForm: () => import('@/components/planning/PlanningForm.vue'),
+		IncomeBudgetForm: () => import('@/components/planning/IncomeBudgetForm.vue'),
+		PlanningBudgetList: () => import('@/components/planning/PlanningBudgetList.vue'),
+		ExpenseBudgetForm: () => import('@/components/planning/ExpenseBudgetForm.vue')
+	},
 })
 export default class PlanningStepperForm extends Vue {
 	@PropSync('data', { type: Object, required: true })
@@ -55,53 +55,53 @@ export default class PlanningStepperForm extends Vue {
 	loading!: boolean
 
   income: Budget = {
-    type: CategoryType.INCOME,
-    category: "",
-    icon: "",
-    current: 0,
-    value: 0,
+  	type: CategoryType.INCOME,
+  	category: "",
+  	icon: "",
+  	current: 0,
+  	value: 0,
   };
   expense: Budget = {
-    type: CategoryType.EXPENSE,
-    category: "",
-    icon: "",
-    current: 0,
-    value: 0,
+  	type: CategoryType.EXPENSE,
+  	category: "",
+  	icon: "",
+  	current: 0,
+  	value: 0,
   };
 
   stepper = 1;
 
   mounted() {
-    if (this.$route.query.mes && this.$route.query.ano) {
-      this.planning.year = parseInt(this.$route.query.ano as string);
-      this.planning.month = parseInt(this.$route.query.mes as string);
-    }
+  	if (this.$route.query.mes && this.$route.query.ano) {
+  		this.planning.year = parseInt(this.$route.query.ano as string);
+  		this.planning.month = parseInt(this.$route.query.mes as string);
+  	}
   }
   createPlanning() {
-    this.stepper++;
+  	this.stepper++;
   }
   addIncome() {
-    const income = Object.assign({}, this.income);
-    this.planning.budgets.push(income);
-    this.income.category = "";
-    this.income.value = 0;
+  	const income = Object.assign({}, this.income);
+  	this.planning.budgets.push(income);
+  	this.income.category = "";
+  	this.income.value = 0;
   }
   addExpense() {
-    const expense = Object.assign({}, this.expense);
-    this.planning.budgets.push(expense);
-    this.expense.category = "";
-    this.expense.value = 0;
-	}
+  	const expense = Object.assign({}, this.expense);
+  	this.planning.budgets.push(expense);
+  	this.expense.category = "";
+  	this.expense.value = 0;
+  }
 	
 	@Emit('submit')
-	submit() {}
+  submit() {}
 
-  get incomes() {
-    return this.planning.budgets.filter((b) => b.type == CategoryType.INCOME);
-  }
+	get incomes() {
+		return this.planning.budgets.filter((b) => b.type == CategoryType.INCOME);
+	}
 
-  get expenses() {
-    return this.planning.budgets.filter((b) => b.type == CategoryType.EXPENSE);
-  }
+	get expenses() {
+		return this.planning.budgets.filter((b) => b.type == CategoryType.EXPENSE);
+	}
 }
 </script>

@@ -28,25 +28,25 @@ export default class IncomeListItem extends Vue {
   budget!: Budget;
 
   progressColor(percent: number) {
-    if (percent > 0.6) {
-      return 'success'
-    } else if (percent > 0.3) {
-      return 'warning'
-    } else {
-      return 'error'
-    }
+  	if (percent > 0.6) {
+  		return 'success'
+  	} else if (percent > 0.3) {
+  		return 'warning'
+  	} else {
+  		return 'error'
+  	}
   }
 
-	getCategoryIcon(categoryId: string) {
-		const category = finances.categories.find(c => c.id == categoryId)
-		if (category) return 'mdi-'+category.icon
-		else return 'mdi-triangle'
-	}
-	getCategoryName(categoryId: string) {
-		const category = finances.categories.find(c => c.id == categoryId)
-		if (category) return category.name
-		else return ''
-	}
+  getCategoryIcon(categoryId: string) {
+  	const category = finances.categories.find(c => c.id == categoryId)
+  	if (category) return 'mdi-'+category.icon
+  	else return 'mdi-triangle'
+  }
+  getCategoryName(categoryId: string) {
+  	const category = finances.categories.find(c => c.id == categoryId)
+  	if (category) return category.name
+  	else return ''
+  }
 }
 </script>
 

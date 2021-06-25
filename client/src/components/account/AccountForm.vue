@@ -86,12 +86,12 @@ import BaseSelect from "@/components/base/Select.vue";
 import BaseFormField from "@/components/base/FormField.vue";
 
 @Component({
-  components: {
-    BaseTextField,
-    BaseSelect,
-    BaseFormField,
-    AccountLogo: () => import("./AccountLogo.vue"),
-  },
+	components: {
+		BaseTextField,
+		BaseSelect,
+		BaseFormField,
+		AccountLogo: () => import("./AccountLogo.vue"),
+	},
 })
 export default class AccountForm extends Vue {
   @PropSync("data", { required: true, type: Object })
@@ -99,36 +99,36 @@ export default class AccountForm extends Vue {
 
   loading = false;
   accountTypes = [
-    { text: "Carteira", value: AccountSubtypes.CURRENCY },
-    { text: "Carteira Digital", value: AccountSubtypes.DIGITAL_CURRENCY },
-    { text: "Conta Corrente", value: AccountSubtypes.CURRENT },
-    { text: "Conta em Corretora", value: AccountSubtypes.BROKER },
+  	{ text: "Carteira", value: AccountSubtypes.CURRENCY },
+  	{ text: "Carteira Digital", value: AccountSubtypes.DIGITAL_CURRENCY },
+  	{ text: "Conta Corrente", value: AccountSubtypes.CURRENT },
+  	{ text: "Conta em Corretora", value: AccountSubtypes.BROKER },
   ];
 
   get accountInstitutions() {
-    switch (this.account.subtype) {
-      case AccountSubtypes.CURRENT:
-        return finances.bankInstitutions;
-      case AccountSubtypes.BROKER:
-        return finances.brokerInstitutions;
-      case AccountSubtypes.DIGITAL_CURRENCY:
-        return finances.paymentInstitutions;
-      default:
-        return [];
-    }
+  	switch (this.account.subtype) {
+  		case AccountSubtypes.CURRENT:
+  			return finances.bankInstitutions;
+  		case AccountSubtypes.BROKER:
+  			return finances.brokerInstitutions;
+  		case AccountSubtypes.DIGITAL_CURRENCY:
+  			return finances.paymentInstitutions;
+  		default:
+  			return [];
+  	}
   }
 
   get startingBalance(): string {
-    const startingBalance = this.account.startingBalance || 0;
-    if (startingBalance - Math.ceil(startingBalance) !== 0) {
-      return startingBalance.toFixed(2).replace(".", ",");
-    }
-    return startingBalance.toString();
+  	const startingBalance = this.account.startingBalance || 0;
+  	if (startingBalance - Math.ceil(startingBalance) !== 0) {
+  		return startingBalance.toFixed(2).replace(".", ",");
+  	}
+  	return startingBalance.toString();
   }
   set startingBalance(str: string) {
-    str.replace(/\D/g, "");
-    if (str == "") str = "0";
-    this.account.startingBalance = parseFloat(str.replace(",", "."));
+  	str.replace(/\D/g, "");
+  	if (str == "") str = "0";
+  	this.account.startingBalance = parseFloat(str.replace(",", "."));
   }
 
   @Emit("submit")

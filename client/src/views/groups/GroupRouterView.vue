@@ -69,12 +69,12 @@ export default class GroupRouterView extends Vue {
   groupId = "";
 
   mounted() {
-    this.groupId = this.$route.params.groupId;
-    groupsModule.selectGroup(this.groupId);
+  	this.groupId = this.$route.params.groupId;
+  	groupsModule.selectGroup(this.groupId);
   }
 
   get group() {
-    return groupsModule.selectedGroup;
+  	return groupsModule.selectedGroup;
   }
 }
 </script>

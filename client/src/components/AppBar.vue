@@ -61,17 +61,17 @@ import { Component, Vue } from "vue-property-decorator";
 import auth from "../store/modules/auth";
 
 @Component({
-  components: {
-    BaseGranLogo: () => import("@/components/base/GranLogo.vue"),
-  },
-  inject: ["theme"],
+	components: {
+		BaseGranLogo: () => import("@/components/base/GranLogo.vue"),
+	},
+	inject: ["theme"],
 })
 export default class AppBar extends Vue {
-  get isAuthenticated() {
-    return auth.isAuthenticated;
-  }
-  get isAtHome() {
-    return this.$route.path == "/";
-  }
+	get isAuthenticated() {
+		return auth.isAuthenticated;
+	}
+	get isAtHome() {
+		return this.$route.path == "/";
+	}
 }
 </script>

@@ -80,7 +80,7 @@ import BaseFormField from "@/components/base/FormField.vue";
 @Component({
 	inject: ['theme'],
 	components: {
-    BaseButton,
+		BaseButton,
 		BaseFormField
 	}
 })

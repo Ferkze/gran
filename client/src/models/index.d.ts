@@ -1,9 +1,9 @@
 import {
-  AccountTypes,
-  AccountSubtypes,
-  TransactionType,
-  InstitutionType,
-  CategoryType,
+	AccountTypes,
+	AccountSubtypes,
+	TransactionType,
+	InstitutionType,
+	CategoryType,
 } from "./enums";
 
 export interface User {

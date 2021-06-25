@@ -34,24 +34,24 @@ export default class ExpenseListItem extends Vue {
   budget!: Budget;
 
   progressColor(percent: number) {
-    if (percent > 0.7) {
-      return "red";
-    } else if (percent > 0.4) {
-      return "warning";
-    } else {
-      return "success";
-    }
+  	if (percent > 0.7) {
+  		return "red";
+  	} else if (percent > 0.4) {
+  		return "warning";
+  	} else {
+  		return "success";
+  	}
   }
 
   getCategoryIcon(categoryId: string) {
-    const category = finances.categories.find(c => c.id == categoryId)
-    if (category) return 'mdi-'+category.icon
-    else return 'mdi-triangle'
+  	const category = finances.categories.find(c => c.id == categoryId)
+  	if (category) return 'mdi-'+category.icon
+  	else return 'mdi-triangle'
   }
   getCategoryName(categoryId: string) {
-    const category = finances.categories.find(c => c.id == categoryId)
-    if (category) return category.name
-    else return ''
+  	const category = finances.categories.find(c => c.id == categoryId)
+  	if (category) return category.name
+  	else return ''
   }
 }
 </script>

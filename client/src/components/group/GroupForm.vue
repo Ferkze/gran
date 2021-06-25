@@ -28,10 +28,10 @@ import { Component, Emit, Prop, PropSync, Vue } from "vue-property-decorator";
 import { Group } from '@/models';
 
 @Component({
-  components: {
-    BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
-    BaseFormField: () => import("@/components/base/FormField.vue"),
-  },
+	components: {
+		BaseDatePicker: () => import("@/components/base/DatePicker.vue"),
+		BaseFormField: () => import("@/components/base/FormField.vue"),
+	},
 })
 export default class GroupForm extends Vue {
 	@PropSync("data", { required: true })

@@ -32,53 +32,53 @@ import status from "../../store/modules/status";
 import accounts from "../../store/modules/accounts";
 
 @Component({
-  components: {
-    AccountForm: () => import("@/components/account/AccountForm.vue"),
-  }
+	components: {
+		AccountForm: () => import("@/components/account/AccountForm.vue"),
+	}
 })
 export default class EditDebitAccountView extends Vue {
   loading = false
 
-	mounted() {
-		finances.fetchInstitutions()
-	}
+  mounted() {
+  	finances.fetchInstitutions()
+  }
 
   get account(): Account | undefined {
-    const acc = accounts.accounts.find(
-      (a) => a.id == this.$route.params.accountId
-    );
-    if (!acc) {
-      this.$router.go(-1);
-      return undefined;
-    }
-    return acc;
+  	const acc = accounts.accounts.find(
+  		(a) => a.id == this.$route.params.accountId
+  	);
+  	if (!acc) {
+  		this.$router.go(-1);
+  		return undefined;
+  	}
+  	return acc;
   }
   set account(acc: Account | undefined) {
-    if (!acc) return;
-    accounts.replaceAccount(acc);
+  	if (!acc) return;
+  	accounts.replaceAccount(acc);
   }
 
   async updateAccount() {
-    if (!this.account) {
-      return;
-    }
-    this.loading = true;
-    try {
-      await accounts.changeAccount(this.account);
-      status.setStatus({
-        type: "success",
-        message: "Conta atualizada com sucesso",
-      });
-      this.$router.push("/contas");
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível atualizar a conta: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = true;
-    }
+  	if (!this.account) {
+  		return;
+  	}
+  	this.loading = true;
+  	try {
+  		await accounts.changeAccount(this.account);
+  		status.setStatus({
+  			type: "success",
+  			message: "Conta atualizada com sucesso",
+  		});
+  		this.$router.push("/contas");
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível atualizar a conta: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = true;
+  	}
   }
 
 }

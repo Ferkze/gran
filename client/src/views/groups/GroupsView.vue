@@ -42,8 +42,8 @@ import groupsModule from '@/store/modules/groupsModule'
 })
 export default class GroupsView extends Vue {
 	loading = false
-  get groups() {
-    return groupsModule.groups
+	get groups() {
+		return groupsModule.groups
 	}
 	mounted() {
 		this.loadData()

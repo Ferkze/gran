@@ -39,19 +39,19 @@ export default class SideBar extends Vue {
   mini = true;
 
   items = [
-    { name: "Visão Geral", route: "/dashboard/", icon: "mdi-view-dashboard" },
-    { name: "Contas", route: "/contas", icon: "mdi-bank" },
-    { name: "Transações", route: "/transacoes", icon: "mdi-cash-multiple" },
-    { name: "Projeções", route: "/projecoes", icon: "mdi-poll" },
-    { name: "Grupos", route: "/grupos", icon: "mdi-account-group" },
+  	{ name: "Visão Geral", route: "/dashboard/", icon: "mdi-view-dashboard" },
+  	{ name: "Contas", route: "/contas", icon: "mdi-bank" },
+  	{ name: "Transações", route: "/transacoes", icon: "mdi-cash-multiple" },
+  	{ name: "Projeções", route: "/projecoes", icon: "mdi-poll" },
+  	{ name: "Grupos", route: "/grupos", icon: "mdi-account-group" },
   ];
 
   get isAuthenticated() {
-    return auth.isAuthenticated;
+  	return auth.isAuthenticated;
   }
 
   get show() {
-    return auth.isAuthenticated && this.$route.path !== '/';
+  	return auth.isAuthenticated && this.$route.path !== '/';
   }
 }
 </script>

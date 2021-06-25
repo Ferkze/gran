@@ -43,33 +43,33 @@ import auth from "../../store/modules/auth";
 import { User } from "../../models";
 
 @Component({
-  name: "SettingsView",
+	name: "SettingsView",
 })
 export default class SettingsView extends Vue {
-  get user(): User | null {
-    return auth.user;
-  }
+	get user(): User | null {
+		return auth.user;
+	}
 
-  get dark() {
-    return this.$vuetify.theme.dark;
-  }
-  set dark(value: boolean) {
-    localStorage.setItem("theme.dark", JSON.stringify(value));
-    this.$vuetify.theme.dark = value;
-  }
-  get username() {
-    if (!this.user) {
-      return "";
-    }
-    if (this.user.firstName) {
-      return `${this.user.firstName} ${this.user.lastName}`;
-    } else if (this.user.username) return this.user.username;
-    else return "";
-  }
+	get dark() {
+		return this.$vuetify.theme.dark;
+	}
+	set dark(value: boolean) {
+		localStorage.setItem("theme.dark", JSON.stringify(value));
+		this.$vuetify.theme.dark = value;
+	}
+	get username() {
+		if (!this.user) {
+			return "";
+		}
+		if (this.user.firstName) {
+			return `${this.user.firstName} ${this.user.lastName}`;
+		} else if (this.user.username) return this.user.username;
+		else return "";
+	}
 
-  logout() {
-    auth.logout();
-    this.$router.push("/");
-  }
+	logout() {
+		auth.logout();
+		this.$router.push("/");
+	}
 }
 </script>

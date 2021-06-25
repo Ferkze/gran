@@ -23,12 +23,12 @@ import status from "@/store/modules/status";
 import { Component, Prop, PropSync, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    IncomeBudgetForm: () =>
+	components: {
+		IncomeBudgetForm: () =>
       import("@/components/planning/IncomeBudgetForm.vue"),
-    PlanningBudgetList: () =>
+		PlanningBudgetList: () =>
       import("@/components/planning/PlanningBudgetList.vue"),
-  },
+	},
 })
 export default class GroupPlanningIncomesDialog extends Vue {
   @PropSync("dialog", { type: Boolean, default: true })
@@ -45,49 +45,49 @@ export default class GroupPlanningIncomesDialog extends Vue {
 	incomes: Budget[] = []
 	expenses: Budget[] = []
   income: Budget = {
-    type: CategoryType.INCOME,
-    category: "",
-    current: 0,
-    value: 0,
+  	type: CategoryType.INCOME,
+  	category: "",
+  	current: 0,
+  	value: 0,
   };
   addIncome() {
-    const income = Object.assign({}, this.income);
-    this.incomes.push(income);
-    this.income.category = "";
-    this.income.value = 0;
+  	const income = Object.assign({}, this.income);
+  	this.incomes.push(income);
+  	this.income.category = "";
+  	this.income.value = 0;
   }
 
-	async save() {
-		this.loading = true;
-    try {
-      await groupsModule.updateGroupPlanningBudgets({
-				planningId: this.planningId,
-				budgets: [...this.incomes, ...this.expenses]
-			});
-      status.setStatus({
-        type: "success",
-        message: "Fontes de renda atualizadas com sucesso",
-      });
-    } catch (error) {
-      status.setStatus({
-        type: "error",
-        message: `Não foi possível atualizar as fontes de renda: ${error.toString()}`,
-      });
-      status.setError(error);
-    } finally {
-      this.loading = false;
-    }
-	}
+  async save() {
+  	this.loading = true;
+  	try {
+  		await groupsModule.updateGroupPlanningBudgets({
+  			planningId: this.planningId,
+  			budgets: [...this.incomes, ...this.expenses]
+  		});
+  		status.setStatus({
+  			type: "success",
+  			message: "Fontes de renda atualizadas com sucesso",
+  		});
+  	} catch (error) {
+  		status.setStatus({
+  			type: "error",
+  			message: `Não foi possível atualizar as fontes de renda: ${error.toString()}`,
+  		});
+  		status.setError(error);
+  	} finally {
+  		this.loading = false;
+  	}
+  }
 	
-	mounted() {
-    const planning = groupsModule.selectedGroupPlannings.find(
-      (p) => p.id == this.planningId
-    );
-    if (planning) {
-			this.incomes.push(...planning.budgets.filter((b) => b.type == CategoryType.INCOME));
-      this.expenses.push(...planning.budgets.filter((b) => b.type == CategoryType.EXPENSE));
-		}
-	}
+  mounted() {
+  	const planning = groupsModule.selectedGroupPlannings.find(
+  		(p) => p.id == this.planningId
+  	);
+  	if (planning) {
+  		this.incomes.push(...planning.budgets.filter((b) => b.type == CategoryType.INCOME));
+  		this.expenses.push(...planning.budgets.filter((b) => b.type == CategoryType.EXPENSE));
+  	}
+  }
 
 }
 </script>

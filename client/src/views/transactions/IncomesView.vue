@@ -71,46 +71,46 @@ import finances from "@/store/modules/finances";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: {
-    TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
-    TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
-  },
+	components: {
+		TransactionsList: () => import("@/components/transaction/TransactionsList.vue"),
+		TransactionFilterBar: () => import('@/components/transaction/TransactionFilterBar.vue')
+	},
 })
 export default class IncomesView extends Vue {
-  get transactions() {
-    return finances.transactions.filter((t) => t.type == TransactionType.DEBIT);
-  }
-  get receitasRecebidos () {
-    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
-    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
-  }
+	get transactions() {
+		return finances.transactions.filter((t) => t.type == TransactionType.DEBIT);
+	}
+	get receitasRecebidos () {
+		var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+		return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+	}
 
-  get receitasAReceber () {
-    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
-    return receitas.reduce((acc, cur) => acc + cur.amount, 0);
-  }
+	get receitasAReceber () {
+		var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+		return receitas.reduce((acc, cur) => acc + cur.amount, 0);
+	}
 
-  get receitasTotais () {
-    var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
-    return receitas.reduce((acc, cur) => acc + cur.amount, 0)
-  }
+	get receitasTotais () {
+		var receitas = this.transactions.filter(t => t.type == TransactionType.DEBIT)
+		return receitas.reduce((acc, cur) => acc + cur.amount, 0)
+	}
 
 
   loading = false
   filter = { 
-    year: new Date().getFullYear(),
-    month: new Date().getMonth()+1,
-    user: auth.userId
+  	year: new Date().getFullYear(),
+  	month: new Date().getMonth()+1,
+  	user: auth.userId
   }
 
   mounted() {
-    this.filterTransaction()
+  	this.filterTransaction()
   }
 
   async filterTransaction() {
-    this.loading = true
-    await finances.filterTransactions(this.filter)
-    this.loading = false
+  	this.loading = true
+  	await finances.filterTransactions(this.filter)
+  	this.loading = false
   }
 }
 </script>

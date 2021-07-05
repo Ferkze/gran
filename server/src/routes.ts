@@ -18,6 +18,7 @@ import errorHandlerMiddleware from './middlewares/errorHandler.middleware'
 const router = Router()
 
 router.get('/', indexController.index)
+router.get('/health', indexController.serverHealth)
 
 router.post('/auth/login', authController.login) // OK
 router.post('/auth/register', authController.register) // OK

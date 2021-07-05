@@ -10,8 +10,8 @@ ENV NODE_ENV=production
 COPY . .
 RUN npm run build
 
-ENV PORT=8000
+ENV PORT=80
 
-EXPOSE 8000
+EXPOSE 80
 
 CMD ["npm", "start"]

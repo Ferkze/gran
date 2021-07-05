@@ -4,8 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon src/index.ts",
+    "build:prod": "tsc --project tsconfig.prod.json",
     "start": "node dist/index.js",
     "test": "jest --watch --runInBand --detectOpenHandles",
     "seed": "sucrase-node src/seed/index.ts"

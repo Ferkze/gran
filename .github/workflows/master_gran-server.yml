@@ -18,10 +18,10 @@ jobs:
         with:
           node-version: "12.x"
       - name: npm install, build, and test
+        working-directory: server
         run: |
-          cd server
-          npm ci --production
-          npm run build --if-present
+          npm ci --only=production
+          npm run build:prod --if-present
 
 #         npm run test --if-present
 

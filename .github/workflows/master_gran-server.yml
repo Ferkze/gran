@@ -3,10 +3,7 @@
 
 # name: Build and deploy Node.js app to Azure Web App - gran-server
 
-on:
-  push:
-    branches:
-      - master
+on: [push, pull_request]
 
 jobs:
   test:
@@ -21,7 +18,7 @@ jobs:
         working-directory: server
         run: |
           npm ci --only=production
-          npm run build:prod --if-present
+          npm run build --if-present
 
 #         npm run test --if-present
 

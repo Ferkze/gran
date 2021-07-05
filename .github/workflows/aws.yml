@@ -70,8 +70,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          working-directory: server
-          task-definition: .aws/task-definition.json
+          task-definition: server/.aws/task-definition.json
           container-name: gran-cr
           image: ${{ steps.build-image.outputs.image }}
 

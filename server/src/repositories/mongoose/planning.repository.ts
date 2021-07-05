@@ -1,4 +1,5 @@
 import { PlanningRepository } from '..'
+import { Account } from '../../models/entities/Account'
 import { Planning, PlanningFilter } from '../../models/entities/Planning'
 import { User } from '../../models/entities/User'
 import GroupModel from './models/GroupModel'

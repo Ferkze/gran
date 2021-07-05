@@ -3,8 +3,8 @@ FROM node:lts-alpine
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY tsconfig.json .
-RUN npm install
+COPY tsconfig.prod.json .
+RUN npm ci --only=production
 ENV NODE_ENV=production
 
 COPY . .

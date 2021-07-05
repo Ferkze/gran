@@ -8,6 +8,7 @@ RUN npm ci --only=production
 ENV NODE_ENV=production
 
 COPY . .
+RUN npm install -g typescript
 RUN npm run build
 
 ENV PORT=80

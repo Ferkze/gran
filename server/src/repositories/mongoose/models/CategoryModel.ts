@@ -5,7 +5,7 @@ export interface ICategory extends Document, Category {
   getCategory(): Category
 }
 
-const SchemaCategory = new Schema({
+const SchemaCategory = new Schema<Category>({
   icon: { type: Schema.Types.String, required: false },
   name: { type: Schema.Types.String, required: true },
   type: { type: Schema.Types.String, required: true,

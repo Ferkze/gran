@@ -1,4 +1,4 @@
-import { Document, Schema, model, Model, DocumentQuery, Types, MongooseFilterQuery } from 'mongoose'
+import { Document, Schema, model, Model, DocumentQuery, Types, FilterQuery } from 'mongoose'
 import { User } from '../../../models/entities/User'
 import { AccountSchema, IAccount } from './AccountSchema'
 import { IPlanning, PlanningSchema } from './PlanningSchema'
@@ -6,7 +6,7 @@ import { IPlanning, PlanningSchema } from './PlanningSchema'
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
 export const USER: string = 'User'
 
-export const UserSchema = new Schema({
+export const UserSchema = new Schema<User>({
 	username: String,
 	email: String,
 	password: String,
@@ -29,7 +29,7 @@ export interface UserDocumentModel extends Document, User {
 }
 
 export interface UserModel extends Model<UserDocument> {
-	findOne(conditions: MongooseFilterQuery<Pick<UserDocument, "_id" | "plannings" | "createdAt" | "updatedAt" | "accounts" | "username" | "email" | "password">>, projection: any): DocumentQuery<UserDocumentModel, UserDocumentModel>
+	findOne(conditions: FilterQuery<Pick<UserDocument, "_id" | "plannings" | "createdAt" | "updatedAt" | "accounts" | "username" | "email" | "password">>, projection: any): DocumentQuery<UserDocumentModel, UserDocumentModel>
   findById(id: string): DocumentQuery<UserDocumentModel, UserDocumentModel>
 }
 
@@ -40,7 +40,7 @@ UserSchema.methods.getUser = function () {
 		email: this.email,
 		password: this.password,
 		firstName: this.firstName,
-		lastName: this.lastName,		
+		lastName: this.lastName,
 		accounts: this.accounts,
 		budgets: this.budgets,
 		createdAt: this.createdAt,

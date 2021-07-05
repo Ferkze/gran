@@ -20,8 +20,8 @@ export class MongooseCategoryRepository implements CategoryRepository {
 	}
 	
 	async updateCategory(categoryId: Category['id'], category: Category): Promise<Category> {
-		const doc = await CategoryModel.update({ _id: categoryId }, category)
-		return doc.getCategory()
+		const doc = await CategoryModel.findByIdAndUpdate(categoryId, category)
+		return doc
 	}
 	
 	async deleteCategory(categoryId: string): Promise<void> {

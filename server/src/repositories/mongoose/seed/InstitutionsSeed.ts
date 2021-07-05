@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
-import InstitutionModel , { InstitutionType } from '../models/InstitutionModel'
+import InstitutionModel , { IInstitution, InstitutionType } from '../models/InstitutionModel'
 import database from '../../../config/database'
 import debug from 'debug'
 
 const log = debug('app:institution:seed')
 
-const documents: any[] = [
+const documents: Partial<IInstitution>[] = [
 	{
 		name: 'Nubank',
 		description: '',
@@ -14,7 +14,7 @@ const documents: any[] = [
 			primary: 'purple',
 			secondary: 'white'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'Banco Inter',
@@ -24,7 +24,7 @@ const documents: any[] = [
 			primary: 'orange',
 			secondary: 'white'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'Next',
@@ -34,7 +34,7 @@ const documents: any[] = [
 			primary: 'green',
 			secondary: 'black'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'Bradesco',
@@ -44,7 +44,7 @@ const documents: any[] = [
 			primary: 'red',
 			secondary: 'white'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'Itaú',
@@ -54,7 +54,7 @@ const documents: any[] = [
 			primary: 'orange',
 			secondary: 'darkblue'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'Santander',
@@ -64,7 +64,7 @@ const documents: any[] = [
 			primary: 'red',
 			secondary: 'white'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'C6 Bank',
@@ -74,7 +74,7 @@ const documents: any[] = [
 			primary: 'black',
 			secondary: 'yellow'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 	{
 		name: 'Outro Banco',
@@ -84,7 +84,7 @@ const documents: any[] = [
 			primary: 'black',
 			secondary: 'white'
 		},
-		logoUrl: ''
+		imageUrl: ''
 	},
 ]
 
@@ -96,7 +96,7 @@ export const seedInstitutions = async (): Promise<void> => {
 			mongoose.disconnect()
 		}
 	} catch (error) {
-		log(error)	
+		log(error)
 	}
 }
 

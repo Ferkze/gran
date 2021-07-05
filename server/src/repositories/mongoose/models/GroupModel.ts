@@ -1,10 +1,10 @@
-import { Document, Schema, model, Types, Model, DocumentQuery, MongooseFilterQuery } from 'mongoose'
+import { Document, Schema, model, Types, Model, DocumentQuery, FilterQuery } from 'mongoose'
 import { Group } from '../../../models/entities/Group'
 import { IPlanning, PlanningSchema } from './PlanningSchema'
 
 export const GROUP: string = 'Group'
 
-const GroupSchema = new Schema({
+const GroupSchema = new Schema<Group>({
   name: { type: String, required: true },
   creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
@@ -22,7 +22,7 @@ export interface GroupDocumentModel extends GroupDocument {
 }
 
 export interface GroupModel extends Model<GroupDocument> {
-  findOne(conditions: MongooseFilterQuery<Pick<GroupDocument, "_id" | "plannings" | "getGroup" | "name" | "creator">>, projection: any): DocumentQuery<GroupDocumentModel, GroupDocumentModel>
+  findOne(conditions: FilterQuery<Pick<GroupDocument, "_id" | "plannings" | "getGroup" | "name" | "creator">>, projection: any): DocumentQuery<GroupDocumentModel, GroupDocumentModel>
   findById(id: string): DocumentQuery<GroupDocumentModel, GroupDocumentModel>
 }
 

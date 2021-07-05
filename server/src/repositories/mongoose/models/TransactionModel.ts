@@ -1,4 +1,4 @@
-import { Document, Schema, Model, model, DocumentQuery } from 'mongoose'
+import { Document, Schema, Model, model, DocumentQuery, Query } from 'mongoose'
 import { Transaction, TransactionType } from '../../../models/entities/Transaction'
 // import { GROUP, IGroup } from './Group'
 
@@ -8,12 +8,12 @@ export interface ITransaction extends Transaction, Document {
   getTransaction(): Transaction
 }
 
-export interface ITransactionModel extends Model<ITransaction, typeof transactionQueryHelpers> {
+export interface ITransactionModel extends Model<ITransaction, TransactionQueryHelpers> {
   byAccount(account: string)
   byCategory(category: string)
 }
 
-const SchemaTransaction = new Schema<ITransaction>({
+const SchemaTransaction = new Schema<Transaction>({
   amount: { type: Number, required: true },
   date: { type: Schema.Types.Date, required: false, default: Date.now },
   description: { type: Schema.Types.String, required: false },
@@ -29,16 +29,18 @@ const SchemaTransaction = new Schema<ITransaction>({
   timestamps: true
 })
 
-let transactionQueryHelpers = {
-  byAccount(this: DocumentQuery<ITransaction[], ITransaction>, account: string) {
-    return this.where({ account });
-  },
-  byCategory(this: DocumentQuery<ITransaction[], ITransaction>, category: string) {
-    return this.where({ category });
-  }
+interface TransactionQueryHelpers {
+  byAccount(name: string): Query<any, Document<Transaction>> & TransactionQueryHelpers;
+  byCategory(name: string): Query<any, Document<Transaction>> & TransactionQueryHelpers;
 }
 
-SchemaTransaction.query = transactionQueryHelpers
+SchemaTransaction.query.byAccount = function( account: string): DocumentQuery<ITransaction[], ITransaction, {}> {
+  return this.where({ account });
+}
+
+SchemaTransaction.query.byCategory = function( category: string): DocumentQuery<ITransaction[], ITransaction, {}> {
+  return this.where({ category });
+}
 
 SchemaTransaction.methods.getTransaction = function() {
   return {

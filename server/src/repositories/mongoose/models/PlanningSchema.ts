@@ -6,7 +6,7 @@ export interface IPlanning extends Types.Subdocument, Planning {
   getPlanning(): Planning
 }
 
-export const PlanningSchema = new Schema({
+export const PlanningSchema = new Schema<Planning>({
   month: { type: Schema.Types.Number, required: true },
 	year: { type: Schema.Types.String, required: true },
 	user: { type: Schema.Types.ObjectId, ref: 'User', required: false },
